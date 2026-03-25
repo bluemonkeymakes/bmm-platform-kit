@@ -1,0 +1,59 @@
+# Production overrides — use with: docker compose -f docker-compose.yml -f docker-compose.production.yml up -d
+# Or deploy via Coolify with per-service compose files.
+services:
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      target: production
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    depends_on:
+      - directus
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DIRECTUS_URL: http://directus:8055
+      DIRECTUS_PUBLIC_URL: ${DIRECTUS_PUBLIC_URL}
+      PLAUSIBLE_DOMAIN: ${PLAUSIBLE_DOMAIN}
+      PLAUSIBLE_API_HOST: ${PLAUSIBLE_API_HOST}
+      SENTRY_DSN: ${SENTRY_DSN}
+      VITE_SENTRY_DSN: ${VITE_SENTRY_DSN}
+      CSRF_SECRET: ${CSRF_SECRET}
+      TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY}
+      API_URL: http://api:4001
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "4001:4001"
+    depends_on:
+      - directus
+    environment:
+      NODE_ENV: production
+      API_PORT: 4001
+      DIRECTUS_URL: http://directus:8055
+      DIRECTUS_TOKEN: ${DIRECTUS_TOKEN}
+      TWENTY_API_URL: http://twenty-server:3000
+      TWENTY_API_KEY: ${TWENTY_API_KEY}
+      CORS_ORIGIN: ${SITE_URL}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL}
+      ADMIN_NOTIFICATION_EMAIL: ${ADMIN_NOTIFICATION_EMAIL}
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL}
+      SENTRY_DSN: ${SENTRY_DSN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:4001/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  directus:
+    environment:
+      CORS_ORIGIN: ${SITE_URL}
