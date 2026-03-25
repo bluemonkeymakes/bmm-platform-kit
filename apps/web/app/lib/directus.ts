@@ -1,0 +1,23 @@
+// Client-safe Directus re-exports (types only — no server imports)
+export type {
+  Page,
+  PageBlock,
+  Article,
+  TeamMember,
+  SiteSettings,
+  Testimonial,
+  BlockHeroData,
+  BlockFeaturesData,
+  BlockCtaData,
+  BlockContentData,
+  BlockTestimonialsData,
+  BlockFaqData,
+  BlockStatsData,
+  BlockImageTextData,
+  BlockTeamData,
+  BlockAboutData,
+  BlockNewsletterData,
+  BlockArticlesData,
+  BlockGalleryData,
+  BlockContactData,
+} from "~/types/content";
