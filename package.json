@@ -1,0 +1,22 @@
+{
+  "name": "starter-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Full-stack starter: React Router 7 + NestJS + Directus CMS + Twenty CRM",
+  "scripts": {
+    "dev": "docker compose up",
+    "dev:web": "cd apps/web && npm run dev",
+    "dev:api": "cd apps/api && npm run start:dev",
+    "build": "docker compose build",
+    "start": "docker compose -f docker-compose.yml -f docker-compose.production.yml up -d",
+    "stop": "docker compose down",
+    "logs": "docker compose logs -f",
+    "seed": "bash directus/seed.sh"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "dependencies": {
+    "@radix-ui/react-tooltip": "^1.2.8"
+  }
+}

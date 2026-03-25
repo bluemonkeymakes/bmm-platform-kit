@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.react-router/
+
+# Environment files
+.env
+.env.*
+!.env.example
+**/env/
+
+*.log
+.DS_Store
+.turbo
+.cache
+coverage/
