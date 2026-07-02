@@ -155,12 +155,17 @@ echo "--- Setting Public Permissions ---"
 
 PUBLIC_COLLECTIONS="pages articles team testimonials block_hero block_hero_simple block_cta block_content block_features block_testimonials block_faq block_stats block_image_text block_team block_about block_contact block_newsletter block_articles block_gallery"
 
+# Directus 11 attaches permissions to policies, not roles ("role": null no
+# longer creates public access). Resolve the built-in Public policy id.
+PUBLIC_POLICY=$(curl -sf "$DIRECTUS_URL/policies?fields=id,name" -H "$AUTH" \
+  | python3 -c 'import sys,json; print(next(p["id"] for p in json.load(sys.stdin)["data"] if p["name"] == "$t:public_label"))')
+
 for col in $PUBLIC_COLLECTIONS; do
   echo "  Public read: $col"
   curl -sf "$DIRECTUS_URL/permissions" \
     -H "$AUTH" -H 'Content-Type: application/json' \
-    -d "{\"role\":null,\"collection\":\"$col\",\"action\":\"read\",\"fields\":[\"*\"]}" \
-    > /dev/null 2>&1 || true
+    -d "{\"policy\":\"$PUBLIC_POLICY\",\"collection\":\"$col\",\"action\":\"read\",\"fields\":[\"*\"]}" \
+    > /dev/null || echo "  WARNING: failed to set public read on $col"
 done
 
 echo ""

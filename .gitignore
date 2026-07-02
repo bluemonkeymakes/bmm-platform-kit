@@ -9,6 +9,9 @@ build/
 !.env.example
 **/env/
 
+# Local-only compose overrides (e.g. dev port remaps)
+docker-compose.override.yml
+
 *.log
 .DS_Store
 .turbo
