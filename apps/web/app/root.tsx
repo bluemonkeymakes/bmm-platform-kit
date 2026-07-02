@@ -13,6 +13,7 @@ import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 
 import "./app.css";
 import { ThemeProvider } from "~/components/layout/ThemeProvider";
+import { ToastProvider } from "~/components/ui/toast";
 import { Header } from "~/components/layout/Header";
 import { Footer } from "~/components/layout/Footer";
 import { ErrorPage } from "~/components/common/ErrorPage";
@@ -44,10 +45,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-background text-foreground antialiased">
+      <body className="min-h-screen bg-neutral-50 text-neutral-800 antialiased">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-toast focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
         >
           Skip to content
         </a>
@@ -65,13 +66,15 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main id="main-content" className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      <ToastProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main id="main-content" className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </ToastProvider>
     </ThemeProvider>
   );
 }

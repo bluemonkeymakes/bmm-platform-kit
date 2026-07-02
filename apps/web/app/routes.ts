@@ -1,4 +1,4 @@
-import { type RouteConfig, route, index } from "@react-router/dev/routes";
+import { type RouteConfig, route, index, layout, prefix } from "@react-router/dev/routes";
 
 export default [
   index("routes/_index.tsx"),
@@ -8,7 +8,41 @@ export default [
   route("contact", "routes/contact.tsx"),
   route("privacy", "routes/privacy.tsx"),
   route("terms", "routes/terms.tsx"),
-  route("style-guide", "routes/style-guide.tsx"),
+  ...prefix("style-guide", [
+    layout("routes/style-guide/_layout.tsx", [
+      index("routes/style-guide/index.tsx"),
+      route("foundations/color", "routes/style-guide/foundations.color.tsx"),
+      route("foundations/typography", "routes/style-guide/foundations.typography.tsx"),
+      route("foundations/spacing", "routes/style-guide/foundations.spacing.tsx"),
+      route("foundations/elevation", "routes/style-guide/foundations.elevation.tsx"),
+      route("foundations/motion", "routes/style-guide/foundations.motion.tsx"),
+      route("foundations/icons", "routes/style-guide/foundations.icons.tsx"),
+      route("components/accordion", "routes/style-guide/components.accordion.tsx"),
+      route("components/alerts", "routes/style-guide/components.alerts.tsx"),
+      route("components/avatar", "routes/style-guide/components.avatar.tsx"),
+      route("components/badges", "routes/style-guide/components.badges.tsx"),
+      route("components/breadcrumbs", "routes/style-guide/components.breadcrumbs.tsx"),
+      route("components/buttons", "routes/style-guide/components.buttons.tsx"),
+      route("components/cards", "routes/style-guide/components.cards.tsx"),
+      route("components/dialog", "routes/style-guide/components.dialog.tsx"),
+      route("components/dropdown-menu", "routes/style-guide/components.dropdown-menu.tsx"),
+      route("components/empty-state", "routes/style-guide/components.empty-state.tsx"),
+      route("components/form-field", "routes/style-guide/components.form-field.tsx"),
+      route("components/inputs", "routes/style-guide/components.inputs.tsx"),
+      route("components/page-header", "routes/style-guide/components.page-header.tsx"),
+      route("components/pagination", "routes/style-guide/components.pagination.tsx"),
+      route("components/popover", "routes/style-guide/components.popover.tsx"),
+      route("components/radio-group", "routes/style-guide/components.radio-group.tsx"),
+      route("components/sheet", "routes/style-guide/components.sheet.tsx"),
+      route("components/skeleton", "routes/style-guide/components.skeleton.tsx"),
+      route("components/stat-card", "routes/style-guide/components.stat-card.tsx"),
+      route("components/table", "routes/style-guide/components.table.tsx"),
+      route("components/tabs", "routes/style-guide/components.tabs.tsx"),
+      route("components/toast", "routes/style-guide/components.toast.tsx"),
+      route("components/toggle", "routes/style-guide/components.toggle.tsx"),
+      route("patterns/blocks", "routes/style-guide/patterns.blocks.tsx"),
+    ]),
+  ]),
   route("sitemap.xml", "routes/[sitemap.xml].tsx"),
   route("*", "routes/$.tsx"),
 ] satisfies RouteConfig;

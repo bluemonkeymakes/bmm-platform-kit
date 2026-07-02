@@ -1,8 +1,7 @@
 import type { PageBlock, BlockTeamData } from "~/types/content";
 import type { BlockContext } from "./BlockRenderer";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, H4, Lead, Small, Text } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { Card, CardContent } from "~/components/ui/card";
 import { getAssetUrl } from "~/lib/directus.server";
@@ -15,11 +14,11 @@ export function BlockTeam({ block, context }: { block: PageBlock; context?: Bloc
 
   return (
     <Section>
-      <Container>
+      <Container size="wide">
         {(data.title || data.subtitle) && (
           <div className="mb-12 text-center">
-            {data.title && <H2>{data.title}</H2>}
-            {data.subtitle && <Lead className="mt-4">{data.subtitle}</Lead>}
+            {data.title && <Heading as="h2" size="xl" variant="display">{data.title}</Heading>}
+            {data.subtitle && <Body size="lg" variant="lead" className="mt-4">{data.subtitle}</Body>}
           </div>
         )}
 
@@ -39,16 +38,16 @@ export function BlockTeam({ block, context }: { block: PageBlock; context?: Bloc
                       {member.name.split(" ").map((n) => n[0]).join("")}
                     </div>
                   )}
-                  <H4>{member.name}</H4>
-                  <Small>{member.role}</Small>
-                  {member.bio && <Text className="mt-3 text-sm">{member.bio}</Text>}
+                  <Heading as="h4" size="sm">{member.name}</Heading>
+                  <Body size="sm" variant="muted">{member.role}</Body>
+                  {member.bio && <Body size="sm" variant="muted" className="mt-3">{member.bio}</Body>}
                   {member.social_links && member.social_links.length > 0 && (
                     <div className="mt-4 flex justify-center gap-3">
                       {member.social_links.map((link) => (
                         <a
                           key={link.platform}
                           href={link.url}
-                          className="text-xs text-muted-foreground hover:text-foreground capitalize transition-colors"
+                          className="text-xs text-neutral-500 hover:text-neutral-800 capitalize transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >

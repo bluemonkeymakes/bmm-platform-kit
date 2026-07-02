@@ -17,7 +17,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-sticky w-full border-b bg-neutral-50/95 backdrop-blur supports-[backdrop-filter]:bg-neutral-50/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link to="/" className="font-display text-xl font-normal tracking-tight transition-opacity duration-200 hover:opacity-70 active:scale-[0.98]">
           Starter
@@ -30,10 +30,10 @@ export function Header() {
               key={item.href}
               to={item.href}
               className={cn(
-                "text-sm font-medium transition-colors duration-200 hover:text-foreground/80 active:scale-[0.98]",
+                "text-sm font-medium transition-colors duration-200 hover:text-neutral-800/80 active:scale-[0.98]",
                 location.pathname.startsWith(item.href)
-                  ? "text-foreground"
-                  : "text-muted-foreground"
+                  ? "text-neutral-800"
+                  : "text-neutral-500"
               )}
             >
               {item.label}
@@ -42,7 +42,7 @@ export function Header() {
           <Tooltip content={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
             <button
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="rounded-md p-2 transition-all duration-200 hover:bg-accent active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+              className="rounded-md p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
               aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
               {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -53,7 +53,7 @@ export function Header() {
         {/* Mobile toggle */}
         <Tooltip content={mobileOpen ? "Close menu" : "Open menu"}>
           <button
-            className="md:hidden rounded-md p-2 transition-all duration-200 hover:bg-accent active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+            className="md:hidden rounded-md p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
@@ -74,8 +74,8 @@ export function Header() {
                 className={cn(
                   "block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 active:scale-[0.98]",
                   location.pathname.startsWith(item.href)
-                    ? "bg-accent text-foreground"
-                    : "text-muted-foreground hover:bg-accent"
+                    ? "bg-neutral-100 text-neutral-800"
+                    : "text-neutral-500 hover:bg-neutral-100"
                 )}
               >
                 {item.label}
@@ -83,7 +83,7 @@ export function Header() {
             ))}
             <button
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-muted-foreground transition-colors duration-200 hover:bg-accent active:scale-[0.98]"
+              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-neutral-500 transition-colors duration-200 hover:bg-neutral-100 active:scale-[0.98]"
             >
               {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}

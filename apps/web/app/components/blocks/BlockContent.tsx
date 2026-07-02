@@ -1,7 +1,6 @@
 import type { PageBlock, BlockContentData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, Prose } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Prose } from "~/components/ui/typography";
 import { FadeIn } from "~/components/common/MotionWrapper";
 import { cn } from "~/lib/utils";
 
@@ -11,7 +10,7 @@ export function BlockContent({ block }: { block: PageBlock }) {
 
   return (
     <Section>
-      <Container>
+      <Container size="wide">
         <div className={cn(hasImage && "grid gap-12 md:grid-cols-2 items-center")}>
           {hasImage && data.image_position === "left" && (
             <FadeIn direction="right">
@@ -20,7 +19,7 @@ export function BlockContent({ block }: { block: PageBlock }) {
           )}
 
           <FadeIn>
-            {data.title && <H2 className="mb-6">{data.title}</H2>}
+            {data.title && <Heading as="h2" size="xl" variant="display" className="mb-6">{data.title}</Heading>}
             <Prose html={data.content} />
           </FadeIn>
 

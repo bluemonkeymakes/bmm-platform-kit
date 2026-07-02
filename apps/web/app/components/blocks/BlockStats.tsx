@@ -1,18 +1,19 @@
 import type { PageBlock, BlockStatsData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2 } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 
 export function BlockStats({ block }: { block: PageBlock }) {
   const data = block.item as unknown as BlockStatsData;
 
   return (
-    <Section className="bg-primary text-primary-foreground">
-      <Container>
+    <Section tone="brand">
+      <Container size="wide">
         {data.title && (
           <div className="mb-12 text-center">
-            <H2>{data.title}</H2>
+            <Heading as="h2" size="xl" variant="display" className="text-primary-foreground">
+              {data.title}
+            </Heading>
           </div>
         )}
 

@@ -1,0 +1,202 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   SYSTEM · Theme contract — TRAVELS UNCHANGED across every project.
+   Declares WHICH palette roles/scales exist, binds the type ladder, and sets
+   the radius steps. The VALUES come from the brand layer (app/brand/*) by name.
+   Do not put brand values here — only the contract that turns them into
+   Tailwind utilities. Tailwind v4, CSS-first (@theme). Class-based dark mode.
+   ─────────────────────────────────────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* ─── Type ladder bindings — font *choices* live in app/brand/fonts.css ─── */
+  --font-sans: var(--brand-font-sans);
+  --font-display: var(--brand-font-display);
+  --font-mono: var(--brand-font-mono);
+  --font-inconsolata: var(--brand-font-mono);
+
+  /* ─── Radius steps — base value (--radius) lives in app/brand/brand.css ─── */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* ─── Type scale extension — one micro step below text-xs (0.75rem) for
+         uppercase micro-labels (badges, code line numbers, token meta). Named,
+         not arbitrary: replaces text-[0.625rem]. See standards/design-system-principles §2. ─── */
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.4;
+
+  /* ─── Elevation → three role-named shadows. Clear Tailwind's default shadow
+         ramp so ONLY these three exist: a component picks by intent
+         (shadow-raised / shadow-overlay / shadow-modal), never a size off a
+         scale. Values live in app/brand/brand.css (--elevation-*). ─── */
+  --shadow-*: initial;
+  --shadow-raised: var(--elevation-raised);
+  --shadow-overlay: var(--elevation-overlay);
+  --shadow-modal: var(--elevation-modal);
+
+  /* ─── Disclosure motion — Accordion height (Radix sets the height var). ─── */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  /* ─── Focus ring ─── */
+  --color-ring: hsl(var(--ring));
+
+  /* ─── Neutral backbone (surfaces use these directly — ADR-007 two-tier) ─── */
+  --color-neutral-50: hsl(var(--neutral-50));
+  --color-neutral-100: hsl(var(--neutral-100));
+  --color-neutral-200: hsl(var(--neutral-200));
+  --color-neutral-300: hsl(var(--neutral-300));
+  --color-neutral-400: hsl(var(--neutral-400));
+  --color-neutral-500: hsl(var(--neutral-500));
+  --color-neutral-600: hsl(var(--neutral-600));
+  --color-neutral-700: hsl(var(--neutral-700));
+  --color-neutral-800: hsl(var(--neutral-800));
+  --color-neutral-900: hsl(var(--neutral-900));
+
+  /* ─── Primary ─── */
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-primary-50: hsl(var(--primary-50));
+  --color-primary-100: hsl(var(--primary-100));
+  --color-primary-200: hsl(var(--primary-200));
+  --color-primary-300: hsl(var(--primary-300));
+  --color-primary-400: hsl(var(--primary-400));
+  --color-primary-500: hsl(var(--primary-500));
+  --color-primary-600: hsl(var(--primary-600));
+  --color-primary-700: hsl(var(--primary-700));
+  --color-primary-800: hsl(var(--primary-800));
+  --color-primary-900: hsl(var(--primary-900));
+
+  /* ─── Accent ─── */
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-50: hsl(var(--accent-50));
+  --color-accent-100: hsl(var(--accent-100));
+  --color-accent-200: hsl(var(--accent-200));
+  --color-accent-300: hsl(var(--accent-300));
+  --color-accent-400: hsl(var(--accent-400));
+  --color-accent-500: hsl(var(--accent-500));
+  --color-accent-600: hsl(var(--accent-600));
+  --color-accent-700: hsl(var(--accent-700));
+  --color-accent-800: hsl(var(--accent-800));
+  --color-accent-900: hsl(var(--accent-900));
+
+  /* ─── Info ─── */
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+  --color-info-50: hsl(var(--info-50));
+  --color-info-100: hsl(var(--info-100));
+  --color-info-200: hsl(var(--info-200));
+  --color-info-300: hsl(var(--info-300));
+  --color-info-400: hsl(var(--info-400));
+  --color-info-500: hsl(var(--info-500));
+  --color-info-600: hsl(var(--info-600));
+  --color-info-700: hsl(var(--info-700));
+  --color-info-800: hsl(var(--info-800));
+  --color-info-900: hsl(var(--info-900));
+
+  /* ─── Success ─── */
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-success-50: hsl(var(--success-50));
+  --color-success-100: hsl(var(--success-100));
+  --color-success-200: hsl(var(--success-200));
+  --color-success-300: hsl(var(--success-300));
+  --color-success-400: hsl(var(--success-400));
+  --color-success-500: hsl(var(--success-500));
+  --color-success-600: hsl(var(--success-600));
+  --color-success-700: hsl(var(--success-700));
+  --color-success-800: hsl(var(--success-800));
+  --color-success-900: hsl(var(--success-900));
+
+  /* ─── Warning ─── */
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-warning-50: hsl(var(--warning-50));
+  --color-warning-100: hsl(var(--warning-100));
+  --color-warning-200: hsl(var(--warning-200));
+  --color-warning-300: hsl(var(--warning-300));
+  --color-warning-400: hsl(var(--warning-400));
+  --color-warning-500: hsl(var(--warning-500));
+  --color-warning-600: hsl(var(--warning-600));
+  --color-warning-700: hsl(var(--warning-700));
+  --color-warning-800: hsl(var(--warning-800));
+  --color-warning-900: hsl(var(--warning-900));
+
+  /* ─── Destructive ─── */
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-50: hsl(var(--destructive-50));
+  --color-destructive-100: hsl(var(--destructive-100));
+  --color-destructive-200: hsl(var(--destructive-200));
+  --color-destructive-300: hsl(var(--destructive-300));
+  --color-destructive-400: hsl(var(--destructive-400));
+  --color-destructive-500: hsl(var(--destructive-500));
+  --color-destructive-600: hsl(var(--destructive-600));
+  --color-destructive-700: hsl(var(--destructive-700));
+  --color-destructive-800: hsl(var(--destructive-800));
+  --color-destructive-900: hsl(var(--destructive-900));
+}
+
+@layer base {
+  * {
+    @apply border-neutral-200;
+  }
+  body {
+    @apply bg-neutral-50 text-neutral-800;
+  }
+}
+
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Z-index — a short NAMED stack, not a numeric free-for-all (design-system-
+   principles §2). Components pick a role; nothing reaches for a bare z-[60].
+   ─────────────────────────────────────────────────────────────────────────── */
+@utility z-dropdown { z-index: 30; }
+@utility z-sticky { z-index: 40; }
+@utility z-overlay { z-index: 50; }
+@utility z-modal { z-index: 60; }
+@utility z-toast { z-index: 70; }
+@utility z-cursor { z-index: 80; }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   Reduced motion (WCAG 2.3.3) — when the OS asks for less motion, collapse
+   every CSS animation and transition to a single instant frame. Deliberately
+   unlayered: utilities live in @layer utilities, so this outranks them without
+   !important. It does NOT outrank unlayered brand classes — app/brand/
+   effects.css freezes its ambient loops itself — and framer-motion animates
+   inline styles, handled by <MotionConfig reducedMotion="user"> in app/root.tsx.
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+    transition-duration: 0.01ms;
+  }
+}

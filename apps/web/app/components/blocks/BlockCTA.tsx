@@ -1,8 +1,7 @@
 import { Link } from "react-router";
 import type { PageBlock, BlockCtaData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, Lead } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { FadeIn } from "~/components/common/MotionWrapper";
 import { cn } from "~/lib/utils";
@@ -12,12 +11,16 @@ export function BlockCTA({ block }: { block: PageBlock }) {
   const isAccent = data.variant === "accent";
 
   return (
-    <Section className={cn(isAccent && "bg-primary text-primary-foreground")}>
+    <Section tone={isAccent ? "brand" : "default"}>
       <Container size="narrow" className="text-center">
         <FadeIn>
-          <H2>{data.title}</H2>
+          <Heading as="h2" size="xl" variant="display" className={cn(isAccent && "text-primary-foreground")}>
+            {data.title}
+          </Heading>
           {data.description && (
-            <Lead className={cn("mt-4", isAccent && "text-primary-foreground/80")}>{data.description}</Lead>
+            <Body size="lg" variant="lead" className={cn("mt-4", isAccent && "text-primary-foreground/80")}>
+              {data.description}
+            </Body>
           )}
           <div className="mt-8">
             <Button size="lg" variant={isAccent ? "secondary" : "default"} asChild>

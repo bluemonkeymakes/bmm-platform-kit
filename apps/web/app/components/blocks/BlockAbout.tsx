@@ -1,8 +1,7 @@
 import { Link } from "react-router";
 import type { PageBlock, BlockAboutData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, Prose } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Prose } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { FadeIn } from "~/components/common/MotionWrapper";
 
@@ -11,10 +10,10 @@ export function BlockAbout({ block }: { block: PageBlock }) {
 
   return (
     <Section>
-      <Container>
+      <Container size="wide">
         <div className="grid gap-12 md:grid-cols-2 items-center">
           <FadeIn>
-            {data.title && <H2 className="mb-6">{data.title}</H2>}
+            {data.title && <Heading as="h2" size="xl" variant="display" className="mb-6">{data.title}</Heading>}
             <Prose html={data.content} />
             {data.cta_text && data.cta_link && (
               <div className="mt-6">

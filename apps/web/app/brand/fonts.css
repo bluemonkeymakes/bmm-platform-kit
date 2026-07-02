@@ -1,0 +1,16 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   BRAND · Fonts — SWAP SURFACE (starter-kit brand)
+   Re-typeface a fork by changing the @fontsource imports and the
+   --brand-font-* values below. The type *ladder* (sizes, weights, hierarchy)
+   lives in the system layer (app/system/theme.css) and does NOT change per
+   project. Self-hosted via fontsource — no external requests.
+   ─────────────────────────────────────────────────────────────────────────── */
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/source-sans-3";
+@import "@fontsource-variable/jetbrains-mono";
+
+:root {
+  --brand-font-sans: "Source Sans 3 Variable", ui-sans-serif, system-ui, sans-serif;
+  --brand-font-display: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
+  --brand-font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+}

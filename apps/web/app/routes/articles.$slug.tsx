@@ -2,9 +2,8 @@ import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getArticle } from "~/lib/directus.server";
 import { defaultArticles } from "~/data/defaults";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H1, Prose, Text } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Prose, Body } from "~/components/ui/typography";
 import { Badge } from "~/components/ui/badge";
 import { FadeIn } from "~/components/common/MotionWrapper";
 import dayjs from "dayjs";
@@ -33,18 +32,18 @@ export default function ArticleDetail() {
 
   return (
     <>
-      <section className="border-b bg-muted/30 py-16 md:py-24">
+      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
         <Container size="narrow" className="text-center">
           <FadeIn>
             <div className="flex items-center justify-center gap-3 mb-4">
               {article.category && <Badge variant="secondary">{article.category}</Badge>}
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-neutral-500">
                 {dayjs(article.date_published).format("MMMM D, YYYY")}
               </span>
             </div>
-            <H1>{article.title}</H1>
+            <Heading as="h1" size="2xl" variant="display">{article.title}</Heading>
             {article.author && (
-              <Text className="mt-4">By {article.author}</Text>
+              <Body variant="muted" className="mt-4">By {article.author}</Body>
             )}
           </FadeIn>
         </Container>

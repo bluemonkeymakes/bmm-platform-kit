@@ -1,8 +1,7 @@
 import type { PageBlock, BlockTestimonialsData } from "~/types/content";
 import type { BlockContext } from "./BlockRenderer";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, Lead } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { Card, CardContent } from "~/components/ui/card";
 import { Quote } from "lucide-react";
@@ -16,12 +15,12 @@ export function BlockTestimonials({ block, context }: { block: PageBlock; contex
   const limited = data.limit ? testimonials.slice(0, data.limit) : testimonials;
 
   return (
-    <Section className="bg-muted/30">
-      <Container>
+    <Section tone="muted">
+      <Container size="wide">
         {(data.title || data.subtitle) && (
           <div className="mb-12 text-center">
-            {data.title && <H2>{data.title}</H2>}
-            {data.subtitle && <Lead className="mt-4">{data.subtitle}</Lead>}
+            {data.title && <Heading as="h2" size="xl" variant="display">{data.title}</Heading>}
+            {data.subtitle && <Body size="lg" variant="lead" className="mt-4">{data.subtitle}</Body>}
           </div>
         )}
 
@@ -48,7 +47,7 @@ export function BlockTestimonials({ block, context }: { block: PageBlock; contex
                     )}
                     <div>
                       <p className="text-sm font-normal">{t.author_name}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-neutral-500">
                         {t.author_role}{t.company && `, ${t.company}`}
                       </p>
                     </div>

@@ -1,7 +1,6 @@
 import type { PageBlock, BlockContactData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2, Lead } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 import { FadeIn } from "~/components/common/MotionWrapper";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -16,8 +15,8 @@ export function BlockContact({ block }: { block: PageBlock }) {
       <Container size="narrow">
         {(data.title || data.description) && (
           <div className="mb-12 text-center">
-            {data.title && <H2>{data.title}</H2>}
-            {data.description && <Lead className="mt-4">{data.description}</Lead>}
+            {data.title && <Heading as="h2" size="xl" variant="display">{data.title}</Heading>}
+            {data.description && <Body size="lg" variant="lead" className="mt-4">{data.description}</Body>}
           </div>
         )}
 
