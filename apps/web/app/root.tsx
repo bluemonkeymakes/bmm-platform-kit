@@ -13,6 +13,7 @@ import type { LinksFunction, LoaderFunctionArgs } from "react-router";
 
 import "./app.css";
 import { ThemeProvider } from "~/components/layout/ThemeProvider";
+import { ToastProvider } from "~/components/ui/toast";
 import { Header } from "~/components/layout/Header";
 import { Footer } from "~/components/layout/Footer";
 import { ErrorPage } from "~/components/common/ErrorPage";
@@ -65,13 +66,15 @@ export default function App() {
 
   return (
     <ThemeProvider>
-      <div className="flex min-h-screen flex-col">
-        <Header />
-        <main id="main-content" className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
+      <ToastProvider>
+        <div className="flex min-h-screen flex-col">
+          <Header />
+          <main id="main-content" className="flex-1">
+            <Outlet />
+          </main>
+          <Footer />
+        </div>
+      </ToastProvider>
     </ThemeProvider>
   );
 }
