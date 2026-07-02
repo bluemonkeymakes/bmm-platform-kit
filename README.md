@@ -8,7 +8,7 @@ Built from patterns used across multiple production projects — class enrollmen
 
 | Layer | Tech |
 |-------|------|
-| **Frontend** | React Router 7 (SSR), Tailwind CSS 4, shadcn/ui, Framer Motion, Plausible Analytics |
+| **Frontend** | React Router 7 (SSR), Tailwind CSS 4 (CSS-first `@theme`), bmm-design-system tokens + full component set, Motion, Plausible Analytics |
 | **API** | NestJS 10 (BFF pattern), Winston logging, Sentry error tracking, API key auth |
 | **CMS** | Directus 11 — block-based page builder with 15 block types |
 | **CRM** | Twenty (open-source CRM) for lead/contact management |
@@ -101,7 +101,7 @@ starter-kit/
 │           │   ├── layout/  Header, Footer, ThemeProvider
 │           │   ├── ui/      Full DS component set (35 primitives: button, dialog, table, toast, …)
 │           │   ├── ds/      Style-guide showcase components (Preview, RuleList, ScaleRow)
-│           │   └── common/  Container, Section, Typography, MotionWrapper
+│           │   └── common/  ErrorPage, MotionWrapper (layout/typography live in ui/)
 │           ├── lib/         Directus SDK, CSRF, Turnstile, Plausible, validation
 │           ├── data/        Fallback content (used when CMS is empty/offline)
 │           └── types/       TypeScript interfaces for all content models
@@ -154,7 +154,7 @@ Every route tries Directus first, then falls back to built-in defaults (`app/dat
 
 ## Frontend Features
 
-- **10 routes** — Home, About, Articles (list + detail), Contact, Privacy, Terms, Style Guide, Sitemap, 404
+- **10 site routes** — Home, About, Articles (list + detail), Contact, Privacy, Terms, Sitemap, 404 — plus the 31-page `/style-guide` section
 - **15 block types** — Dynamically rendered from CMS content
 - **Dark/light theme** — System preference detection, localStorage persistence, no flash on load
 - **Contact form** — Three layers of protection:
@@ -164,7 +164,7 @@ Every route tries Directus first, then falls back to built-in defaults (`app/dat
 - **Security headers** — CSP, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy
 - **SEO** — Dynamic sitemap.xml, robots.txt, meta tags per route
 - **Analytics** — Plausible (privacy-first, optional)
-- **Animations** — FadeIn, stagger containers via Framer Motion
+- **Animations** — FadeIn, stagger containers via Motion (`motion/react`), reduced-motion safe
 - **Self-hosted fonts** — Geist, Source Sans 3, JetBrains Mono via @fontsource (no Google Fonts)
 - **Design system** — follows the bmm-design-system architecture: `app/brand/` (swap surface — colors, fonts, effects) + `app/system/theme.css` (the contract that travels unchanged). Re-brand by editing `app/brand/` only. Token purity enforced by `npm run lint:tokens` (in `apps/web`). Primitive divergences from the reference DS are catalogued in `apps/web/DESIGN-SYSTEM-NOTES.md`.
 - **Style guide** — `/style-guide` is a browsable multi-route docs section (6 foundations pages · 23 component pages · patterns) with do/don't guidance, live specimens, and copyable tokens — full page parity with the bmm-design-system site
