@@ -93,11 +93,14 @@ starter-kit/
 │   │       └── common/      Sentry, Winston config, exception filters
 │   └── web/                 React Router 7 frontend
 │       └── app/
-│           ├── routes/      10 routes (home, about, articles, contact, etc.)
+│           ├── brand/       Design-token SWAP SURFACE (brand.css, fonts.css, effects.css)
+│           ├── system/      Design-system contract — travels unchanged (theme.css)
+│           ├── routes/      10 site routes + style-guide/ multi-route section
 │           ├── components/
 │           │   ├── blocks/  15 CMS block components + BlockRenderer
 │           │   ├── layout/  Header, Footer, ThemeProvider
-│           │   ├── ui/      shadcn/ui components (button, card, input, etc.)
+│           │   ├── ui/      UI primitives (button, card, input, etc.)
+│           │   ├── ds/      Style-guide showcase components (Preview, RuleList, ScaleRow)
 │           │   └── common/  Container, Section, Typography, MotionWrapper
 │           ├── lib/         Directus SDK, CSRF, Turnstile, Plausible, validation
 │           ├── data/        Fallback content (used when CMS is empty/offline)
@@ -163,7 +166,8 @@ Every route tries Directus first, then falls back to built-in defaults (`app/dat
 - **Analytics** — Plausible (privacy-first, optional)
 - **Animations** — FadeIn, stagger containers via Framer Motion
 - **Self-hosted fonts** — Geist, Source Sans 3, JetBrains Mono via @fontsource (no Google Fonts)
-- **Style guide** — `/style-guide` route shows all typography, colors, components, and animations
+- **Design system** — follows the bmm-design-system architecture: `app/brand/` (swap surface — colors, fonts, effects) + `app/system/theme.css` (the contract that travels unchanged). Re-brand by editing `app/brand/` only. Token purity enforced by `npm run lint:tokens` (in `apps/web`). Primitive divergences from the reference DS are catalogued in `apps/web/DESIGN-SYSTEM-NOTES.md`.
+- **Style guide** — `/style-guide` is a browsable multi-route docs section (foundations: color, typography, spacing, elevation, motion · components: buttons, badges, cards, inputs · patterns: blocks) with do/don't guidance and copyable tokens
 
 ## API Modules
 
@@ -232,6 +236,7 @@ Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that 
 2. Add the TypeScript interface to `apps/web/app/types/content.ts`
 3. Create the React component in `apps/web/app/components/blocks/`
 4. Register it in `BlockRenderer.tsx`
+5. Add it to the registry on `/style-guide/patterns/blocks` (same change — design-system convention)
 
 ### Adding a new route
 
