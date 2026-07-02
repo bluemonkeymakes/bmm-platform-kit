@@ -1,10 +1,11 @@
 import './common/sentry';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
 import { createWinstonConfig } from './common/logger/winston.config';
+import { SentryExceptionFilter } from './common/filters/sentry-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,8 +21,11 @@ async function bootstrap() {
     credentials: true,
   });
 
+  // Sentry/GlitchTip — captures 5xx to error tracker
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new SentryExceptionFilter(httpAdapter));
+
   // Global validation — strips unknown fields, transforms types
-  app.useGlobalFilters();
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

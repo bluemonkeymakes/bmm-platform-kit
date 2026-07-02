@@ -81,6 +81,12 @@ export function ErrorBoundary() {
   const is404 = isRouteErrorResponse(error) && error.status === 404;
   const status = isRouteErrorResponse(error) ? error.status : 500;
 
+  if (!is404 && error instanceof Error && typeof window !== "undefined") {
+    import("~/lib/sentry.client").then(({ Sentry }) => {
+      Sentry?.captureException(error);
+    }).catch(() => {});
+  }
+
   return (
     <ErrorPage
       status={status}
