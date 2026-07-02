@@ -99,7 +99,7 @@ starter-kit/
 │           ├── components/
 │           │   ├── blocks/  15 CMS block components + BlockRenderer
 │           │   ├── layout/  Header, Footer, ThemeProvider
-│           │   ├── ui/      UI primitives (button, card, input, etc.)
+│           │   ├── ui/      Full DS component set (35 primitives: button, dialog, table, toast, …)
 │           │   ├── ds/      Style-guide showcase components (Preview, RuleList, ScaleRow)
 │           │   └── common/  Container, Section, Typography, MotionWrapper
 │           ├── lib/         Directus SDK, CSRF, Turnstile, Plausible, validation
@@ -167,7 +167,7 @@ Every route tries Directus first, then falls back to built-in defaults (`app/dat
 - **Animations** — FadeIn, stagger containers via Framer Motion
 - **Self-hosted fonts** — Geist, Source Sans 3, JetBrains Mono via @fontsource (no Google Fonts)
 - **Design system** — follows the bmm-design-system architecture: `app/brand/` (swap surface — colors, fonts, effects) + `app/system/theme.css` (the contract that travels unchanged). Re-brand by editing `app/brand/` only. Token purity enforced by `npm run lint:tokens` (in `apps/web`). Primitive divergences from the reference DS are catalogued in `apps/web/DESIGN-SYSTEM-NOTES.md`.
-- **Style guide** — `/style-guide` is a browsable multi-route docs section (foundations: color, typography, spacing, elevation, motion · components: buttons, badges, cards, inputs · patterns: blocks) with do/don't guidance and copyable tokens
+- **Style guide** — `/style-guide` is a browsable multi-route docs section (6 foundations pages · 23 component pages · patterns) with do/don't guidance, live specimens, and copyable tokens — full page parity with the bmm-design-system site
 
 ## API Modules
 

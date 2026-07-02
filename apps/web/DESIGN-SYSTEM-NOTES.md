@@ -159,14 +159,39 @@ kit's `cta` variant uses brand tokens instead. When porting any DS component,
 grep it for effects classes and repoint them at tokens or add an equivalent to
 `effects.css`.
 
-### 10. Motion library
+### 10. Component set — full parity, five brand-adapted exceptions
+
+The kit ships the complete DS component set (accordion, alert, avatar,
+breadcrumbs, checkbox, dialog, dropdown-menu, empty-state, form-field, icon,
+page-header, pagination, popover, radio-group, select, sheet, skeleton,
+stat-card, switch, table, tabs, toast, toggle/toggle-group, typography, layout)
+ported verbatim, plus kit-only extras the DS folds elsewhere or lacks:
+`textarea`, `label`, `separator`, `spinner`.
+
+**Five components are brand-adapted rather than verbatim** — `button`, `badge`,
+`card`, `input`, `tooltip` keep the kit's treatment (e.g. the DS button is
+uppercase mono with a marble `cta`; the kit's is sentence-case sans with a
+token-based `cta`). Porting UI *between* projects: these five are the files to
+diff first.
+
+**Known select-don't-restyle exception:** DS `Heading` bakes `text-neutral-800`
+and has no inverse variant, so headings on `tone="brand"` sections
+(BlockStats, BlockCTA) pass `className="text-primary-foreground"` at the call
+site. Candidate for an upstream `variant="inverse"` contribution — remove the
+overrides when that lands.
+
+**Avatar colors:** `app/brand/avatar-colors.ts` holds hex values by design —
+it's brand swap surface (boring-avatars needs literal colors). Swap for the
+kit's palette when the brand firms up.
+
+### 11. Motion library
 
 The DS imports `framer-motion`; this kit uses the successor package `motion`
 (`import { motion } from "motion/react"`). **Handling:** rewrite the import
 line when porting; the API is otherwise compatible. Both projects honor
 reduced motion (contract media query + `MotionConfig`).
 
-### 11. Workspace-rule exception no longer applies
+### 12. Workspace-rule exception no longer applies
 
 `~/Dev-local/bluemonkeymakes/.claude/rules/design-system.md` lists the shadcn
 neutral aliases (`--background`, `--card`, …) as "the one accepted exception"
