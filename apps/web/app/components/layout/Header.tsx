@@ -66,7 +66,7 @@ export function Header() {
       {mobileOpen && (
         <div className="border-t md:hidden">
           <nav className="mx-auto max-w-7xl space-y-1 px-4 py-4">
-            {navItems.map((item) => (
+            {[...navItems, { label: "Design System", href: "/style-guide" }].map((item) => (
               <Link
                 key={item.href}
                 to={item.href}
