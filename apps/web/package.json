@@ -18,6 +18,8 @@
     "@fontsource-variable/source-sans-3": "^5.2.9",
     "@fontsource-variable/source-serif-4": "^5.2.9",
     "@plausible-analytics/tracker": "^0.4.4",
+    "@sentry/node": "^8.0.0",
+    "@sentry/react": "^8.0.0",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-label": "^2.1.1",

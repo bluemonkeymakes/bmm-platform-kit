@@ -1,3 +1,4 @@
+import './lib/sentry.server';
 import { PassThrough } from "node:stream";
 import type { EntryContext } from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
@@ -62,6 +63,9 @@ export default function handleRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
+          import('./lib/sentry.server').then(({ Sentry }) => {
+            Sentry?.captureException(error);
+          }).catch(() => {});
           reject(error);
         },
       }
