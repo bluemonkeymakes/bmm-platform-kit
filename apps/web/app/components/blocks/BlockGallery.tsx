@@ -1,7 +1,6 @@
 import type { PageBlock, BlockGalleryData } from "~/types/content";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H2 } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { cn } from "~/lib/utils";
 
@@ -11,10 +10,10 @@ export function BlockGallery({ block }: { block: PageBlock }) {
 
   return (
     <Section>
-      <Container>
+      <Container size="wide">
         {data.title && (
           <div className="mb-12 text-center">
-            <H2>{data.title}</H2>
+            <Heading as="h2" size="xl" variant="display">{data.title}</Heading>
           </div>
         )}
 

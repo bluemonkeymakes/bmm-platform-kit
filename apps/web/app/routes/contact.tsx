@@ -1,9 +1,8 @@
 import { useState } from "react";
 import type { MetaFunction, LoaderFunctionArgs, ActionFunctionArgs } from "react-router";
 import { useLoaderData, useActionData, Form, useNavigation } from "react-router";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H1, Lead } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
@@ -88,8 +87,8 @@ export default function Contact() {
       <Section>
         <Container size="narrow" className="text-center">
           <FadeIn>
-            <H1>Thank you!</H1>
-            <Lead className="mt-4">We've received your message and will be in touch soon.</Lead>
+            <Heading as="h1" size="2xl" variant="display">Thank you!</Heading>
+            <Body size="lg" variant="lead" className="mt-4">We've received your message and will be in touch soon.</Body>
           </FadeIn>
         </Container>
       </Section>
@@ -101,8 +100,8 @@ export default function Contact() {
       <section className="border-b bg-neutral-100/30 py-16 md:py-24">
         <Container size="narrow" className="text-center">
           <FadeIn>
-            <H1>Contact Us</H1>
-            <Lead className="mt-4">We'd love to hear from you.</Lead>
+            <Heading as="h1" size="2xl" variant="display">Contact Us</Heading>
+            <Body size="lg" variant="lead" className="mt-4">We'd love to hear from you.</Body>
           </FadeIn>
         </Container>
       </section>

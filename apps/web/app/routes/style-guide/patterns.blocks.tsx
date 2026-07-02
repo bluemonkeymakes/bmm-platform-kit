@@ -123,12 +123,12 @@ export default function PatternsBlocks() {
           label="Four steps"
           code={`1. Create the block_* collection in Directus
 2. Add the data interface in app/types/content.ts
-3. Build BlockPricing.tsx in app/components/blocks/ (compose Section, Container, Typography, ui/*)
+3. Build BlockPricing.tsx in app/components/blocks/ (compose ui/layout Section + Container, ui/typography, ui/*)
 4. Register it in BlockRenderer.tsx — and add its row + specimen to this page`}
         />
         <RuleList
           rules={[
-            { pass: true, text: "Compose blocks from the shared primitives — Section, Container, Typography, ui components" },
+            { pass: true, text: "Compose blocks from the shared primitives — Section, Container, Heading/Body, ui components" },
             { pass: true, text: "Give every optional field a sensible fallback so a half-filled CMS entry still renders" },
             { pass: true, text: "Update this style-guide page in the same change that adds a block type" },
             { pass: false, text: "Don't hand-roll headings, spacing, or colors inside a block — the primitives own those" },

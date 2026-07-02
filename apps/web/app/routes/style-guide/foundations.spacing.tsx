@@ -22,9 +22,18 @@ const spacingScale = [
 ];
 
 const containers = [
-  { size: "narrow", width: "max-w-4xl", use: "Reading columns, forms, centered heroes" },
-  { size: "default", width: "max-w-7xl", use: "Standard page content, grids" },
-  { size: "wide", width: "max-w of 87.5rem (named in the component)", use: "Full-width galleries and data views" },
+  { size: "reading", width: "max-w of 40.625rem (650px)", use: "Prose measure" },
+  { size: "narrow", width: "max-w-3xl (768px)", use: "Reading columns, forms, centered heroes" },
+  { size: "standard", width: "max-w-5xl (1024px) — default", use: "Standard page content" },
+  { size: "wide", width: "max-w-6xl (1152px)", use: "Block grids, galleries, data views" },
+  { size: "full", width: "max-w-none", use: "Full-bleed bands" },
+];
+
+const sectionPadding = [
+  { step: "sm", cls: "py-8 md:py-12", use: "The visual is the section (hero image/video)" },
+  { step: "md", cls: "py-12 md:py-16", use: "Sub-sections inside long detail pages" },
+  { step: "lg", cls: "py-16 md:py-24", use: "Default — most content blocks" },
+  { step: "xl", cls: "py-24 md:py-32", use: "Climactic: hero / closing CTA — one per page" },
 ];
 
 export default function FoundationsSpacing() {
@@ -69,8 +78,11 @@ export default function FoundationsSpacing() {
       <section className="space-y-4">
         <h3 className="text-base font-medium font-display text-neutral-800">Container</h3>
         <p className="text-xs text-neutral-500 max-w-2xl">
-          Centers content and owns the responsive horizontal padding (
-          <code className="font-inconsolata text-primary">px-4 sm:px-6 lg:px-8</code>). Three sizes.
+          Centers content and owns the horizontal padding (
+          <code className="font-inconsolata text-primary">px-6</code>). Five sizes; default is{" "}
+          <code className="font-inconsolata text-primary">standard</code>. A{" "}
+          <code className="font-inconsolata text-primary">HalfContainer</code> variant aligns content to one
+          half for split layouts with a full-bleed sibling.
         </p>
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <table className="w-full text-sm">
@@ -98,10 +110,13 @@ export default function FoundationsSpacing() {
             <span className="text-2xs font-inconsolata text-neutral-500">wide</span>
           </div>
           <div className="mx-auto w-4/5 rounded-md bg-primary/15 border border-primary/25 px-3 py-1.5">
-            <span className="text-2xs font-inconsolata text-neutral-500">default</span>
+            <span className="text-2xs font-inconsolata text-neutral-500">standard</span>
           </div>
           <div className="mx-auto w-3/5 rounded-md bg-primary/20 border border-primary/30 px-3 py-1.5">
             <span className="text-2xs font-inconsolata text-neutral-500">narrow</span>
+          </div>
+          <div className="mx-auto w-2/5 rounded-md bg-primary/25 border border-primary/35 px-3 py-1.5">
+            <span className="text-2xs font-inconsolata text-neutral-500">reading</span>
           </div>
         </div>
       </section>
@@ -110,9 +125,35 @@ export default function FoundationsSpacing() {
       <section className="space-y-4">
         <h3 className="text-base font-medium font-display text-neutral-800">Section</h3>
         <p className="text-xs text-neutral-500 max-w-2xl">
-          Owns vertical rhythm between page bands: <code className="font-inconsolata text-primary">py-16 md:py-24</code>.
-          Every content block wraps itself in a Section so pages composed from CMS blocks keep an even beat.
+          Owns vertical rhythm between page bands via a 4-step{" "}
+          <code className="font-inconsolata text-primary">padding</code> scale (default{" "}
+          <code className="font-inconsolata text-primary">lg</code>) and a{" "}
+          <code className="font-inconsolata text-primary">tone</code> axis (
+          <code className="font-inconsolata text-primary">default</code> ·{" "}
+          <code className="font-inconsolata text-primary">muted</code> ·{" "}
+          <code className="font-inconsolata text-primary">brand</code>). Every content block wraps itself in
+          a Section so pages composed from CMS blocks keep an even beat.
         </p>
+        <div className="rounded-xl border border-neutral-200 overflow-hidden">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-neutral-100/60 border-b border-neutral-200">
+                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">padding</th>
+                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">Classes</th>
+                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider hidden md:table-cell">Use</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-neutral-200">
+              {sectionPadding.map(({ step, cls, use }) => (
+                <tr key={step} className="hover:bg-neutral-100/30 transition-colors">
+                  <td className="px-4 py-2.5 text-xs font-inconsolata text-primary">{step}</td>
+                  <td className="px-4 py-2.5 text-xs font-inconsolata text-neutral-500">{cls}</td>
+                  <td className="px-4 py-2.5 text-xs text-neutral-500 hidden md:table-cell">{use}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <div className="bg-neutral-100/60 px-6 py-2 text-2xs font-inconsolata text-neutral-500 uppercase tracking-wider">
             Section rhythm (scaled down)
@@ -128,12 +169,13 @@ export default function FoundationsSpacing() {
           </div>
         </div>
         <CodeBlock
-          code={`import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
+          code={`import { Container, Section } from "~/components/ui/layout";
 
-<Section>
+<Section>                          {/* padding="lg" tone="default" */}
   <Container size="narrow">…</Container>
-</Section>`}
+</Section>
+
+<Section tone="brand" padding="xl">…</Section>`}
         />
       </section>
 

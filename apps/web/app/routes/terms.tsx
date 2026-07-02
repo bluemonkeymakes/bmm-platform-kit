@@ -2,9 +2,8 @@ import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getPage } from "~/lib/directus.server";
 import { BlockRenderer } from "~/components/blocks/BlockRenderer";
-import { Container } from "~/components/common/Container";
-import { Section } from "~/components/common/Section";
-import { H1, Prose } from "~/components/common/Typography";
+import { Container, Section } from "~/components/ui/layout";
+import { Heading, Prose } from "~/components/ui/typography";
 import { FadeIn } from "~/components/common/MotionWrapper";
 
 export const meta: MetaFunction = () => [
@@ -28,7 +27,7 @@ export default function Terms() {
       <section className="border-b bg-neutral-100/30 py-16 md:py-24">
         <Container size="narrow" className="text-center">
           <FadeIn>
-            <H1>Terms of Service</H1>
+            <Heading as="h1" size="2xl" variant="display">Terms of Service</Heading>
           </FadeIn>
         </Container>
       </section>

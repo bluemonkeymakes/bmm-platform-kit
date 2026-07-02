@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { Button } from "~/components/ui/button";
-import { Container } from "./Container";
-import { H1, Text } from "./Typography";
+import { Container } from "~/components/ui/layout";
+import { Heading, Body } from "~/components/ui/typography";
 
 interface ErrorPageProps {
   status?: number;
@@ -15,10 +15,10 @@ export function ErrorPage({
   description,
 }: ErrorPageProps) {
   return (
-    <Container className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-      <p className="font-display text-7xl font-normal text-neutral-500/20">{status}</p>
-      <H1 className="mt-4">{title}</H1>
-      <Text className="mt-4 max-w-md">{description}</Text>
+    <Container size="wide" className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+      <Heading as="p" size="4xl" className="text-neutral-500/20">{status}</Heading>
+      <Heading as="h1" size="2xl" variant="display" className="mt-4">{title}</Heading>
+      <Body variant="muted" className="mt-4 max-w-md">{description}</Body>
       <div className="mt-8 flex gap-4">
         <Button asChild>
           <Link to="/">Go Home</Link>

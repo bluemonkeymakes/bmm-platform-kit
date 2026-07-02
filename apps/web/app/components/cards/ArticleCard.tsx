@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import type { Article } from "~/types/content";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
-import { Small } from "~/components/common/Typography";
+import { Body } from "~/components/ui/typography";
 import dayjs from "dayjs";
 
 interface ArticleCardProps {
@@ -26,14 +26,14 @@ export function ArticleCard({ article }: ArticleCardProps) {
         <CardHeader>
           <div className="flex items-center gap-2">
             {article.category && <Badge variant="secondary">{article.category}</Badge>}
-            <Small>{dayjs(article.date_published).format("MMM D, YYYY")}</Small>
+            <Body size="sm" variant="muted">{dayjs(article.date_published).format("MMM D, YYYY")}</Body>
           </div>
           <CardTitle className="text-lg transition-colors duration-200 group-hover:text-primary/80">
             {article.title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <Small className="line-clamp-2">{article.excerpt}</Small>
+          <Body size="sm" variant="muted" className="line-clamp-2">{article.excerpt}</Body>
         </CardContent>
       </Card>
     </Link>

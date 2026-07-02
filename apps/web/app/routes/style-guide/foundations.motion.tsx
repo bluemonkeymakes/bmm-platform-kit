@@ -101,7 +101,7 @@ export default function FoundationsMotion() {
           code={`import { FadeIn, StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 
 <FadeIn delay={0.1}>
-  <H1>Headline</H1>
+  <Heading as="h1" size="2xl" variant="display">Headline</Heading>
 </FadeIn>
 
 <StaggerContainer className="grid md:grid-cols-3 gap-8">

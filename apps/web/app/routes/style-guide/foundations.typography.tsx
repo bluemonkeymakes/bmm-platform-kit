@@ -1,10 +1,7 @@
 import type { MetaFunction } from "react-router";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
-import {
-  H1, H2, H3, H4, H5, H6,
-  SectionLabel, Lead, Text, Small, InlineCode, Prose,
-} from "~/components/common/Typography";
+import { Heading, Body, Label, Code, Prose } from "~/components/ui/typography";
 
 export const handle = { title: "Typography" };
 
@@ -37,6 +34,16 @@ const families = [
   },
 ];
 
+const headingSizes = [
+  { size: "4xl", cls: "text-7xl", use: "Oversized display moments (error status, splash)" },
+  { size: "3xl", cls: "text-6xl", use: "Largest marketing headline" },
+  { size: "2xl", cls: "text-5xl", use: "Page H1 / hero headline" },
+  { size: "xl", cls: "text-4xl", use: "Section title (H2 in blocks)" },
+  { size: "lg", cls: "text-3xl", use: "Default Heading size" },
+  { size: "md", cls: "text-2xl", use: "Sub-section title (H3)" },
+  { size: "sm", cls: "text-xl", use: "Card / feature title (H4)" },
+] as const;
+
 const rawSteps = [
   { cls: "text-2xs", size: "0.625rem", use: "Style-guide meta only — below the production floor" },
   { cls: "text-xs", size: "0.75rem", use: "Captions, badges, table meta" },
@@ -44,9 +51,9 @@ const rawSteps = [
   { cls: "text-base", size: "1rem", use: "Body copy" },
   { cls: "text-lg", size: "1.125rem", use: "Lead paragraphs, reading scale" },
   { cls: "text-xl", size: "1.25rem", use: "Small headings, lead on wide screens" },
-  { cls: "text-2xl", size: "1.5rem", use: "H3" },
-  { cls: "text-3xl", size: "1.875rem", use: "H2" },
-  { cls: "text-4xl", size: "2.25rem", use: "H1" },
+  { cls: "text-2xl", size: "1.5rem", use: "Heading md" },
+  { cls: "text-3xl", size: "1.875rem", use: "Heading lg" },
+  { cls: "text-4xl", size: "2.25rem", use: "Heading xl" },
 ];
 
 export default function FoundationsTypography() {
@@ -56,10 +63,12 @@ export default function FoundationsTypography() {
         <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Typography</h2>
         <p className="text-sm text-neutral-500 max-w-2xl">
           Three families, one job each. Routes and blocks consume type through the components in{" "}
-          <code className="font-inconsolata text-primary">~/components/common/Typography</code> — H1–H6,
-          SectionLabel, Lead, Text, Small, InlineCode, and Prose — never raw heading tags. Faces are the
-          swap surface: change <code className="font-inconsolata text-primary">app/brand/fonts.css</code>{" "}
-          and the whole ladder re-typefaces.
+          <code className="font-inconsolata text-primary">~/components/ui/typography</code> — Heading,
+          Body, Label, Code, and Prose — never raw heading tags. <code className="font-inconsolata text-primary">as</code>{" "}
+          sets semantics, <code className="font-inconsolata text-primary">size</code> sets the visual step, and weight is
+          a <code className="font-inconsolata text-primary">variant</code>, never a prop. Faces are the swap surface:
+          change <code className="font-inconsolata text-primary">app/brand/fonts.css</code> and the whole ladder
+          re-typefaces.
         </p>
       </div>
 
@@ -82,27 +91,32 @@ export default function FoundationsTypography() {
         </div>
       </section>
 
-      {/* Heading ladder */}
+      {/* Heading scale */}
       <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Heading Ladder</h3>
+        <h3 className="text-base font-medium font-display text-neutral-800">Heading</h3>
         <p className="text-xs text-neutral-500 max-w-2xl">
-          H1–H6 own their size, weight, and tracking. H1 and H2 step up responsively; balance-wrapped
-          for marketing headlines.
+          Seven visual steps, decoupled from the semantic tag. Pick the tag with{" "}
+          <code className="font-inconsolata text-primary">as</code> for document order, the step with{" "}
+          <code className="font-inconsolata text-primary">size</code>. The{" "}
+          <code className="font-inconsolata text-primary">display</code> variant is the marketing treatment —
+          tighter tracking, balanced wrap.
         </p>
         <div className="rounded-xl border border-neutral-200 px-5 divide-y divide-neutral-200">
-          <div className="py-4"><H1>Heading one</H1><Small className="mt-1">H1 — 4xl/5xl/6xl · tracking-tight · text-balance</Small></div>
-          <div className="py-4"><H2>Heading two</H2><Small className="mt-1">H2 — 3xl/4xl · tracking-tight · text-balance</Small></div>
-          <div className="py-4"><H3>Heading three</H3><Small className="mt-1">H3 — 2xl · tracking-tight</Small></div>
-          <div className="py-4"><H4>Heading four</H4><Small className="mt-1">H4 — xl · tracking-tight</Small></div>
-          <div className="py-4"><H5>Heading five</H5><Small className="mt-1">H5 — lg</Small></div>
-          <div className="py-4"><H6>Heading six</H6><Small className="mt-1">H6 — base</Small></div>
+          {headingSizes.map(({ size, cls, use }) => (
+            <div key={size} className="py-4">
+              <Heading as="p" size={size}>Heading {size}</Heading>
+              <Body size="sm" variant="muted" className="mt-1">
+                size="{size}" — {cls} · {use}
+              </Body>
+            </div>
+          ))}
         </div>
         <CodeBlock
-          code={`import { H1, H2, Lead } from "~/components/common/Typography";
+          code={`import { Heading, Body } from "~/components/ui/typography";
 
-<H1>Page headline</H1>
-<Lead className="mt-4">One supporting sentence.</Lead>
-<H2>Section title</H2>`}
+<Heading as="h1" size="2xl" variant="display">Page headline</Heading>
+<Body size="lg" variant="lead" className="mt-4">One supporting sentence.</Body>
+<Heading as="h2" size="xl" variant="display">Section title</Heading>`}
         />
       </section>
 
@@ -111,26 +125,30 @@ export default function FoundationsTypography() {
         <h3 className="text-base font-medium font-display text-neutral-800">Body & Meta</h3>
         <div className="rounded-xl border border-neutral-200 px-5 divide-y divide-neutral-200">
           <div className="py-4">
-            <SectionLabel>Section Label</SectionLabel>
-            <Small className="mt-1">SectionLabel — sm · uppercase · tracking-widest · muted</Small>
+            <Label as="p" size="md">Section Label</Label>
+            <Body size="sm" variant="muted" className="mt-1">
+              Label — eyebrow / field label · mono accent face · uppercase · tracking-wider
+            </Body>
           </div>
           <div className="py-4">
-            <Lead>Lead text for introductions and hero subtitles.</Lead>
-            <Small className="mt-1">Lead — lg/xl · muted · leading-relaxed</Small>
+            <Body size="lg" variant="lead">Lead text for introductions and hero subtitles.</Body>
+            <Body size="sm" variant="muted" className="mt-1">
+              Body size="lg" variant="lead" — leading-relaxed · text-pretty
+            </Body>
           </div>
           <div className="py-4">
-            <Text>Body text for general content, descriptions, and card copy. The workhorse.</Text>
-            <Small className="mt-1">Text — base · muted · leading-relaxed</Small>
+            <Body>Body text for general content, descriptions, and card copy. The workhorse.</Body>
+            <Body size="sm" variant="muted" className="mt-1">Body — base · default (neutral-700)</Body>
           </div>
           <div className="py-4">
-            <Small>Small text for captions, timestamps, and metadata.</Small>
-            <Small className="mt-1">Small — sm · muted</Small>
+            <Body size="sm" variant="muted">Small muted text for captions, timestamps, and metadata.</Body>
+            <Body size="sm" variant="muted" className="mt-1">Body size="sm" variant="muted"</Body>
           </div>
           <div className="py-4">
             <p className="text-neutral-800">
-              Inline code: <InlineCode>npm run dev</InlineCode>
+              Inline code: <Code>npm run dev</Code>
             </p>
-            <Small className="mt-1">InlineCode — mono · sm · bg-neutral-100 · rounded</Small>
+            <Body size="sm" variant="muted" className="mt-1">Code — mono · 0.9em · bg-neutral-100 · rounded</Body>
           </div>
         </div>
       </section>
@@ -160,8 +178,8 @@ export default function FoundationsTypography() {
         <h3 className="text-base font-medium font-display text-neutral-800">Prose</h3>
         <p className="text-xs text-neutral-500 max-w-2xl">
           Wraps rich/CMS/markdown content you can't compose element-by-element — article bodies, block
-          content fields. Styled by <code className="font-inconsolata text-primary">@tailwindcss/typography</code>{" "}
-          with the display face on headings; inverts in dark mode.
+          content fields. Its own READING scale: larger body, generous leading, capped at a 68ch measure,
+          with the display face on headings.
         </p>
         <div className="rounded-xl border border-neutral-200 p-6">
           <Prose>
@@ -186,8 +204,9 @@ export default function FoundationsTypography() {
         <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
         <RuleList
           rules={[
-            { pass: true, text: "Compose pages from the Typography components — H1–H6, Lead, Text, Small" },
-            { pass: true, text: "One H1 per page; keep the semantic order even when sizes differ" },
+            { pass: true, text: "Compose pages from the typography components — Heading, Body, Label, Code" },
+            { pass: true, text: "Decouple semantics from size: as= for the tag, size= for the visual step" },
+            { pass: true, text: "One h1 per page; keep the semantic order even when sizes differ" },
             { pass: true, text: "Prose for CMS/markdown blobs you can't compose element-by-element" },
             { pass: false, text: "No raw <h1>–<h6> or ad-hoc text-*/font-* stacks in routes and blocks" },
             { pass: false, text: "No arbitrary sizes — the named steps are the whole menu" },
