@@ -218,14 +218,17 @@
 
   --destructive: 0 63% 31%;
   --destructive-foreground: 210 40% 98%;
-  --destructive-50: 0 70% 12%;
-  --destructive-100: 0 68% 18%;
-  --destructive-200: 0 65% 24%;
-  --destructive-300: 0 63% 31%;
-  --destructive-400: 0 63% 40%;
-  --destructive-500: 0 63% 48%;
-  --destructive-600: 0 65% 58%;
-  --destructive-700: 0 70% 68%;
-  --destructive-800: 0 75% 80%;
-  --destructive-900: 0 80% 90%;
+  /* Ramp stops sit at DS-equivalent lightness so ported components picking
+     dark:destructive-300/400 for readable text reds pass WCAG on dark
+     surfaces; only the base role keeps the kit's darker dark-mode button red. */
+  --destructive-50: 0 70% 15%;
+  --destructive-100: 0 68% 21%;
+  --destructive-200: 0 65% 30%;
+  --destructive-300: 0 65% 41%;
+  --destructive-400: 0 63% 50%;
+  --destructive-500: 0 63% 56%;
+  --destructive-600: 0 65% 63%;
+  --destructive-700: 0 70% 72%;
+  --destructive-800: 0 75% 82%;
+  --destructive-900: 0 80% 91%;
 }

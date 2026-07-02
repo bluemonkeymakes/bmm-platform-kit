@@ -122,10 +122,13 @@ The kit had no info/success/warning scales; the DS values were adopted
 **verbatim** (they're cross-project stable by convention — red means error
 everywhere). Destructive keeps the kit's original red: base `0 84% 60%` light /
 `0 63% 31%` dark (the DS runs `0 70% 50%` / `0 60% 55%`).
-**Handling:** none for info/success/warning. For destructive, note the dark
-base here is much darker than the DS's — a DS component pairing
-`bg-destructive` with `text-white` still passes contrast here (white on 31%
-red ≈ 8:1), but check contrast before *lightening* the dark destructive base.
+**Handling:** none for info/success/warning. For destructive, only the dark
+*base role* diverges (darker buttons; white on 31% red ≈ 8:1). The dark
+**ramp stops** deliberately sit at DS-equivalent lightness — ported components
+pick `dark:destructive-300/400` for readable text reds, and anchoring the ramp
+to the darker base made those unreadable (~2:1) until repositioned. Lesson for
+future ramps: a brand may move the base role, but scale stops must keep the
+DS's perceptual positioning or verbatim-ported components break.
 
 ### 6. Focus ring
 
