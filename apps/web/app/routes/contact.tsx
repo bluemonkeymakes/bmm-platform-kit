@@ -98,7 +98,7 @@ export default function Contact() {
 
   return (
     <>
-      <section className="border-b bg-muted/30 py-16 md:py-24">
+      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
         <Container size="narrow" className="text-center">
           <FadeIn>
             <H1>Contact Us</H1>

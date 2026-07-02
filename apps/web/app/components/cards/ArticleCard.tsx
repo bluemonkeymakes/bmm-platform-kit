@@ -12,7 +12,7 @@ interface ArticleCardProps {
 export function ArticleCard({ article }: ArticleCardProps) {
   return (
     <Link to={`/articles/${article.slug}`} className="group">
-      <Card className="h-full hover:border-foreground/20 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] active:shadow-xs">
+      <Card className="h-full hover:border-neutral-800/20 hover:-translate-y-0.5 hover:shadow-overlay active:scale-[0.98] active:shadow-raised">
         {article.featured_image && (
           <div className="aspect-video overflow-hidden rounded-t-lg">
             <img

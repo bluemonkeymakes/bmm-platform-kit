@@ -67,7 +67,7 @@ export function SectionLabel({ children, className }: TypographyProps) {
   return (
     <p
       className={cn(
-        "font-sans text-sm font-normal uppercase tracking-widest text-muted-foreground",
+        "font-sans text-sm font-normal uppercase tracking-widest text-neutral-500",
         className
       )}
     >
@@ -78,7 +78,7 @@ export function SectionLabel({ children, className }: TypographyProps) {
 
 export function Lead({ children, className }: TypographyProps) {
   return (
-    <p className={cn("font-sans text-lg text-muted-foreground md:text-xl leading-relaxed", className)}>
+    <p className={cn("font-sans text-lg text-neutral-500 md:text-xl leading-relaxed", className)}>
       {children}
     </p>
   );
@@ -86,7 +86,7 @@ export function Lead({ children, className }: TypographyProps) {
 
 export function Text({ children, className }: TypographyProps) {
   return (
-    <p className={cn("font-sans text-base text-muted-foreground leading-relaxed", className)}>
+    <p className={cn("font-sans text-base text-neutral-500 leading-relaxed", className)}>
       {children}
     </p>
   );
@@ -94,7 +94,7 @@ export function Text({ children, className }: TypographyProps) {
 
 export function Small({ children, className }: TypographyProps) {
   return (
-    <p className={cn("font-sans text-sm text-muted-foreground", className)}>
+    <p className={cn("font-sans text-sm text-neutral-500", className)}>
       {children}
     </p>
   );
@@ -104,7 +104,7 @@ export function InlineCode({ children, className }: TypographyProps) {
   return (
     <code
       className={cn(
-        "font-mono text-sm bg-muted px-1.5 py-0.5 rounded",
+        "font-mono text-sm bg-neutral-100 px-1.5 py-0.5 rounded",
         className
       )}
     >
@@ -117,7 +117,7 @@ export function Prose({
   children,
   className,
   html,
-}: TypographyProps & { html?: string }) {
+}: Omit<TypographyProps, "children"> & { children?: React.ReactNode; html?: string }) {
   if (html) {
     return (
       <div

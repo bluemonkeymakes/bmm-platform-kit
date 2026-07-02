@@ -16,7 +16,7 @@ export function BlockTestimonials({ block, context }: { block: PageBlock; contex
   const limited = data.limit ? testimonials.slice(0, data.limit) : testimonials;
 
   return (
-    <Section className="bg-muted/30">
+    <Section className="bg-neutral-100/30">
       <Container>
         {(data.title || data.subtitle) && (
           <div className="mb-12 text-center">
@@ -48,7 +48,7 @@ export function BlockTestimonials({ block, context }: { block: PageBlock; contex
                     )}
                     <div>
                       <p className="text-sm font-normal">{t.author_name}</p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-neutral-500">
                         {t.author_role}{t.company && `, ${t.company}`}
                       </p>
                     </div>

@@ -16,7 +16,7 @@ export function ErrorPage({
 }: ErrorPageProps) {
   return (
     <Container className="flex min-h-[60vh] flex-col items-center justify-center text-center">
-      <p className="font-display text-7xl font-normal text-muted-foreground/20">{status}</p>
+      <p className="font-display text-7xl font-normal text-neutral-500/20">{status}</p>
       <H1 className="mt-4">{title}</H1>
       <Text className="mt-4 max-w-md">{description}</Text>
       <div className="mt-8 flex gap-4">

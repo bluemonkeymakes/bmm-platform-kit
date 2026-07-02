@@ -20,7 +20,7 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t bg-background">
+    <footer className="border-t bg-neutral-50">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Brand */}
@@ -28,7 +28,7 @@ export function Footer() {
             <Link to="/" className="font-display text-lg font-normal">
               Starter
             </Link>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-2 text-sm text-neutral-500">
               Built with React Router, NestJS, Directus &amp; Twenty CRM.
             </p>
           </div>
@@ -42,7 +42,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       to={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-sm text-neutral-500 hover:text-neutral-800 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -53,7 +53,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
+        <div className="mt-8 border-t pt-8 text-center text-sm text-neutral-500">
           &copy; {new Date().getFullYear()} Your Company. All rights reserved.
         </div>
       </div>

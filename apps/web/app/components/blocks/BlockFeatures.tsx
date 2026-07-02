@@ -28,7 +28,7 @@ export function BlockFeatures({ block }: { block: PageBlock }) {
           )}
         >
           {(data.features || []).map((feature, i) => (
-            <StaggerItem key={i} className="rounded-lg border bg-card p-6">
+            <StaggerItem key={i} className="rounded-lg border bg-neutral-50 p-6">
               {feature.icon && <div className="mb-4 text-3xl">{feature.icon}</div>}
               <H4>{feature.title}</H4>
               <Text className="mt-2">{feature.description}</Text>

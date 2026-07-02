@@ -33,12 +33,12 @@ export default function ArticleDetail() {
 
   return (
     <>
-      <section className="border-b bg-muted/30 py-16 md:py-24">
+      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
         <Container size="narrow" className="text-center">
           <FadeIn>
             <div className="flex items-center justify-center gap-3 mb-4">
               {article.category && <Badge variant="secondary">{article.category}</Badge>}
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-neutral-500">
                 {dayjs(article.date_published).format("MMMM D, YYYY")}
               </span>
             </div>

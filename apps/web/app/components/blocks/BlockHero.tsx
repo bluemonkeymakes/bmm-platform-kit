@@ -15,7 +15,7 @@ export function BlockHero({ block }: { block: PageBlock }) {
       {data.image && (
         <div className="absolute inset-0 z-0">
           <img src={data.image} alt="" className="h-full w-full object-cover" />
-          <div className="absolute inset-0 bg-background/80 dark:bg-background/90" />
+          <div className="absolute inset-0 bg-neutral-50/80 dark:bg-neutral-50/90" />
         </div>
       )}
 

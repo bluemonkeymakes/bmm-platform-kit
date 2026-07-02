@@ -10,7 +10,7 @@ export function BlockNewsletter({ block }: { block: PageBlock }) {
   const data = block.item as unknown as BlockNewsletterData;
 
   return (
-    <Section className="bg-muted/30">
+    <Section className="bg-neutral-100/30">
       <Container size="narrow" className="text-center">
         <FadeIn>
           <H2>{data.title || "Stay in the loop"}</H2>

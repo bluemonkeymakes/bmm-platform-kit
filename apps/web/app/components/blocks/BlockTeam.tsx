@@ -48,7 +48,7 @@ export function BlockTeam({ block, context }: { block: PageBlock; context?: Bloc
                         <a
                           key={link.platform}
                           href={link.url}
-                          className="text-xs text-muted-foreground hover:text-foreground capitalize transition-colors"
+                          className="text-xs text-neutral-500 hover:text-neutral-800 capitalize transition-colors"
                           target="_blank"
                           rel="noopener noreferrer"
                         >

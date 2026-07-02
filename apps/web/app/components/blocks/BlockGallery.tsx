@@ -36,7 +36,7 @@ export function BlockGallery({ block }: { block: PageBlock }) {
                   loading="lazy"
                 />
                 {img.caption && (
-                  <p className="mt-2 text-center text-sm text-muted-foreground">{img.caption}</p>
+                  <p className="mt-2 text-center text-sm text-neutral-500">{img.caption}</p>
                 )}
               </div>
             </StaggerItem>

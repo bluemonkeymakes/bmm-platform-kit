@@ -7,7 +7,7 @@ export function BlockHeroSimple({ block }: { block: PageBlock }) {
   const data = block.item as unknown as BlockHeroData;
 
   return (
-    <section className="border-b bg-muted/30 py-16 md:py-24">
+    <section className="border-b bg-neutral-100/30 py-16 md:py-24">
       <Container size="narrow" className="text-center">
         <FadeIn>
           {data.label && <SectionLabel className="mb-4">{data.label}</SectionLabel>}
