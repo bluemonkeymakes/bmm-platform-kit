@@ -39,15 +39,30 @@ export const nav: NavSection[] = [
         to: "/style-guide/foundations/motion",
         blurb: "FadeIn / stagger wrappers, durations, reduced motion",
       },
+      {
+        label: "Icons",
+        to: "/style-guide/foundations/icons",
+        blurb: "Icon wrapper for lucide — four named sizes, usage conventions",
+      },
     ],
   },
   {
     section: "Components",
     items: [
       {
-        label: "Buttons",
-        to: "/style-guide/components/buttons",
-        blurb: "Seven variants, four sizes, loading and disabled states",
+        label: "Accordion",
+        to: "/style-guide/components/accordion",
+        blurb: "Collapsible disclosure sections — single or multiple open",
+      },
+      {
+        label: "Alerts",
+        to: "/style-guide/components/alerts",
+        blurb: "Info, success, warning, error callouts",
+      },
+      {
+        label: "Avatar",
+        to: "/style-guide/components/avatar",
+        blurb: "Image with initials or generated fallback, three sizes",
       },
       {
         label: "Badges",
@@ -55,14 +70,99 @@ export const nav: NavSection[] = [
         blurb: "Four variants for status, tags, and metadata",
       },
       {
+        label: "Breadcrumbs",
+        to: "/style-guide/components/breadcrumbs",
+        blurb: "Location trail, current page emphasized",
+      },
+      {
+        label: "Buttons",
+        to: "/style-guide/components/buttons",
+        blurb: "Seven variants, four sizes, loading and disabled states",
+      },
+      {
         label: "Cards",
         to: "/style-guide/components/cards",
         blurb: "Header / Title / Description / Content / Footer anatomy",
       },
       {
+        label: "Dialog",
+        to: "/style-guide/components/dialog",
+        blurb: "Modal overlay for focused tasks and confirmations",
+      },
+      {
+        label: "Dropdown Menu",
+        to: "/style-guide/components/dropdown-menu",
+        blurb: "Action and option menus, checkbox items",
+      },
+      {
+        label: "Empty State",
+        to: "/style-guide/components/empty-state",
+        blurb: "Icon, reason, and a way forward",
+      },
+      {
+        label: "Form Field",
+        to: "/style-guide/components/form-field",
+        blurb: "Label + control + hint/error, library-agnostic",
+      },
+      {
         label: "Inputs",
         to: "/style-guide/components/inputs",
-        blurb: "Input, textarea, label, error states, tooltip, spinner, separator",
+        blurb: "Input, textarea, select, checkbox, switch, tooltip, spinner",
+      },
+      {
+        label: "Page Header",
+        to: "/style-guide/components/page-header",
+        blurb: "Masthead — title, description, actions, breadcrumbs",
+      },
+      {
+        label: "Pagination",
+        to: "/style-guide/components/pagination",
+        blurb: "Windowed pager with ellipses",
+      },
+      {
+        label: "Popover",
+        to: "/style-guide/components/popover",
+        blurb: "Anchored non-modal panel for secondary UI",
+      },
+      {
+        label: "Radio Group",
+        to: "/style-guide/components/radio-group",
+        blurb: "Single choice from a small set",
+      },
+      {
+        label: "Sheet",
+        to: "/style-guide/components/sheet",
+        blurb: "Edge panel built on the Dialog primitive",
+      },
+      {
+        label: "Skeleton",
+        to: "/style-guide/components/skeleton",
+        blurb: "Loading placeholder, pulse",
+      },
+      {
+        label: "Stat Card",
+        to: "/style-guide/components/stat-card",
+        blurb: "KPI with value and trend delta",
+      },
+      {
+        label: "Table",
+        to: "/style-guide/components/table",
+        blurb: "Rows, label-voice header, hover and footer",
+      },
+      {
+        label: "Tabs",
+        to: "/style-guide/components/tabs",
+        blurb: "Segmented switcher for peer views",
+      },
+      {
+        label: "Toast",
+        to: "/style-guide/components/toast",
+        blurb: "Transient feedback — useToast(), five variants",
+      },
+      {
+        label: "Toggle",
+        to: "/style-guide/components/toggle",
+        blurb: "On/off button plus segmented toggle group",
       },
     ],
   },
