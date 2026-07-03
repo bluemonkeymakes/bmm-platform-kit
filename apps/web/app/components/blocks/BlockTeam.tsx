@@ -4,7 +4,6 @@ import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { Card, CardContent } from "~/components/ui/card";
-import { getAssetUrl } from "~/lib/directus.server";
 
 export function BlockTeam({ block, context }: { block: PageBlock; context?: BlockContext }) {
   const data = block.item as unknown as BlockTeamData;
@@ -29,7 +28,7 @@ export function BlockTeam({ block, context }: { block: PageBlock; context?: Bloc
                 <CardContent className="pt-8 pb-6">
                   {member.photo ? (
                     <img
-                      src={typeof member.photo === "string" && member.photo.startsWith("http") ? member.photo : `/assets/${member.photo}`}
+                      src={member.photo}
                       alt={member.name}
                       className="mx-auto mb-4 h-24 w-24 rounded-full object-cover"
                     />

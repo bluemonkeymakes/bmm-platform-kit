@@ -55,7 +55,7 @@ Wait until all containers are healthy before continuing.
 npm run seed
 ```
 
-This runs `directus/seed.sh` which creates all collections (pages, articles, team, testimonials, and 15 block types) and sets up public read permissions. Only needs to run once on first setup.
+This runs `directus/apply-schema.ts`, which reads the content schema from `apps/web/app/content/schema.ts` (the single source of truth) and creates/updates all Directus collections, fields, the pages↔blocks M2A relation, and public read permissions. **Idempotent** — run it any time you change the schema; existing data is never touched and type changes are warn-only.
 
 > **Note:** Directus must be fully running first. If the seed fails, wait a few seconds and try again.
 
@@ -102,11 +102,13 @@ starter-kit/
 │           │   ├── ui/      Full DS component set (35 primitives: button, dialog, table, toast, …)
 │           │   ├── ds/      Style-guide showcase components (Preview, RuleList, ScaleRow)
 │           │   └── common/  ErrorPage, MotionWrapper (layout/typography live in ui/)
+│           ├── content/     CONTENT SCHEMA — single source of truth (fields.ts DSL,
+│           │                schema.ts definitions, validate.ts runtime boundary)
 │           ├── lib/         Directus SDK, CSRF, Turnstile, Plausible, validation
-│           ├── data/        Fallback content (used when CMS is empty/offline)
-│           └── types/       TypeScript interfaces for all content models
+│           ├── data/        Fallback content, typechecked against the schema
+│           └── types/       TS interfaces (block types re-exported from content/schema)
 ├── directus/
-│   └── seed.sh              Creates collections, fields, and permissions
+│   └── apply-schema.ts      Idempotent Directus schema apply, generated from content/schema
 ├── docker/                  (Production Dockerfiles)
 ├── docker-compose.yml       Development services
 ├── docker-compose.production.yml  Production overlay
@@ -232,11 +234,10 @@ Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that 
 
 ### Adding a new block type
 
-1. Create the Directus collection (via admin UI or seed script)
-2. Add the TypeScript interface to `apps/web/app/types/content.ts`
-3. Create the React component in `apps/web/app/components/blocks/`
-4. Register it in `BlockRenderer.tsx`
-5. Add it to the registry on `/style-guide/patterns/blocks` (same change — design-system convention)
+1. Define it once in `apps/web/app/content/schema.ts` (`defineBlock` with the `f.*` field DSL) — this drives the TS type, runtime validation, the Directus schema, and the style-guide registry row
+2. Run `npm run seed` to apply it to Directus (idempotent)
+3. Create the React component in `apps/web/app/components/blocks/` and register it in `BlockRenderer.tsx` (+ the component-name map on `/style-guide/patterns/blocks`)
+4. Add fallback content in `apps/web/app/data/defaults.ts` — the compiler enforces it matches the schema
 
 ### Adding a new route
 
@@ -259,7 +260,7 @@ Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that 
 - **No rate limiting** on API endpoints (add `@nestjs/throttler` for production)
 - **No request timeouts** on outbound calls to Directus/Twenty/Discord
 - **Twenty CRM** requires manual initial setup via its admin UI after first boot
-- **Seed script** is not idempotent — running it twice may create duplicate collections
+- **Schema apply** never alters existing column types (warn-only) — a type change needs a manual migration
 
 ## License
 

@@ -70,120 +70,25 @@ export interface SiteSettings {
 }
 
 // ============================================================================
-// Block Item Types — one per block_* collection in Directus
+// Block Item Types — one per block_* collection in Directus.
+// Inferred (z.infer) from the single-source-of-truth schemas in
+// app/content/schema.ts and re-exported here so existing imports keep working.
 // ============================================================================
 
-export interface BlockHeroData {
-  id: string;
-  label?: string;
-  title: string;
-  subtitle?: string;
-  description?: string;
-  image?: string;
-  background_video?: string;
-  cta_text?: string;
-  cta_link?: string;
-  secondary_cta_text?: string;
-  secondary_cta_link?: string;
-  alignment?: "left" | "center" | "right";
-  variant?: "default" | "large";
-}
-
-export interface BlockFeaturesData {
-  id: string;
-  title?: string;
-  subtitle?: string;
-  columns?: 2 | 3 | 4;
-  features: { icon?: string; title: string; description: string }[];
-}
-
-export interface BlockCtaData {
-  id: string;
-  title: string;
-  description?: string;
-  cta_text: string;
-  cta_link: string;
-  variant?: "default" | "accent";
-}
-
-export interface BlockContentData {
-  id: string;
-  title?: string;
-  content: string;
-  image?: string;
-  image_position?: "left" | "right";
-}
-
-export interface BlockTestimonialsData {
-  id: string;
-  title?: string;
-  subtitle?: string;
-  limit?: number;
-}
-
-export interface BlockFaqData {
-  id: string;
-  title?: string;
-  subtitle?: string;
-  items: { question: string; answer: string }[];
-}
-
-export interface BlockStatsData {
-  id: string;
-  title?: string;
-  stats: { label: string; value: string; description?: string }[];
-}
-
-export interface BlockImageTextData {
-  id: string;
-  title?: string;
-  content: string;
-  image: string;
-  image_position?: "left" | "right";
-  cta_text?: string;
-  cta_link?: string;
-}
-
-export interface BlockTeamData {
-  id: string;
-  title?: string;
-  subtitle?: string;
-  show_all?: boolean;
-}
-
-export interface BlockAboutData {
-  id: string;
-  title?: string;
-  content: string;
-  image?: string;
-  cta_text?: string;
-  cta_link?: string;
-}
-
-export interface BlockNewsletterData {
-  id: string;
-  title?: string;
-  description?: string;
-  placeholder?: string;
-  button_text?: string;
-}
-
-export interface BlockArticlesData {
-  id: string;
-  title?: string;
-  limit?: number;
-}
-
-export interface BlockGalleryData {
-  id: string;
-  title?: string;
-  images: { src: string; alt?: string; caption?: string }[];
-  columns?: 2 | 3 | 4;
-}
-
-export interface BlockContactData {
-  id: string;
-  title?: string;
-  description?: string;
-  show_map?: boolean;
-}
+export type {
+  BlockHeroData,
+  BlockHeroSimpleData,
+  BlockCtaData,
+  BlockContentData,
+  BlockFeaturesData,
+  BlockTestimonialsData,
+  BlockFaqData,
+  BlockStatsData,
+  BlockImageTextData,
+  BlockTeamData,
+  BlockAboutData,
+  BlockContactData,
+  BlockNewsletterData,
+  BlockArticlesData,
+  BlockGalleryData,
+} from "~/content/schema";

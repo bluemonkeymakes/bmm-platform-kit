@@ -6,6 +6,7 @@ import { BlockHeroSimple } from "~/components/blocks/BlockHeroSimple";
 import { BlockFeatures } from "~/components/blocks/BlockFeatures";
 import { BlockCTA } from "~/components/blocks/BlockCTA";
 import { defaultHomeBlocks, defaultAboutBlocks } from "~/data/defaults";
+import { blocks, type BlockKey } from "~/content/schema";
 
 export const handle = { title: "Blocks" };
 
@@ -14,23 +15,33 @@ export const meta: MetaFunction = () => [
   { name: "robots", content: "noindex" },
 ];
 
-const blockTypes = [
-  { key: "block_hero", component: "BlockHero", purpose: "Full marketing hero — label, headline, subtitle, primary + secondary CTA" },
-  { key: "block_hero_simple", component: "BlockHeroSimple", purpose: "Compact page header — label, title, subtitle on a subtle band" },
-  { key: "block_cta", component: "BlockCTA", purpose: "Closing call-to-action band; accent variant inverts onto the primary fill" },
-  { key: "block_content", component: "BlockContent", purpose: "Rich-text prose section from the CMS" },
-  { key: "block_features", component: "BlockFeatures", purpose: "2–4 column feature card grid with icons" },
-  { key: "block_testimonials", component: "BlockTestimonials", purpose: "Quote cards fed from the testimonials collection" },
-  { key: "block_faq", component: "BlockFAQ", purpose: "Question/answer accordion list" },
-  { key: "block_stats", component: "BlockStats", purpose: "Headline metrics band — value, label, description" },
-  { key: "block_image_text", component: "BlockImageText", purpose: "Split image + rich text, image position left/right" },
-  { key: "block_team", component: "BlockTeam", purpose: "Team member cards fed from the team collection" },
-  { key: "block_about", component: "BlockAbout", purpose: "About summary section" },
-  { key: "block_contact", component: "BlockContact", purpose: "Contact info / form embed section" },
-  { key: "block_newsletter", component: "BlockNewsletter", purpose: "Email capture band" },
-  { key: "block_articles", component: "BlockArticles", purpose: "Latest articles grid fed from the articles collection" },
-  { key: "block_gallery", component: "BlockGallery", purpose: "Image gallery grid" },
-];
+// The registry rows derive from the content schema (app/content/schema.ts) —
+// key, label, and purpose come straight from each block definition. Only the
+// React component name lives here, since the schema doesn't know about JSX.
+const componentNames: Record<BlockKey, string> = {
+  block_hero: "BlockHero",
+  block_hero_simple: "BlockHeroSimple",
+  block_cta: "BlockCTA",
+  block_content: "BlockContent",
+  block_features: "BlockFeatures",
+  block_testimonials: "BlockTestimonials",
+  block_faq: "BlockFAQ",
+  block_stats: "BlockStats",
+  block_image_text: "BlockImageText",
+  block_team: "BlockTeam",
+  block_about: "BlockAbout",
+  block_contact: "BlockContact",
+  block_newsletter: "BlockNewsletter",
+  block_articles: "BlockArticles",
+  block_gallery: "BlockGallery",
+};
+
+const blockTypes = (Object.keys(blocks) as BlockKey[]).map((key) => ({
+  key,
+  label: blocks[key].label,
+  component: componentNames[key],
+  purpose: blocks[key].purpose,
+}));
 
 // Representative specimens pulled from the same seed data the real pages use.
 const heroSimpleBlock = defaultAboutBlocks.find((b) => b.collection === "block_hero_simple")!;
@@ -61,19 +72,27 @@ export default function PatternsBlocks() {
       {/* Registry table */}
       <section className="space-y-4">
         <h3 className="text-base font-medium font-display text-neutral-800">The 15 Block Types</h3>
+        <p className="text-xs text-neutral-500 max-w-2xl">
+          This table is derived from the block definitions in{" "}
+          <code className="font-inconsolata text-primary">app/content/schema.ts</code> — the same
+          source of truth that drives runtime validation and the Directus schema. Add a block
+          there and it appears here automatically.
+        </p>
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-neutral-100/60 border-b border-neutral-200">
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">Block key</th>
+                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider hidden md:table-cell">Label</th>
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider hidden sm:table-cell">Component</th>
                 <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">Purpose</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-neutral-200">
-              {blockTypes.map(({ key, component, purpose }) => (
+              {blockTypes.map(({ key, label, component, purpose }) => (
                 <tr key={key} className="hover:bg-neutral-100/30 transition-colors">
                   <td className="px-4 py-2.5 text-xs font-inconsolata text-primary whitespace-nowrap">{key}</td>
+                  <td className="px-4 py-2.5 text-xs text-neutral-500 whitespace-nowrap hidden md:table-cell">{label}</td>
                   <td className="px-4 py-2.5 text-xs font-inconsolata text-neutral-500 hidden sm:table-cell">{component}</td>
                   <td className="px-4 py-2.5 text-xs text-neutral-500">{purpose}</td>
                 </tr>
@@ -121,10 +140,10 @@ export default function PatternsBlocks() {
         <h3 className="text-base font-medium font-display text-neutral-800">Adding a Block Type</h3>
         <CodeBlock
           label="Four steps"
-          code={`1. Create the block_* collection in Directus
-2. Add the data interface in app/types/content.ts
+          code={`1. Define the block in app/content/schema.ts (key, label, purpose, fields) — types, validation, Directus schema, and this table all derive from it
+2. Re-export its inferred data type from app/types/content.ts
 3. Build BlockPricing.tsx in app/components/blocks/ (compose ui/layout Section + Container, ui/typography, ui/*)
-4. Register it in BlockRenderer.tsx — and add its row + specimen to this page`}
+4. Register it in BlockRenderer.tsx — and add its component name + specimen to this page`}
         />
         <RuleList
           rules={[
