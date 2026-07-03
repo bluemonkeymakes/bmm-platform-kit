@@ -55,9 +55,11 @@ Wait until all containers are healthy before continuing.
 npm run seed
 ```
 
-This runs `directus/seed.sh` which creates all collections (pages, articles, team, testimonials, and 15 block types) and sets up public read permissions. Only needs to run once on first setup.
+This runs `directus/apply-schema.ts`, which reads the content schema from `apps/web/app/content/schema.ts` (the single source of truth) and creates/updates all Directus collections, fields, the pages↔blocks M2A relation, and public read permissions. **Idempotent** — run it any time you change the schema; existing data is never touched and type changes are warn-only.
 
 > **Note:** Directus must be fully running first. If the seed fails, wait a few seconds and try again.
+
+> **Auto-apply:** the web dev server also runs this apply on every boot (see the `schema-auto-apply` plugin in `apps/web/vite.config.ts`), so day-to-day schema edits land in Directus just by restarting `npm run dev:web`. The manual `npm run seed` remains for first-time setup, CI, and production releases. If Directus isn't running, the dev server logs `[schema] apply skipped` and carries on.
 
 ### 4. Install dependencies and start the apps
 
@@ -102,11 +104,13 @@ starter-kit/
 │           │   ├── ui/      Full DS component set (35 primitives: button, dialog, table, toast, …)
 │           │   ├── ds/      Style-guide showcase components (Preview, RuleList, ScaleRow)
 │           │   └── common/  ErrorPage, MotionWrapper (layout/typography live in ui/)
+│           ├── content/     CONTENT SCHEMA — single source of truth (fields.ts DSL,
+│           │                schema.ts definitions, validate.ts runtime boundary)
 │           ├── lib/         Directus SDK, CSRF, Turnstile, Plausible, validation
-│           ├── data/        Fallback content (used when CMS is empty/offline)
-│           └── types/       TypeScript interfaces for all content models
+│           ├── data/        Fallback content, typechecked against the schema
+│           └── types/       TS interfaces (block types re-exported from content/schema)
 ├── directus/
-│   └── seed.sh              Creates collections, fields, and permissions
+│   └── apply-schema.ts      Idempotent Directus schema apply, generated from content/schema
 ├── docker/                  (Production Dockerfiles)
 ├── docker-compose.yml       Development services
 ├── docker-compose.production.yml  Production overlay
@@ -228,15 +232,21 @@ The production compose is an **overlay** — it extends the dev compose with pro
 
 Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that runs Docker Compose. For reverse proxy / SSL, put Caddy, Nginx, or Traefik in front.
 
+### Schema on deploy
+
+The content schema is applied by script, not by hand — wire it into your release flow:
+
+- **Post-deploy hook** — run `npm run seed` against the production CMS as a release step (Coolify: add it as a post-deployment command with `DIRECTUS_URL`, `DIRECTUS_ADMIN_EMAIL`, and `DIRECTUS_ADMIN_PASSWORD` set for prod). It's idempotent, so re-running on every deploy is safe.
+- **CI drift gate** — `npm run schema:check` (read-only) diffs a live Directus against `apps/web/app/content/schema.ts` and exits nonzero on any drift in either direction, including fields added ad hoc in the Directus UI. Run it in CI or before a release to catch schema drift early.
+
 ## Customization
 
 ### Adding a new block type
 
-1. Create the Directus collection (via admin UI or seed script)
-2. Add the TypeScript interface to `apps/web/app/types/content.ts`
-3. Create the React component in `apps/web/app/components/blocks/`
-4. Register it in `BlockRenderer.tsx`
-5. Add it to the registry on `/style-guide/patterns/blocks` (same change — design-system convention)
+1. Define it once in `apps/web/app/content/schema.ts` (`defineBlock` with the `f.*` field DSL) — this drives the TS type, runtime validation, the Directus schema, and the style-guide registry row
+2. Run `npm run seed` to apply it to Directus (idempotent)
+3. Create the React component in `apps/web/app/components/blocks/` and register it in `BlockRenderer.tsx` (+ the component-name map on `/style-guide/patterns/blocks`)
+4. Add fallback content in `apps/web/app/data/defaults.ts` — the compiler enforces it matches the schema
 
 ### Adding a new route
 
@@ -259,7 +269,7 @@ Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that 
 - **No rate limiting** on API endpoints (add `@nestjs/throttler` for production)
 - **No request timeouts** on outbound calls to Directus/Twenty/Discord
 - **Twenty CRM** requires manual initial setup via its admin UI after first boot
-- **Seed script** is not idempotent — running it twice may create duplicate collections
+- **Schema apply** never alters existing column types (warn-only) — a type change needs a manual migration
 
 ## License
 

@@ -1,8 +1,27 @@
-import type { PageBlock, Article, TeamMember, Testimonial } from "~/types/content";
+import type {
+  PageBlock,
+  Article,
+  TeamMember,
+  Testimonial,
+  BlockHeroData,
+  BlockHeroSimpleData,
+  BlockCtaData,
+  BlockFeaturesData,
+  BlockTestimonialsData,
+  BlockFaqData,
+  BlockStatsData,
+  BlockImageTextData,
+  BlockTeamData,
+  BlockNewsletterData,
+  BlockArticlesData,
+} from "~/types/content";
 
 // =============================================================================
 // Default seed data — used when Directus is not connected.
 // Once CMS is live, all of this is managed via the Directus admin UI.
+// Every block item carries a `satisfies` check against its schema-derived
+// type, so drift between these fallbacks and app/content/schema.ts fails
+// `tsc` instead of surfacing at runtime.
 // =============================================================================
 
 export const defaultHomeBlocks: PageBlock[] = [
@@ -11,7 +30,6 @@ export const defaultHomeBlocks: PageBlock[] = [
     sort: 1,
     collection: "block_hero",
     item: {
-      id: "1",
       label: "Starter Kit",
       title: "Ship faster with a production-ready foundation",
       subtitle:
@@ -21,14 +39,13 @@ export const defaultHomeBlocks: PageBlock[] = [
       secondary_cta_text: "Learn More",
       secondary_cta_link: "/about",
       alignment: "left",
-    },
+    } satisfies BlockHeroData,
   },
   {
     id: "home-features",
     sort: 2,
     collection: "block_features",
     item: {
-      id: "2",
       title: "Everything you need",
       subtitle: "A complete foundation so you can focus on what makes your project unique.",
       columns: 3,
@@ -70,14 +87,13 @@ export const defaultHomeBlocks: PageBlock[] = [
             "CSS custom properties for the entire color system. Swap the palette in one file to rebrand.",
         },
       ],
-    },
+    } satisfies BlockFeaturesData,
   },
   {
     id: "home-stats",
     sort: 3,
     collection: "block_stats",
     item: {
-      id: "3",
       title: "Built for production",
       stats: [
         { value: "15", label: "Content Blocks", description: "Ready to use" },
@@ -85,34 +101,31 @@ export const defaultHomeBlocks: PageBlock[] = [
         { value: "3", label: "Layers of Security", description: "On every form" },
         { value: "0", label: "Vendor Lock-in", description: "Self-hosted" },
       ],
-    },
+    } satisfies BlockStatsData,
   },
   {
     id: "home-testimonials",
     sort: 4,
     collection: "block_testimonials",
     item: {
-      id: "4",
       title: "What people are saying",
       subtitle: "Replace these with real testimonials from your CMS.",
-    },
+    } satisfies BlockTestimonialsData,
   },
   {
     id: "home-articles",
     sort: 5,
     collection: "block_articles",
     item: {
-      id: "5",
       title: "Latest Articles",
       limit: 3,
-    },
+    } satisfies BlockArticlesData,
   },
   {
     id: "home-faq",
     sort: 6,
     collection: "block_faq",
     item: {
-      id: "6",
       title: "Frequently Asked Questions",
       subtitle: "Common questions about the starter kit.",
       items: [
@@ -137,32 +150,30 @@ export const defaultHomeBlocks: PageBlock[] = [
             "No. If TWENTY_API_KEY is not set, the CRM module gracefully skips all operations. You can remove it entirely or add it later.",
         },
       ],
-    },
+    } satisfies BlockFaqData,
   },
   {
     id: "home-cta",
     sort: 7,
     collection: "block_cta",
     item: {
-      id: "7",
       title: "Ready to build something?",
       description: "Clone the repo, run docker compose up, and start shipping.",
       cta_text: "Get in Touch",
       cta_link: "/contact",
       variant: "accent",
-    },
+    } satisfies BlockCtaData,
   },
   {
     id: "home-newsletter",
     sort: 8,
     collection: "block_newsletter",
     item: {
-      id: "8",
       title: "Stay in the loop",
       description: "Get updates on new features and releases. No spam.",
       placeholder: "you@example.com",
       button_text: "Subscribe",
-    },
+    } satisfies BlockNewsletterData,
   },
 ];
 
@@ -172,19 +183,17 @@ export const defaultAboutBlocks: PageBlock[] = [
     sort: 1,
     collection: "block_hero_simple",
     item: {
-      id: "1",
       label: "About",
       title: "We build tools that help businesses grow",
       subtitle:
         "A small team obsessed with shipping quality software — fast, secure, and without unnecessary complexity.",
-    },
+    } satisfies BlockHeroSimpleData,
   },
   {
     id: "about-content",
     sort: 2,
     collection: "block_image_text",
     item: {
-      id: "2",
       title: "Our Story",
       content:
         "<p>We started this project because we were tired of rebuilding the same foundation for every client. CMS, CRM, authentication, deployment — the same wiring, every time.</p><p>This starter kit is the distillation of that experience. Every pattern has been battle-tested across real production projects. Every security measure exists because we learned the hard way.</p><p>We believe the best tools are the ones that get out of your way and let you focus on what makes your project unique.</p>",
@@ -192,30 +201,28 @@ export const defaultAboutBlocks: PageBlock[] = [
       image_position: "right",
       cta_text: "Get in Touch",
       cta_link: "/contact",
-    },
+    } satisfies BlockImageTextData,
   },
   {
     id: "about-team",
     sort: 3,
     collection: "block_team",
     item: {
-      id: "3",
       title: "Meet the Team",
       subtitle: "The people behind the project. Manage team members in Directus.",
-    },
+    } satisfies BlockTeamData,
   },
   {
     id: "about-cta",
     sort: 4,
     collection: "block_cta",
     item: {
-      id: "4",
       title: "Want to work together?",
       description: "We'd love to hear about your project.",
       cta_text: "Contact Us",
       cta_link: "/contact",
       variant: "accent",
-    },
+    } satisfies BlockCtaData,
   },
 ];
 
