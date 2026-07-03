@@ -31,16 +31,22 @@ function isBlockKey(collection: string): collection is BlockKey {
 }
 
 /**
- * Directus returns `null` for every unfilled column, but the schemas model
- * optional fields as `undefined` (keeping component-facing types clean).
- * Strip top-level nulls before parsing — a transport artifact, not content.
+ * CMSs return `null` for unfilled fields, but the schemas model optional
+ * fields as `undefined` (keeping component-facing types clean). Strip nulls
+ * recursively before parsing — Directus only nulls top-level columns, but
+ * other sources (the Payload spike, ADR-009) null at every depth, and a
+ * repeater item with a stray null shouldn't invalidate its whole block.
  */
-function stripNulls(item: Record<string, unknown>): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(item)) {
-    if (value !== null) out[key] = value;
+function stripNulls(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(stripNulls);
+  if (value !== null && typeof value === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+      if (entry !== null) out[key] = stripNulls(entry);
+    }
+    return out;
   }
-  return out;
+  return value;
 }
 
 /**
