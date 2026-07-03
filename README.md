@@ -239,6 +239,18 @@ The content schema is applied by script, not by hand — wire it into your relea
 - **Post-deploy hook** — run `npm run seed` against the production CMS as a release step (Coolify: add it as a post-deployment command with `DIRECTUS_URL`, `DIRECTUS_ADMIN_EMAIL`, and `DIRECTUS_ADMIN_PASSWORD` set for prod). It's idempotent, so re-running on every deploy is safe.
 - **CI drift gate** — `npm run schema:check` (read-only) diffs a live Directus against `apps/web/app/content/schema.ts` and exits nonzero on any drift in either direction, including fields added ad hoc in the Directus UI. Run it in CI or before a release to catch schema drift early.
 
+## Quality gates
+
+Run from `apps/web` (or wire into CI / a pre-commit hook):
+
+```bash
+npm run typecheck    # tsc + route typegen
+npm run lint:tokens  # design-system token purity — no hex/px/arbitrary values
+npm test             # vitest: validation boundary, defaults↔schema, renderer registry parity
+```
+
+Plus `npm run schema:check` from the repo root when a live Directus is available.
+
 ## Customization
 
 ### Adding a new block type

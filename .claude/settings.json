@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run typecheck*)",
+      "Bash(npm run lint:tokens*)",
+      "Bash(npm test*)",
+      "Bash(npm run test*)",
+      "Bash(npm run schema:check*)",
+      "Bash(npm run build*)",
+      "Bash(npm run seed*)",
+      "Bash(npx react-router typegen*)",
+      "Bash(docker compose ps*)",
+      "Bash(docker compose logs*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(curl -s http://localhost:*)",
+      "Bash(curl -s -o /dev/null*http://localhost:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./apps/*/.env)"
+    ]
+  }
+}
