@@ -4,6 +4,7 @@ import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { Card, CardContent } from "~/components/ui/card";
+import { Avatar } from "~/components/ui/avatar";
 import { Quote } from "lucide-react";
 
 export function BlockTestimonials({ block, context }: { block: PageBlock; context?: BlockContext }) {
@@ -30,26 +31,22 @@ export function BlockTestimonials({ block, context }: { block: PageBlock; contex
               <Card className="h-full">
                 <CardContent className="pt-6">
                   <Quote className="h-8 w-8 text-primary/20 mb-4" />
-                  <blockquote className="text-base leading-relaxed">
+                  <Body as="blockquote" size="base">
                     "{t.quote}"
-                  </blockquote>
+                  </Body>
                   <div className="mt-6 flex items-center gap-3 border-t pt-4">
-                    {t.author_photo ? (
-                      <img
-                        src={t.author_photo}
-                        alt={t.author_name}
-                        className="h-10 w-10 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-sm text-primary">
-                        {t.author_name.split(" ").map((n) => n[0]).join("")}
-                      </div>
-                    )}
+                    <Avatar
+                      size="md"
+                      src={t.author_photo || undefined}
+                      alt={t.author_name}
+                      name={t.author_name}
+                      fallback={t.author_name.split(" ").map((n) => n[0]).join("")}
+                    />
                     <div>
-                      <p className="text-sm font-normal">{t.author_name}</p>
-                      <p className="text-xs text-neutral-500">
+                      <Body size="sm">{t.author_name}</Body>
+                      <Body size="xs" variant="muted">
                         {t.author_role}{t.company && `, ${t.company}`}
-                      </p>
+                      </Body>
                     </div>
                   </div>
                 </CardContent>

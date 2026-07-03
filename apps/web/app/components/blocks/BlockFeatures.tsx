@@ -2,6 +2,7 @@ import type { PageBlock, BlockFeaturesData } from "~/types/content";
 import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
+import { Card, CardContent } from "~/components/ui/card";
 import { cn } from "~/lib/utils";
 
 export function BlockFeatures({ block }: { block: PageBlock }) {
@@ -27,10 +28,14 @@ export function BlockFeatures({ block }: { block: PageBlock }) {
           )}
         >
           {(data.features || []).map((feature, i) => (
-            <StaggerItem key={i} className="rounded-lg border bg-neutral-50 p-6">
-              {feature.icon && <div className="mb-4 text-3xl">{feature.icon}</div>}
-              <Heading as="h4" size="sm">{feature.title}</Heading>
-              <Body variant="muted" className="mt-2">{feature.description}</Body>
+            <StaggerItem key={i}>
+              <Card className="h-full">
+                <CardContent className="p-6">
+                  {feature.icon && <div className="mb-4 text-3xl">{feature.icon}</div>}
+                  <Heading as="h4" size="sm">{feature.title}</Heading>
+                  <Body variant="muted" className="mt-2">{feature.description}</Body>
+                </CardContent>
+              </Card>
             </StaggerItem>
           ))}
         </StaggerContainer>

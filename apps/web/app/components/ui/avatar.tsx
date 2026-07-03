@@ -1,20 +1,25 @@
-import * as React from "react";
 import BoringAvatar from "boring-avatars";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "~/lib/utils";
+import * as React from "react";
 import { avatarColors, avatarVariant } from "~/brand/avatar-colors";
+import { cn } from "~/lib/utils";
 
 const avatarVariants = cva(
   "relative inline-flex shrink-0 select-none items-center justify-center overflow-hidden rounded-full bg-neutral-100 font-medium text-neutral-600",
   {
     variants: {
-      size: { sm: "size-7 text-xs", md: "size-9 text-sm", lg: "size-12 text-base" },
+      size: {
+        sm: "size-7 text-xs",
+        md: "size-9 text-sm",
+        lg: "size-12 text-base",
+        xl: "size-24 text-2xl",
+      },
     },
     defaultVariants: { size: "md" },
-  }
+  },
 );
 
-const SIZE_PX = { sm: 28, md: 36, lg: 48 } as const;
+const SIZE_PX = { sm: 28, md: 36, lg: 48, xl: 96 } as const;
 
 export interface AvatarProps
   extends Omit<React.ComponentProps<"span">, "children">,
@@ -33,7 +38,15 @@ export interface AvatarProps
  * unless otherwise defined. Precedence: a real `src` image wins; then an
  * explicit `fallback` (initials); otherwise the generated avatar from `name`.
  */
-export function Avatar({ className, size = "md", src, alt = "", name, fallback, ...props }: AvatarProps) {
+export function Avatar({
+  className,
+  size = "md",
+  src,
+  alt = "",
+  name,
+  fallback,
+  ...props
+}: AvatarProps) {
   const [failed, setFailed] = React.useState(false);
   const px = SIZE_PX[size ?? "md"];
 
@@ -43,14 +56,35 @@ export function Avatar({ className, size = "md", src, alt = "", name, fallback, 
       <img src={src} alt={alt} className="size-full object-cover" onError={() => setFailed(true)} />
     );
   } else if (fallback) {
-    inner = <span aria-hidden>{fallback}</span>;
+    // Initials are presentational; the name (when known) is the accessible label.
+    inner = name ? (
+      <span role="img" aria-label={name}>
+        <span aria-hidden>{fallback}</span>
+      </span>
+    ) : (
+      <span aria-hidden>{fallback}</span>
+    );
   } else if (name) {
     // Default: boring-avatars, seeded by the name and themed by the brand palette.
-    inner = <BoringAvatar name={name} variant={avatarVariant} colors={avatarColors} size={px} />;
+    // The generated svg carries role="img" with no name — hide it, label the wrapper.
+    inner = (
+      <span role="img" aria-label={name} className="block size-full">
+        <span aria-hidden className="block size-full">
+          <BoringAvatar name={name} variant={avatarVariant} colors={avatarColors} size={px} />
+        </span>
+      </span>
+    );
   }
 
   return (
-    <span className={cn(avatarVariants({ size }), name && !src && !fallback && "bg-transparent", className)} {...props}>
+    <span
+      className={cn(
+        avatarVariants({ size }),
+        name && !src && !fallback && "bg-transparent",
+        className,
+      )}
+      {...props}
+    >
       {inner}
     </span>
   );

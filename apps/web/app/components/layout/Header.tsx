@@ -4,6 +4,9 @@ import { Menu, X, Sun, Moon } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { useTheme } from "./ThemeProvider";
 import { Tooltip } from "~/components/ui/tooltip";
+import { Button } from "~/components/ui/button";
+import { Container } from "~/components/ui/layout";
+import { Wordmark } from "~/components/common/Wordmark";
 
 const navItems = [
   { label: "About", href: "/about" },
@@ -18,10 +21,8 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-sticky w-full border-b bg-neutral-50/95 backdrop-blur supports-[backdrop-filter]:bg-neutral-50/60">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="font-display text-xl font-normal tracking-tight transition-opacity duration-200 hover:opacity-70 active:scale-[0.98]">
-          Starter
-        </Link>
+      <Container size="wide" className="flex h-16 items-center justify-between">
+        <Wordmark size="md" />
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-6 md:flex">
@@ -30,7 +31,7 @@ export function Header() {
               key={item.href}
               to={item.href}
               className={cn(
-                "text-sm font-medium transition-colors duration-200 hover:text-neutral-800/80 active:scale-[0.98]",
+                "rounded-sm text-sm font-medium transition-colors duration-200 hover:text-neutral-800/80 active:scale-[0.98] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
                 location.pathname.startsWith(item.href)
                   ? "text-neutral-800"
                   : "text-neutral-500"
@@ -40,54 +41,59 @@ export function Header() {
             </Link>
           ))}
           <Tooltip content={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="rounded-md p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
               aria-label={resolvedTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             >
               {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-            </button>
+            </Button>
           </Tooltip>
         </nav>
 
         {/* Mobile toggle */}
         <Tooltip content={mobileOpen ? "Close menu" : "Open menu"}>
-          <button
-            className="md:hidden rounded-md p-2 transition-all duration-200 hover:bg-neutral-100 active:scale-[0.95] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
           >
             {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+          </Button>
         </Tooltip>
-      </div>
+      </Container>
 
       {/* Mobile nav */}
       {mobileOpen && (
         <div className="border-t md:hidden">
-          <nav className="mx-auto max-w-7xl space-y-1 px-4 py-4">
-            {[...navItems, { label: "Design System", href: "/style-guide" }].map((item) => (
-              <Link
-                key={item.href}
-                to={item.href}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  "block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 active:scale-[0.98]",
-                  location.pathname.startsWith(item.href)
-                    ? "bg-neutral-100 text-neutral-800"
-                    : "text-neutral-500 hover:bg-neutral-100"
-                )}
+          <nav>
+            <Container size="wide" className="space-y-1 py-4">
+              {[...navItems, { label: "Design System", href: "/style-guide" }].map((item) => (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={cn(
+                    "block rounded-md px-3 py-2 text-base font-medium transition-colors duration-200 active:scale-[0.98] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
+                    location.pathname.startsWith(item.href)
+                      ? "bg-neutral-100 text-neutral-800"
+                      : "text-neutral-500 hover:bg-neutral-100"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <button
+                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-neutral-500 transition-colors duration-200 hover:bg-neutral-100 active:scale-[0.98] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
               >
-                {item.label}
-              </Link>
-            ))}
-            <button
-              onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-              className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-base font-medium text-neutral-500 transition-colors duration-200 hover:bg-neutral-100 active:scale-[0.98]"
-            >
-              {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}
-            </button>
+                {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {resolvedTheme === "dark" ? "Light mode" : "Dark mode"}
+              </button>
+            </Container>
           </nav>
         </div>
       )}

@@ -4,6 +4,7 @@ import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { Card, CardContent } from "~/components/ui/card";
+import { Avatar } from "~/components/ui/avatar";
 
 export function BlockTeam({ block, context }: { block: PageBlock; context?: BlockContext }) {
   const data = block.item as unknown as BlockTeamData;
@@ -26,17 +27,14 @@ export function BlockTeam({ block, context }: { block: PageBlock; context?: Bloc
             <StaggerItem key={member.id}>
               <Card className="text-center h-full">
                 <CardContent className="pt-8 pb-6">
-                  {member.photo ? (
-                    <img
-                      src={member.photo}
-                      alt={member.name}
-                      className="mx-auto mb-4 h-24 w-24 rounded-full object-cover"
-                    />
-                  ) : (
-                    <div className="mx-auto mb-4 h-24 w-24 rounded-full bg-primary/10 flex items-center justify-center text-2xl text-primary">
-                      {member.name.split(" ").map((n) => n[0]).join("")}
-                    </div>
-                  )}
+                  <Avatar
+                    size="xl"
+                    className="mx-auto mb-4"
+                    src={member.photo || undefined}
+                    alt={member.name}
+                    name={member.name}
+                    fallback={member.name.split(" ").map((n) => n[0]).join("")}
+                  />
                   <Heading as="h4" size="sm">{member.name}</Heading>
                   <Body size="sm" variant="muted">{member.role}</Body>
                   {member.bio && <Body size="sm" variant="muted" className="mt-3">{member.bio}</Body>}

@@ -1,6 +1,6 @@
 import type { PageBlock, BlockGalleryData } from "~/types/content";
 import { Container, Section } from "~/components/ui/layout";
-import { Heading } from "~/components/ui/typography";
+import { Heading, Body } from "~/components/ui/typography";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { cn } from "~/lib/utils";
 
@@ -35,7 +35,7 @@ export function BlockGallery({ block }: { block: PageBlock }) {
                   loading="lazy"
                 />
                 {img.caption && (
-                  <p className="mt-2 text-center text-sm text-neutral-500">{img.caption}</p>
+                  <Body size="sm" variant="muted" className="mt-2 text-center">{img.caption}</Body>
                 )}
               </div>
             </StaggerItem>

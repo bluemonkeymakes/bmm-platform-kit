@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 /**
@@ -27,6 +27,10 @@ const headingVariants = cva("font-display text-neutral-800", {
       default: "font-medium leading-tight",
       // Display: marketing treatment — tighter tracking, balanced wrap.
       display: "font-medium leading-none tracking-tight text-balance",
+      // Inverse: the display treatment for headings on brand-tone (inverted) sections.
+      inverse: "font-medium leading-none tracking-tight text-balance text-primary-foreground",
+      // Watermark: ghost display numerals/text — oversized backdrops (404 status, section numbers).
+      watermark: "font-medium leading-none tracking-tight text-neutral-500/20",
     },
   },
   defaultVariants: { size: "lg", variant: "default" },
@@ -60,6 +64,8 @@ const bodyVariants = cva("font-sans", {
       muted: "text-neutral-500 leading-normal",
       // Lead = the deck/subheader: lighter, roomier, balanced wrap.
       lead: "text-neutral-600 leading-relaxed text-pretty",
+      // Inverse: body copy on brand-tone (inverted) sections.
+      inverse: "text-primary-foreground/80 leading-normal",
     },
   },
   defaultVariants: { size: "base", variant: "default" },
@@ -76,7 +82,10 @@ export interface BodyProps
 export function Body({ as, size, variant, measure, className, ...props }: BodyProps) {
   const Comp = as ?? "p";
   return (
-    <Comp className={cn(bodyVariants({ size, variant }), measure && "max-w-[40.625rem]", className)} {...props} />
+    <Comp
+      className={cn(bodyVariants({ size, variant }), measure && "max-w-measure", className)}
+      {...props}
+    />
   );
 }
 
@@ -117,7 +126,7 @@ export function Code({ className, ...props }: React.ComponentPropsWithoutRef<"co
     <code
       className={cn(
         "font-inconsolata rounded bg-neutral-100 px-1.5 py-0.5 text-[0.9em] text-neutral-800",
-        className
+        className,
       )}
       {...props}
     />
@@ -145,10 +154,14 @@ const proseClass = cn(
   "[&_a]:text-primary [&_a]:underline [&_a]:underline-offset-2",
   "[&_strong]:text-neutral-800 [&_strong]:font-medium",
   "[&_code]:font-inconsolata [&_code]:rounded [&_code]:bg-neutral-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[0.9em]",
-  "[&_blockquote]:border-l-2 [&_blockquote]:border-neutral-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-neutral-600"
+  "[&_blockquote]:border-l-2 [&_blockquote]:border-neutral-200 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-neutral-600",
 );
 
 export function Prose({ children, className, html }: ProseProps) {
-  if (html) return <div className={cn(proseClass, className)} dangerouslySetInnerHTML={{ __html: html }} />;
+  if (html)
+    return (
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: explicit escape hatch for trusted, pre-rendered HTML (e.g. compiled markdown) — never pass user input
+      <div className={cn(proseClass, className)} dangerouslySetInnerHTML={{ __html: html }} />
+    );
   return <div className={cn(proseClass, className)}>{children}</div>;
 }
