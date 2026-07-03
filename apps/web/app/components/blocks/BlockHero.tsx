@@ -11,15 +11,16 @@ export function BlockHero({ block }: { block: PageBlock }) {
   const alignment = data.alignment || "left";
 
   return (
+    // min-h-[70vh]: viewport-relative hero height — no named step exists; rem steps can't express vh
     <section className="relative min-h-[70vh] flex items-center overflow-hidden">
       {data.image && (
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0">
           <img src={data.image} alt="" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-neutral-50/80 dark:bg-neutral-50/90" />
         </div>
       )}
 
-      <Container size="wide" className={cn("relative z-10 py-24 md:py-32", alignment === "center" && "text-center")}>
+      <Container size="wide" className={cn("relative z-raised py-24 md:py-32", alignment === "center" && "text-center")}>
         <FadeIn>
           {data.label && <Label as="p" size="md" className="mb-4">{data.label}</Label>}
           <Heading as="h1" size="2xl" variant="display" className="max-w-4xl">{data.title}</Heading>

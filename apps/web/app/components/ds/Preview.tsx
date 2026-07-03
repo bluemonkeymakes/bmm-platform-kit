@@ -1,6 +1,6 @@
-import { cn } from "~/lib/utils";
 import type { ReactNode } from "react";
 import { useTheme } from "~/components/layout/ThemeProvider";
+import { cn } from "~/lib/utils";
 
 interface PreviewProps {
   label: string;
@@ -15,9 +15,9 @@ export function Preview({ label, description, children, className, dark }: Previ
     <div className="rounded-xl border border-neutral-200 overflow-hidden">
       <div
         className={cn(
-          "flex items-center justify-center min-h-[7.5rem] p-8",
+          "flex items-center justify-center min-h-30 p-8",
           dark ? "bg-primary-900" : "bg-neutral-50",
-          className
+          className,
         )}
       >
         {children}
@@ -41,12 +41,17 @@ interface DualPreviewProps {
 }
 
 /**
- * Single preview panel that renders in the active theme (driven by the site
- * header dark-mode toggle via ThemeProvider). The `(theme) => …` render prop
- * receives the live resolved theme. Toggle the theme to see the other; we
- * don't show side-by-side.
+ * Single preview panel that renders in the active theme (driven by the header
+ * dark-mode toggle via theme context). The `(theme) => …` render prop still
+ * works — it just receives the live theme instead of being called for both.
+ * Toggle the theme to see the other; we don't show side-by-side.
  */
-export function DualPreview({ label, children, align = "start", minHeight = "8rem" }: DualPreviewProps) {
+export function DualPreview({
+  label,
+  children,
+  align = "start",
+  minHeight = "8rem",
+}: DualPreviewProps) {
   const { resolvedTheme } = useTheme();
   const content = typeof children === "function" ? children(resolvedTheme) : children;
 

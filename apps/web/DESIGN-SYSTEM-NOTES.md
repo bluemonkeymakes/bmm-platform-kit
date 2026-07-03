@@ -26,6 +26,16 @@ app/app.css            entry — chains the imports below
 upstream changes to the contract should be re-copied from the DS, and additions
 you need should be contributed upstream first (Design System Contribution SOP).
 
+**Last re-sync: DS commit `de3a7ff`.** That sync brought: two new z-ladder
+steps (`z-raised` 10 — content lifted above a decorative layer inside the same
+component; `z-tooltip` 75), the `scrollbar-app` thin-scrollbar utility for
+in-app scroll surfaces, `--container-measure` wired into `Container
+size="reading"` (`max-w-measure` replaces `max-w-[40.625rem]`), the shared
+`PageIntro` + `SpecimenSection` showcase primitives in `components/ds/` (every
+`/style-guide` route heads with them), a `CardTitle` size axis, and a stricter
+`lint:tokens` that now also flags Tailwind's **numeric `z-50`** (the whole
+numeric z scale is banned — named ladder steps only).
+
 ## Token migration map (what happened to the old shadcn aliases)
 
 The kit previously used shadcn-style semantic aliases. Those utilities no
@@ -53,8 +63,10 @@ any un-migrated snippet you paste in from an older shadcn-based project:
 | `shadow-xs` | `shadow-raised` | default Tailwind shadow ramp is **cleared** by the contract |
 | `shadow-md` / `shadow-lg` | `shadow-overlay` / `shadow-raised` | pick by intent: raised < overlay < modal |
 | `hover:shadow-xl` | `hover:shadow-overlay` | |
-| `z-50` (sticky header) | `z-sticky` | named z ladder: dropdown 30 · sticky 40 · overlay 50 · modal 60 · toast 70 · cursor 80 |
-| `z-50` (tooltip/popover) | `z-overlay` | |
+| `z-50` (sticky header) | `z-sticky` | named z ladder: raised 10 · dropdown 30 · sticky 40 · overlay 50 · modal 60 · toast 70 · tooltip 75 · cursor 80 |
+| `z-50` (popover) | `z-overlay` | |
+| `z-50` (tooltip) | `z-tooltip` | |
+| `z-10` (content above a decorative layer) | `z-raised` | |
 | `popover` tokens | dropped | were never used |
 
 Dark mode needs no `dark:` companion for surface classes — the neutral scale
@@ -124,11 +136,13 @@ everywhere). Destructive keeps the kit's original red: base `0 84% 60%` light /
 `0 63% 31%` dark (the DS runs `0 70% 50%` / `0 60% 55%`).
 **Handling:** none for info/success/warning. For destructive, only the dark
 *base role* diverges (darker buttons; white on 31% red ≈ 8:1). The dark
-**ramp stops** deliberately sit at DS-equivalent lightness — ported components
-pick `dark:destructive-300/400` for readable text reds, and anchoring the ramp
-to the darker base made those unreadable (~2:1) until repositioned. Lesson for
-future ramps: a brand may move the base role, but scale stops must keep the
-DS's perceptual positioning or verbatim-ported components break.
+**ramp stops** deliberately sit at DS-equivalent (inverted) lightness —
+anchoring the ramp to the darker base made text reds unreadable (~2:1) until
+repositioned. Since the `de3a7ff` sync, verbatim-ported components carry **no
+`dark:` feedback overrides at all** (e.g. RuleRow renders DON'T text as plain
+`text-destructive-700`, which the inverted dark ramp lightens to 72% L).
+Lesson for future ramps: a brand may move the base role, but scale stops must
+keep the DS's perceptual positioning or verbatim-ported components break.
 
 ### 6. Focus ring
 

@@ -4,6 +4,8 @@ import { Button } from "~/components/ui/button";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Inbox, Plus } from "lucide-react";
 
 export const handle = { title: "Empty State" };
@@ -16,12 +18,15 @@ export const meta: MetaFunction = () => [
 export default function ComponentsEmptyState() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Empty State</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          The "nothing here yet" surface. It names what's missing, says why, and offers a way forward.
-          A dashed border keeps it clearly provisional rather than a real container.
-        </p>
+      <PageIntro
+        title="Empty State"
+        blurb={
+          <>
+            The "nothing here yet" surface. It names what's missing, says why, and offers a way forward.
+            A dashed border keeps it clearly provisional rather than a real container.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { EmptyState } from "~/components/ui/empty-state";
@@ -34,10 +39,9 @@ export default function ComponentsEmptyState() {
 />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">With action</h3>
+      <SpecimenSection title="With action">
         <DualPreview minHeight="12rem">
           <EmptyState
             className="w-full max-w-md"
@@ -58,7 +62,7 @@ export default function ComponentsEmptyState() {
             { pass: false, text: "Don't use for errors — an empty state is calm, an error needs a different tone" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

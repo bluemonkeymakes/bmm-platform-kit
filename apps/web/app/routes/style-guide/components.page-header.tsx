@@ -5,6 +5,8 @@ import { Button } from "~/components/ui/button";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Plus, Settings } from "lucide-react";
 
 export const handle = { title: "Page Header" };
@@ -17,12 +19,10 @@ export const meta: MetaFunction = () => [
 export default function ComponentsPageHeader() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Page Header</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          The standard masthead for an app page: optional breadcrumbs, a title and description, and a
-          right-aligned actions slot that wraps below the title on narrow screens.
-        </p>
+      <PageIntro
+        title="Page Header"
+        blurb="The standard masthead for an app page: optional breadcrumbs, a title and description, and a right-aligned actions slot that wraps below the title on narrow screens."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { PageHeader } from "~/components/ui/page-header";
@@ -35,10 +35,9 @@ export default function ComponentsPageHeader() {
 />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Full masthead</h3>
+      <SpecimenSection title="Full masthead">
         <DualPreview minHeight="9rem">
           <div className="w-full">
             <PageHeader
@@ -69,7 +68,7 @@ export default function ComponentsPageHeader() {
             { pass: false, text: "Don't stack multiple headers or use on marketing pages — those use hero patterns" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

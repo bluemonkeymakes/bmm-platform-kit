@@ -3,6 +3,8 @@ import { StatCard } from "~/components/ui/stat-card";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Users, CreditCard, Activity } from "lucide-react";
 
 export const handle = { title: "Stat Card" };
@@ -15,12 +17,15 @@ export const meta: MetaFunction = () => [
 export default function ComponentsStatCard() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Stat Card</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A single KPI: label, big value, and an optional trend delta. The delta's sign drives both the
-          arrow and a success/destructive color — both from tokens. Rests at <code className="font-inconsolata text-primary">shadow-raised</code>.
-        </p>
+      <PageIntro
+        title="Stat Card"
+        blurb={
+          <>
+            A single KPI: label, big value, and an optional trend delta. The delta's sign drives both the
+            arrow and a success/destructive color — both from tokens. Rests at <code className="font-inconsolata text-primary">shadow-raised</code>.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { StatCard } from "~/components/ui/stat-card";
@@ -28,10 +33,9 @@ export default function ComponentsStatCard() {
 <StatCard label="Active users" value="12,480" icon={Users} delta={8.2} deltaLabel="vs last month" />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Grid</h3>
+      <SpecimenSection title="Grid">
         <DualPreview minHeight="8rem">
           <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-3">
             <StatCard label="Active users" value="12,480" icon={Users} delta={8.2} deltaLabel="vs last month" />
@@ -46,7 +50,7 @@ export default function ComponentsStatCard() {
             { pass: false, text: "Don't bury a call-to-action here — a stat card is read-only" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

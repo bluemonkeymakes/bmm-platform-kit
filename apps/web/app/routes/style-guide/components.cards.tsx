@@ -6,6 +6,8 @@ import { Badge } from "~/components/ui/badge";
 import { DualPreview } from "~/components/ds/Preview";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Cards" };
 
@@ -25,20 +27,21 @@ const slots = [
 export default function ComponentsCards() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Cards</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Composed from Card + Header / Title / Description / Content / Footer slots. The surface is{" "}
-          <code className="font-inconsolata text-primary">bg-neutral-50</code> +{" "}
-          <code className="font-inconsolata text-primary">border-neutral-200</code> +{" "}
-          <code className="font-inconsolata text-primary">shadow-raised</code> — the standard raised
-          surface. Title uses the display face; body uses sans.
-        </p>
-      </div>
+      <PageIntro
+        title="Cards"
+        blurb={
+          <>
+            Composed from Card + Header / Title / Description / Content / Footer slots. The surface is{" "}
+            <code className="font-inconsolata text-primary">bg-neutral-50</code> +{" "}
+            <code className="font-inconsolata text-primary">border-neutral-200</code> +{" "}
+            <code className="font-inconsolata text-primary">shadow-raised</code> — the standard raised
+            surface. Title uses the display face; body uses sans.
+          </>
+        }
+      />
 
       {/* Anatomy */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Anatomy</h3>
+      <SpecimenSection title="Anatomy">
         <DualPreview>
           <Card className="w-full max-w-sm">
             <CardHeader>
@@ -88,11 +91,51 @@ export default function ComponentsCards() {
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
+
+      {/* Title sizes */}
+      <SpecimenSection title="Title Sizes">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <DualPreview label={`size="default" — 2xl, standalone / anchor card`}>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle>Discovery Audit</CardTitle>
+                <CardDescription>The display step for a card that anchors a page.</CardDescription>
+              </CardHeader>
+            </Card>
+          </DualPreview>
+          <DualPreview label={`size="lg" — grid / listing cards`}>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle size="lg">Discovery Audit</CardTitle>
+                <CardDescription>The step article and listing grids use.</CardDescription>
+              </CardHeader>
+            </Card>
+          </DualPreview>
+          <DualPreview label={`size="base" — dense / compact contexts`}>
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle size="base">Discovery Audit</CardTitle>
+                <CardDescription>The compact step for dense grids and sidebars.</CardDescription>
+              </CardHeader>
+            </Card>
+          </DualPreview>
+        </div>
+        <CodeBlock
+          code={`<CardTitle>Anchor card</CardTitle>              // default — standalone, page-anchoring cards
+<CardTitle size="lg">Grid card</CardTitle>      // listing grids (e.g. ArticleCard)
+<CardTitle size="base">Dense card</CardTitle>   // compact grids, sidebars`}
+        />
+        <RuleList
+          rules={[
+            { pass: true, text: "Pick the size on the component — the size axis is the only sanctioned way to scale a card title" },
+            { pass: false, text: "Don't restyle with className=\"text-*\" at a call site — if a step is missing, add it to the axis" },
+          ]}
+        />
+      </SpecimenSection>
 
       {/* Partial composition */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Partial Composition</h3>
+      <SpecimenSection title="Partial Composition">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Slots are optional — a stat card may be Content-only, a link card Header-only. Skip slots, don't
           fake them with padding.
@@ -114,7 +157,7 @@ export default function ComponentsCards() {
             <Card variant="interactive" className="sm:col-span-2">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-base">Building Custom Content Blocks</CardTitle>
+                  <CardTitle size="base">Building Custom Content Blocks</CardTitle>
                   <ArrowRight className="size-4 text-neutral-500" />
                 </div>
                 <CardDescription>
@@ -124,11 +167,10 @@ export default function ComponentsCards() {
             </Card>
           </div>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Use the slots — Header/Title/Description/Content/Footer — not hand-rolled divs" },
@@ -139,7 +181,7 @@ export default function ComponentsCards() {
             { pass: false, text: "Don't override the card surface (bg, border color, shadow) at a call site" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

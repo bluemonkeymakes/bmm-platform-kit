@@ -3,6 +3,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Tabs" };
 
@@ -14,12 +16,10 @@ export const meta: MetaFunction = () => [
 export default function ComponentsTabs() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Tabs</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Radix Tabs in a segmented control. Switches between peer views in the same context — never
-          for navigation between pages. Active state, shadow, and surface all read from neutral tokens.
-        </p>
+      <PageIntro
+        title="Tabs"
+        blurb="Radix Tabs in a segmented control. Switches between peer views in the same context — never for navigation between pages. Active state, shadow, and surface all read from neutral tokens."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Tabs, TabsList, TabsTrigger, TabsContent } from "~/components/ui/tabs";
@@ -34,10 +34,9 @@ export default function ComponentsTabs() {
 </Tabs>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Default</h3>
+      <SpecimenSection title="Default">
         <DualPreview align="center" minHeight="9rem">
           <Tabs defaultValue="overview" className="w-full max-w-md">
             <TabsList>
@@ -63,7 +62,7 @@ export default function ComponentsTabs() {
             { pass: false, text: "Don't use for page navigation or multi-step flows — use links / a stepper" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

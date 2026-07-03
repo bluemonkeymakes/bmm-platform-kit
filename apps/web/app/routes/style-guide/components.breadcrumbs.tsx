@@ -3,6 +3,8 @@ import { Breadcrumbs } from "~/components/ui/breadcrumbs";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Breadcrumbs" };
 
@@ -14,12 +16,10 @@ export const meta: MetaFunction = () => [
 export default function ComponentsBreadcrumbs() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Breadcrumbs</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A trail showing where the current page sits in the hierarchy. Ancestors are links; the last
-          item is the current page — emphasized and not a link. Chevron separators from tokens.
-        </p>
+      <PageIntro
+        title="Breadcrumbs"
+        blurb="A trail showing where the current page sits in the hierarchy. Ancestors are links; the last item is the current page — emphasized and not a link. Chevron separators from tokens."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Breadcrumbs } from "~/components/ui/breadcrumbs";
@@ -31,10 +31,9 @@ export default function ComponentsBreadcrumbs() {
 ]} />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Trail</h3>
+      <SpecimenSection title="Trail">
         <DualPreview align="center" minHeight="4rem">
           <Breadcrumbs
             items={[
@@ -51,7 +50,7 @@ export default function ComponentsBreadcrumbs() {
             { pass: false, text: "Don't use for flat sites or linear flows — there's nothing to trace" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

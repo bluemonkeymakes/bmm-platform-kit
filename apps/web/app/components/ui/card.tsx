@@ -35,9 +35,25 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 );
 CardHeader.displayName = "CardHeader";
 
-const CardTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cn("font-display text-2xl font-normal leading-none tracking-tight", className)} {...props} />
+const cardTitleVariants = cva("font-display font-normal leading-none tracking-tight", {
+  variants: {
+    size: {
+      // default matches the treatment the title has always rendered at
+      default: "text-2xl",
+      lg: "text-lg", // grid / listing cards (e.g. ArticleCard)
+      base: "text-base", // dense contexts — compact grids, sidebars
+    },
+  },
+  defaultVariants: { size: "default" },
+});
+
+export interface CardTitleProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    VariantProps<typeof cardTitleVariants> {}
+
+const CardTitle = React.forwardRef<HTMLDivElement, CardTitleProps>(
+  ({ className, size, ...props }, ref) => (
+    <div ref={ref} className={cn(cardTitleVariants({ size }), className)} {...props} />
   )
 );
 CardTitle.displayName = "CardTitle";

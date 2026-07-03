@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 export interface PageHeaderProps extends React.ComponentProps<"div"> {
@@ -19,7 +19,10 @@ export function PageHeader({
   ...props
 }: PageHeaderProps) {
   return (
-    <div className={cn("flex flex-col gap-4 border-b border-neutral-200 pb-5", className)} {...props}>
+    <div
+      className={cn("flex flex-col gap-4 border-b border-neutral-200 pb-5", className)}
+      {...props}
+    >
       {breadcrumbs}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">

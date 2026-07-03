@@ -3,6 +3,8 @@ import { Badge } from "~/components/ui/badge";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Badges" };
 
@@ -57,12 +59,10 @@ const variants = [
 export default function ComponentsBadges() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Badges</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          CVA-based with four named variants. Rounded-full, text-xs, semibold — a compact status or
-          category marker, never an interactive control.
-        </p>
+      <PageIntro
+        title="Badges"
+        blurb="CVA-based with four named variants. Rounded-full, text-xs, semibold — a compact status or category marker, never an interactive control."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Badge } from "~/components/ui/badge";
@@ -70,11 +70,10 @@ export default function ComponentsBadges() {
 <Badge variant="secondary">Tutorial</Badge>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
       {/* Variants */}
-      <section className="space-y-8">
-        <h3 className="text-base font-medium font-display text-neutral-800">Variants</h3>
+      <SpecimenSection title="Variants" className="space-y-8">
         {variants.map(({ variant, label, shortDesc, rules }) => (
           <div key={variant} className="space-y-3">
             <div>
@@ -87,11 +86,10 @@ export default function ComponentsBadges() {
             <RuleList rules={rules} />
           </div>
         ))}
-      </section>
+      </SpecimenSection>
 
       {/* In context */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">In Context</h3>
+      <SpecimenSection title="In Context">
         <DualPreview label="Mixed variants in a data row">
           <div className="flex flex-wrap gap-2 items-center">
             <Badge variant="default">Featured</Badge>
@@ -101,11 +99,10 @@ export default function ComponentsBadges() {
             <Badge variant="destructive">Deprecated</Badge>
           </div>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
       {/* Usage reference table */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Usage Reference</h3>
+      <SpecimenSection title="Usage Reference">
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -137,7 +134,7 @@ export default function ComponentsBadges() {
             { pass: false, text: "Don't restyle a badge at the call site — if a status color is missing, add a variant" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

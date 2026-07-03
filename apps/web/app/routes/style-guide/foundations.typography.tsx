@@ -1,6 +1,8 @@
 import type { MetaFunction } from "react-router";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Heading, Body, Label, Code, Prose } from "~/components/ui/typography";
 
 export const handle = { title: "Typography" };
@@ -59,22 +61,23 @@ const rawSteps = [
 export default function FoundationsTypography() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-14">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Typography</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Three families, one job each. Routes and blocks consume type through the components in{" "}
-          <code className="font-inconsolata text-primary">~/components/ui/typography</code> — Heading,
-          Body, Label, Code, and Prose — never raw heading tags. <code className="font-inconsolata text-primary">as</code>{" "}
-          sets semantics, <code className="font-inconsolata text-primary">size</code> sets the visual step, and weight is
-          a <code className="font-inconsolata text-primary">variant</code>, never a prop. Faces are the swap surface:
-          change <code className="font-inconsolata text-primary">app/brand/fonts.css</code> and the whole ladder
-          re-typefaces.
-        </p>
-      </div>
+      <PageIntro
+        title="Typography"
+        blurb={
+          <>
+            Three families, one job each. Routes and blocks consume type through the components in{" "}
+            <code className="font-inconsolata text-primary">~/components/ui/typography</code> — Heading,
+            Body, Label, Code, and Prose — never raw heading tags. <code className="font-inconsolata text-primary">as</code>{" "}
+            sets semantics, <code className="font-inconsolata text-primary">size</code> sets the visual step, and weight is
+            a <code className="font-inconsolata text-primary">variant</code>, never a prop. Faces are the swap surface:
+            change <code className="font-inconsolata text-primary">app/brand/fonts.css</code> and the whole ladder
+            re-typefaces.
+          </>
+        }
+      />
 
       {/* Families */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Families</h3>
+      <SpecimenSection title="Families">
         <div className="grid grid-cols-1 gap-4">
           {families.map(({ name, role, cls, sample, note }) => (
             <div key={name} className="rounded-xl border border-neutral-200 p-5">
@@ -89,11 +92,10 @@ export default function FoundationsTypography() {
             </div>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Heading scale */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Heading</h3>
+      <SpecimenSection title="Heading">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Seven visual steps, decoupled from the semantic tag. Pick the tag with{" "}
           <code className="font-inconsolata text-primary">as</code> for document order, the step with{" "}
@@ -118,11 +120,10 @@ export default function FoundationsTypography() {
 <Body size="lg" variant="lead" className="mt-4">One supporting sentence.</Body>
 <Heading as="h2" size="xl" variant="display">Section title</Heading>`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Body ladder */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Body & Meta</h3>
+      <SpecimenSection title="Body & Meta">
         <div className="rounded-xl border border-neutral-200 px-5 divide-y divide-neutral-200">
           <div className="py-4">
             <Label as="p" size="md">Section Label</Label>
@@ -151,11 +152,10 @@ export default function FoundationsTypography() {
             <Body size="sm" variant="muted" className="mt-1">Code — mono · 0.9em · bg-neutral-100 · rounded</Body>
           </div>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Raw scale */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Raw Scale Reference</h3>
+      <SpecimenSection title="Raw Scale Reference">
         <p className="text-xs text-neutral-500 max-w-2xl">
           The named steps behind the components — the only sizes that exist. If a step is missing, it gets
           added to <code className="font-inconsolata text-primary">app/system/theme.css</code> (that's how{" "}
@@ -171,11 +171,10 @@ export default function FoundationsTypography() {
             </div>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Prose */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Prose</h3>
+      <SpecimenSection title="Prose">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Wraps rich/CMS/markdown content you can't compose element-by-element — article bodies, block
           content fields. Its own READING scale: larger body, generous leading, capped at a 68ch measure,
@@ -197,11 +196,10 @@ export default function FoundationsTypography() {
         </div>
         <CodeBlock code={`<Prose html={article.content} />   // CMS / rich text
 <Prose>{children}</Prose>           // composed`} />
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Compose pages from the typography components — Heading, Body, Label, Code" },
@@ -213,7 +211,7 @@ export default function FoundationsTypography() {
             { pass: false, text: "Don't use text-2xs in production UI — it exists for style-guide meta only" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

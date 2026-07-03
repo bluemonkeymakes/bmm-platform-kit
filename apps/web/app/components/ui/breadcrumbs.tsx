@@ -1,5 +1,5 @@
-import * as React from "react";
 import { ChevronRight } from "lucide-react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 export interface Crumb {
@@ -19,6 +19,7 @@ export function Breadcrumbs({ items, className, ...props }: BreadcrumbsProps) {
         {items.map((item, i) => {
           const last = i === items.length - 1;
           return (
+            // biome-ignore lint/suspicious/noArrayIndexKey: a trail is positional by definition — items never reorder, and labels may legitimately repeat
             <li key={i} className="flex items-center gap-1.5">
               {item.href && !last ? (
                 <a

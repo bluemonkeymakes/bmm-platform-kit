@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 export interface FormFieldProps extends React.ComponentProps<"div"> {
@@ -33,12 +33,13 @@ export function FormField({
           className="block font-inconsolata text-xs font-medium uppercase tracking-wider text-neutral-500"
         >
           {label}
-          {required && <span className="text-destructive"> *</span>}
+          {/* dark: base --destructive is a button fill, too dim as dark-mode text */}
+          {required && <span className="text-destructive dark:text-destructive-700"> *</span>}
         </label>
       )}
       {children}
       {error ? (
-        <p className="text-xs text-destructive">{error}</p>
+        <p className="text-xs text-destructive dark:text-destructive-700">{error}</p>
       ) : description ? (
         <p className="text-xs text-neutral-500">{description}</p>
       ) : null}

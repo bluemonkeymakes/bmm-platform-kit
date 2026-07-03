@@ -17,6 +17,8 @@ import { Icon } from "~/components/ui/icon";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Icons" };
 
@@ -58,20 +60,21 @@ const lucideSet = [
 export default function FoundationsIcons() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Icons</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          One library, one job. <code className="font-inconsolata text-primary">lucide-react</code> is
-          the UI set — consistent 2px stroke, sized with Tailwind{" "}
-          <code className="font-inconsolata text-primary">size-*</code> utilities or, for standalone
-          icons, the <code className="font-inconsolata text-primary">Icon</code> wrapper. Color always
-          inherits via <code className="font-inconsolata">currentColor</code>.
-        </p>
-      </div>
+      <PageIntro
+        title="Icons"
+        blurb={
+          <>
+            One library, one job. <code className="font-inconsolata text-primary">lucide-react</code> is
+            the UI set — consistent 2px stroke, sized with Tailwind{" "}
+            <code className="font-inconsolata text-primary">size-*</code> utilities or, for standalone
+            icons, the <code className="font-inconsolata text-primary">Icon</code> wrapper. Color always
+            inherits via <code className="font-inconsolata">currentColor</code>.
+          </>
+        }
+      />
 
       {/* Icon component */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">The Icon Component</h3>
+      <SpecimenSection title="The Icon Component">
         <p className="text-xs text-neutral-500 max-w-2xl">
           For a standalone icon, the <code className="font-inconsolata text-primary">Icon</code> wrapper
           caps sizing to four presets (16 / 20 / 24 / 32) so icons stay on a rhythm — constraint over a
@@ -99,11 +102,10 @@ import { Bell } from "lucide-react";
 
 <Icon icon={Bell} size="md" className="text-primary" />`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Raw sizing */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Raw Sizing</h3>
+      <SpecimenSection title="Raw Sizing">
         <p className="text-xs text-neutral-500 max-w-2xl">
           When an icon sits inside a component slot, size it with{" "}
           <code className="font-inconsolata text-primary">size-*</code> (rem-based), never width/height
@@ -134,11 +136,10 @@ import { Bell } from "lucide-react";
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Lucide set */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">UI Icons — lucide-react</h3>
+      <SpecimenSection title="UI Icons — lucide-react">
         <p className="text-xs text-neutral-500 max-w-2xl">
           A sample of the working set. Import the specific glyph — the library is tree-shakeable, so
           only what you import ships.
@@ -159,11 +160,10 @@ import { Bell } from "lucide-react";
 
 <Search className="size-4 text-neutral-500" />`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Guidance</h3>
+      <SpecimenSection title="Guidance">
         <RuleList
           rules={[
             { pass: true, text: "Use lucide for all interface icons — one consistent stroke weight" },
@@ -175,7 +175,7 @@ import { Bell } from "lucide-react";
             { pass: false, text: "Don't hard-code an icon color — it won't follow dark mode" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
+import * as React from "react";
 import { cn } from "~/lib/utils";
 
 const Popover = PopoverPrimitive.Root;
@@ -20,7 +20,7 @@ const PopoverContent = React.forwardRef<
         "z-dropdown w-72 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-neutral-800 shadow-overlay outline-none",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        className
+        className,
       )}
       {...props}
     />
@@ -28,4 +28,4 @@ const PopoverContent = React.forwardRef<
 ));
 PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent };
+export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger };

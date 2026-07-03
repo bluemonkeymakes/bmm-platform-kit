@@ -5,6 +5,8 @@ import { Button } from "~/components/ui/button";
 import { DualPreview, type DualChildren } from "~/components/ds/Preview";
 import { RuleList, type Rule } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Buttons" };
 
@@ -54,14 +56,17 @@ function LoadingDemo() {
 export default function ComponentsButtons() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Buttons</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          CVA-based with named variants only. Seven variants × four sizes, a built-in{" "}
-          <code className="font-inconsolata text-primary">loading</code> prop, and{" "}
-          <code className="font-inconsolata text-primary">asChild</code> for link buttons. All states are
-          defined in the component — call sites pick a variant and pass layout classes only.
-        </p>
+      <PageIntro
+        title="Buttons"
+        blurb={
+          <>
+            CVA-based with named variants only. Seven variants × four sizes, a built-in{" "}
+            <code className="font-inconsolata text-primary">loading</code> prop, and{" "}
+            <code className="font-inconsolata text-primary">asChild</code> for link buttons. All states are
+            defined in the component — call sites pick a variant and pass layout classes only.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Button } from "~/components/ui/button";
@@ -70,11 +75,10 @@ export default function ComponentsButtons() {
 <Button variant="outline" asChild><Link to="/about">Learn more</Link></Button>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
       {/* Variants */}
-      <section className="space-y-8">
-        <h3 className="text-base font-medium font-display text-neutral-800">Variants</h3>
+      <SpecimenSection title="Variants" className="space-y-8">
 
         <VariantSection
           label="Default"
@@ -172,11 +176,10 @@ export default function ComponentsButtons() {
         >
           <Button variant="cta" size="lg">Get started</Button>
         </VariantSection>
-      </section>
+      </SpecimenSection>
 
       {/* Sizes */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Sizes</h3>
+      <SpecimenSection title="Sizes">
         <p className="text-xs text-neutral-500">
           Three text sizes plus a square icon size. Default covers most contexts; lg for heroes; sm for
           dense rows and toolbars.
@@ -192,11 +195,10 @@ export default function ComponentsButtons() {
             </DualPreview>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Icon buttons */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Icon Buttons</h3>
+      <SpecimenSection title="Icon Buttons">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <DualPreview label='size="icon" — square, no padding' align="center" minHeight="4rem">
             <div className="flex gap-2">
@@ -211,11 +213,10 @@ export default function ComponentsButtons() {
             </div>
           </DualPreview>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* States */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">States</h3>
+      <SpecimenSection title="States">
         <p className="text-xs text-neutral-500">
           Hover, active press (scale 0.98), focus ring, disabled, and loading are all defined in the
           component. The <code className="font-inconsolata text-primary">loading</code> prop disables the
@@ -230,7 +231,7 @@ export default function ComponentsButtons() {
           </DualPreview>
         </div>
         <CodeBlock code={`<Button loading={isSubmitting}>Send message</Button>`} />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

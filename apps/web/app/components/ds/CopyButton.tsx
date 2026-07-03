@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Check, Copy } from "lucide-react";
-import { cn } from "~/lib/utils";
+import { useState } from "react";
 import { useCopyToast } from "~/components/ds/CopyToast";
+import { cn } from "~/lib/utils";
 
 interface CopyButtonProps {
   value: string;
@@ -31,8 +31,8 @@ export function CopyButton({ value, label, className }: CopyButtonProps) {
       aria-label={copied ? "Copied" : `Copy ${label ?? value}`}
       title={copied ? "Copied" : "Copy"}
       className={cn(
-        "inline-flex items-center justify-center rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-800 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
-        className
+        "inline-flex items-center justify-center rounded-md p-1.5 text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-800 outline-none focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        className,
       )}
     >
       {copied ? <Check className="size-3.5 text-success-500" /> : <Copy className="size-3.5" />}

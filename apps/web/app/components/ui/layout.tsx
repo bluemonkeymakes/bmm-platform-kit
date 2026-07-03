@@ -1,5 +1,5 @@
-import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 /**
@@ -13,7 +13,7 @@ import { cn } from "~/lib/utils";
 const containerVariants = cva("mx-auto w-full px-6", {
   variants: {
     size: {
-      reading: "max-w-[40.625rem]", // 650px — prose measure
+      reading: "max-w-measure", // 650px — prose measure (--container-measure)
       narrow: "max-w-3xl", // 768px
       standard: "max-w-5xl", // 1024px
       wide: "max-w-6xl", // 1152px
@@ -40,14 +40,20 @@ export interface HalfContainerProps extends React.HTMLAttributes<HTMLDivElement>
   size?: VariantProps<typeof containerVariants>["size"];
 }
 
-export function HalfContainer({ align = "start", size = "standard", className, children, ...props }: HalfContainerProps) {
+export function HalfContainer({
+  align = "start",
+  size = "standard",
+  className,
+  children,
+  ...props
+}: HalfContainerProps) {
   return (
     <div className={cn(containerVariants({ size }))}>
       <div
         className={cn(
           "lg:w-1/2",
           align === "start" ? "lg:pr-10" : "lg:ml-auto lg:pl-10",
-          className
+          className,
         )}
         {...props}
       >

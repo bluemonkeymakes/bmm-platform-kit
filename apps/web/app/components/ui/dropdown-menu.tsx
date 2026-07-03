@@ -1,6 +1,6 @@
-import * as React from "react";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { Check } from "lucide-react";
+import * as React from "react";
 import { cn } from "~/lib/utils";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
@@ -20,7 +20,7 @@ const DropdownMenuContent = React.forwardRef<
         "z-dropdown min-w-48 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-1 text-neutral-800 shadow-overlay",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
-        className
+        className,
       )}
       {...props}
     />
@@ -39,7 +39,7 @@ const DropdownMenuItem = React.forwardRef<
       "focus:bg-neutral-100 focus:text-neutral-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       "[&_svg]:size-4 [&_svg]:shrink-0 [&_svg]:text-neutral-500",
       inset && "pl-8",
-      className
+      className,
     )}
     {...props}
   />
@@ -56,7 +56,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     className={cn(
       "relative flex cursor-pointer select-none items-center rounded-md py-1.5 pl-8 pr-2 text-sm outline-none transition-colors",
       "focus:bg-neutral-100 focus:text-neutral-800 data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className
+      className,
     )}
     {...props}
   >
@@ -78,7 +78,7 @@ const DropdownMenuLabel = React.forwardRef<
     ref={ref}
     className={cn(
       "px-2 py-1.5 font-inconsolata text-xs font-medium uppercase tracking-wider text-neutral-500",
-      className
+      className,
     )}
     {...props}
   />
@@ -99,11 +99,11 @@ DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName;
 
 export {
   DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuGroup,
-  DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 };

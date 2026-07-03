@@ -4,6 +4,8 @@ import { Button } from "~/components/ui/button";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Toast" };
 
@@ -17,13 +19,16 @@ export default function ComponentsToast() {
 
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Toast</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Transient, non-blocking feedback via the <code className="font-inconsolata text-primary">useToast()</code>{" "}
-          hook. Five semantic variants, each drawing its accent from the palette so a brand change
-          re-skins them. Auto-dismisses; stacks bottom-right. Provider mounted at the root.
-        </p>
+      <PageIntro
+        title="Toast"
+        blurb={
+          <>
+            Transient, non-blocking feedback via the <code className="font-inconsolata text-primary">useToast()</code>{" "}
+            hook. Five semantic variants, each drawing its accent from the palette so a brand change
+            re-skins them. Auto-dismisses; stacks bottom-right. Provider mounted at the root.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { useToast } from "~/components/ui/toast";
@@ -32,10 +37,9 @@ const { toast } = useToast();
 toast({ title: "Saved", description: "Your changes are live.", variant: "success" });`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Variants</h3>
+      <SpecimenSection title="Variants">
         <DualPreview align="center" minHeight="6rem">
           <div className="flex flex-wrap justify-center gap-2">
             <Button
@@ -89,10 +93,9 @@ toast({ title: "Saved", description: "Your changes are live.", variant: "success
             { pass: false, text: "Don't use for decisions that need a response — use a Dialog" },
           ]}
         />
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Duration</h3>
+      <SpecimenSection title="Duration">
         <p className="text-xs text-neutral-500">
           Toasts auto-dismiss after 4 seconds by default. Pass{" "}
           <code className="font-inconsolata text-primary">duration</code> in milliseconds to change it, or{" "}
@@ -123,7 +126,7 @@ toast({ title: "Saved", description: "Your changes are live.", variant: "success
           </div>
         </DualPreview>
         <CodeBlock code={`toast({ title: "Sticky", variant: "info", duration: 0 }); // 0 = until dismissed`} />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

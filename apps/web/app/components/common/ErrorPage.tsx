@@ -15,6 +15,7 @@ export function ErrorPage({
   description,
 }: ErrorPageProps) {
   return (
+    // min-h-[60vh]: viewport-relative error-page height — no named step exists; rem steps can't express vh
     <Container size="wide" className="flex min-h-[60vh] flex-col items-center justify-center text-center">
       <Heading as="p" size="4xl" variant="watermark">{status}</Heading>
       <Heading as="h1" size="2xl" variant="display" className="mt-4">{title}</Heading>

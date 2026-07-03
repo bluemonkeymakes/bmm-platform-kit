@@ -3,6 +3,8 @@ import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Radio Group" };
 
@@ -20,12 +22,10 @@ const options = [
 export default function ComponentsRadioGroup() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Radio Group</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A single choice from a small, visible set. Radix handles roving focus and arrow-key
-          navigation; the dot and ring read from tokens. For more than a handful of options, use a Select.
-        </p>
+      <PageIntro
+        title="Radio Group"
+        blurb="A single choice from a small, visible set. Radix handles roving focus and arrow-key navigation; the dot and ring read from tokens. For more than a handful of options, use a Select."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
@@ -36,10 +36,9 @@ export default function ComponentsRadioGroup() {
 </RadioGroup>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Choose a stack</h3>
+      <SpecimenSection title="Choose a stack">
         <DualPreview minHeight="9rem">
           <RadioGroup defaultValue="medusa" className="w-full max-w-sm">
             {options.map((o) => (
@@ -64,7 +63,7 @@ export default function ComponentsRadioGroup() {
             { pass: false, text: "Don't use for many options or multi-select — that's a Select or checkboxes" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

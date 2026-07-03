@@ -1,7 +1,7 @@
-import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
 import { X } from "lucide-react";
+import * as React from "react";
 import { cn } from "~/lib/utils";
 
 /** Side panel built on the Dialog primitive — same a11y, slides in from an edge. */
@@ -19,7 +19,7 @@ const SheetOverlay = React.forwardRef<
     className={cn(
       "fixed inset-0 z-overlay bg-neutral-900/50 backdrop-blur-sm",
       "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
-      className
+      className,
     )}
     {...props}
   />
@@ -40,7 +40,7 @@ const sheetVariants = cva(
       },
     },
     defaultVariants: { side: "right" },
-  }
+  },
 );
 
 interface SheetContentProps
@@ -88,17 +88,21 @@ const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>
 >(({ className, ...props }, ref) => (
-  <SheetPrimitive.Description ref={ref} className={cn("text-sm text-neutral-500", className)} {...props} />
+  <SheetPrimitive.Description
+    ref={ref}
+    className={cn("text-sm text-neutral-500", className)}
+    {...props}
+  />
 ));
 SheetDescription.displayName = SheetPrimitive.Description.displayName;
 
 export {
   Sheet,
-  SheetTrigger,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetFooter,
-  SheetTitle,
   SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 };

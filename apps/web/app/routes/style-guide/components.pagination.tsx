@@ -4,6 +4,8 @@ import { Pagination } from "~/components/ui/pagination";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Pagination" };
 
@@ -17,12 +19,10 @@ export default function ComponentsPagination() {
 
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Pagination</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A controlled pager. First, last, and the current page ±1 are always shown; the rest collapse
-          to ellipses, so the control stays a fixed width however many pages there are.
-        </p>
+      <PageIntro
+        title="Pagination"
+        blurb="A controlled pager. First, last, and the current page ±1 are always shown; the rest collapse to ellipses, so the control stays a fixed width however many pages there are."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Pagination } from "~/components/ui/pagination";
@@ -31,12 +31,9 @@ const [page, setPage] = useState(1);
 <Pagination page={page} pageCount={12} onPageChange={setPage} />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">
-          Interactive — page {page} of 12
-        </h3>
+      <SpecimenSection title={<>Interactive — page {page} of 12</>}>
         <DualPreview align="center" minHeight="5rem">
           <Pagination page={page} pageCount={12} onPageChange={setPage} />
         </DualPreview>
@@ -47,7 +44,7 @@ const [page, setPage] = useState(1);
             { pass: false, text: "Don't use for endless feeds — infinite scroll or 'load more' fits better there" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

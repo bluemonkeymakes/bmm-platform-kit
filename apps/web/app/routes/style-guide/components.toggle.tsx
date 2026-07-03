@@ -4,6 +4,8 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight } from "lucide-react";
 
 export const handle = { title: "Toggle" };
@@ -16,13 +18,16 @@ export const meta: MetaFunction = () => [
 export default function ComponentsToggle() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Toggle</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A button with an on/off state, and a <code className="font-inconsolata text-primary">ToggleGroup</code>{" "}
-          for a segmented set (single- or multi-select). The pressed state uses a primary tint. Pair
-          icon-only toggles with an aria-label.
-        </p>
+      <PageIntro
+        title="Toggle"
+        blurb={
+          <>
+            A button with an on/off state, and a <code className="font-inconsolata text-primary">ToggleGroup</code>{" "}
+            for a segmented set (single- or multi-select). The pressed state uses a primary tint. Pair
+            icon-only toggles with an aria-label.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Toggle } from "~/components/ui/toggle";
@@ -36,10 +41,9 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 </ToggleGroup>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Single toggles</h3>
+      <SpecimenSection title="Single toggles">
         <DualPreview align="center" minHeight="5rem">
           <div className="flex items-center gap-2">
             <Toggle aria-label="Bold">
@@ -52,10 +56,9 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
             <Toggle defaultPressed>On by default</Toggle>
           </div>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Sizes</h3>
+      <SpecimenSection title="Sizes">
         <p className="text-xs text-neutral-500">
           Three sizes — sm for dense toolbars, default for most contexts, lg where the toggle is the
           main control. ToggleGroup passes its size down to every item.
@@ -73,10 +76,9 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
             </Toggle>
           </div>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Toggle group</h3>
+      <SpecimenSection title="Toggle group">
         <DualPreview align="center" minHeight="5rem">
           <div className="flex flex-wrap items-center gap-6">
             <ToggleGroup type="single" defaultValue="left" aria-label="Text alignment">
@@ -110,7 +112,7 @@ import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
             { pass: false, text: "Don't use a toggle where a Switch (settings) or Checkbox (forms) is clearer" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

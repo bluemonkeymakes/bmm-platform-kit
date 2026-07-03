@@ -6,6 +6,8 @@ import { Select } from "~/components/ui/select";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Form Field" };
 
@@ -17,13 +19,16 @@ export const meta: MetaFunction = () => [
 export default function ComponentsFormField() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Form Field</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A wrapper that lays out a label, a control, and a single hint or error line. It's deliberately
-          library-agnostic — it owns no form state, so it pairs with any input and any form library.
-          When <code className="font-inconsolata text-primary">error</code> is set it replaces the description.
-        </p>
+      <PageIntro
+        title="Form Field"
+        blurb={
+          <>
+            A wrapper that lays out a label, a control, and a single hint or error line. It's deliberately
+            library-agnostic — it owns no form state, so it pairs with any input and any form library.
+            When <code className="font-inconsolata text-primary">error</code> is set it replaces the description.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { FormField } from "~/components/ui/form-field";
@@ -37,10 +42,9 @@ export default function ComponentsFormField() {
 </FormField>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">A small form</h3>
+      <SpecimenSection title="A small form">
         <DualPreview minHeight="16rem">
           <div className="w-full max-w-sm space-y-5">
             <FormField label="Project name" htmlFor="ff-name" description="Lowercase, no spaces.">
@@ -67,7 +71,7 @@ export default function ComponentsFormField() {
             { pass: false, text: "Don't reach past it to style labels/errors per-field — that's the drift it prevents" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

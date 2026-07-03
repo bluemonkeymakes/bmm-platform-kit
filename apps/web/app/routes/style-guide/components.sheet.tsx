@@ -15,6 +15,8 @@ import { Input } from "~/components/ui/input";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Sheet" };
 
@@ -28,13 +30,16 @@ const sides = ["left", "right", "top", "bottom"] as const;
 export default function ComponentsSheet() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Sheet</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          A panel that slides in from an edge, built on the Dialog primitive — so it traps focus and
-          dims the page the same way. Good for filters, detail views, and side forms that shouldn't
-          take over the whole screen. Four sides; rests at <code className="font-inconsolata text-primary">shadow-modal</code>.
-        </p>
+      <PageIntro
+        title="Sheet"
+        blurb={
+          <>
+            A panel that slides in from an edge, built on the Dialog primitive — so it traps focus and
+            dims the page the same way. Good for filters, detail views, and side forms that shouldn't
+            take over the whole screen. Four sides; rests at <code className="font-inconsolata text-primary">shadow-modal</code>.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Sheet, SheetTrigger, SheetContent, SheetHeader, SheetTitle } from "~/components/ui/sheet";
@@ -48,10 +53,9 @@ export default function ComponentsSheet() {
 </Sheet>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">From any edge</h3>
+      <SpecimenSection title="From any edge">
         <DualPreview align="center" minHeight="6rem">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {sides.map((side) => (
@@ -94,7 +98,7 @@ export default function ComponentsSheet() {
             { pass: false, text: "Don't use for a quick confirmation (Dialog) or a small anchored menu (Popover)" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

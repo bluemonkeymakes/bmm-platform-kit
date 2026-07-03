@@ -13,6 +13,8 @@ import { Button } from "~/components/ui/button";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Settings, User, LogOut, ChevronDown } from "lucide-react";
 
 export const handle = { title: "Dropdown Menu" };
@@ -58,12 +60,10 @@ function AccountMenuDemo() {
 export default function ComponentsDropdownMenu() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Dropdown Menu</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Radix DropdownMenu for action and option lists triggered by a control. Supports items,
-          labels, separators, and checkbox items. Hover/focus, surface, and icon colour are tokenised.
-        </p>
+      <PageIntro
+        title="Dropdown Menu"
+        blurb="Radix DropdownMenu for action and option lists triggered by a control. Supports items, labels, separators, and checkbox items. Hover/focus, surface, and icon colour are tokenised."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
@@ -79,10 +79,9 @@ export default function ComponentsDropdownMenu() {
 </DropdownMenu>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Account menu</h3>
+      <SpecimenSection title="Account menu">
         <DualPreview align="center" minHeight="6rem">
           <AccountMenuDemo />
         </DualPreview>
@@ -93,7 +92,7 @@ export default function ComponentsDropdownMenu() {
             { pass: false, text: "Don't put primary page actions here — keep them visible as buttons" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { FadeIn, StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 
 export const handle = { title: "Motion" };
@@ -30,22 +32,28 @@ export default function FoundationsMotion() {
 
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Motion</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Motion confirms an action or eases content in — never decoration for its own sake. Two engines:
-          plain <code className="font-inconsolata text-primary">transition-*</code> utilities for
-          hover/focus/press feedback, and the{" "}
-          <code className="font-inconsolata text-primary">motion/react</code>-powered wrappers in{" "}
-          <code className="font-inconsolata text-primary">~/components/common/MotionWrapper</code> for
-          scroll entrances.
-        </p>
-      </div>
+      <PageIntro
+        title="Motion"
+        blurb={
+          <>
+            Motion confirms an action or eases content in — never decoration for its own sake. Two engines:
+            plain <code className="font-inconsolata text-primary">transition-*</code> utilities for
+            hover/focus/press feedback, and the{" "}
+            <code className="font-inconsolata text-primary">motion/react</code>-powered wrappers in{" "}
+            <code className="font-inconsolata text-primary">~/components/common/MotionWrapper</code> for
+            scroll entrances.
+          </>
+        }
+      />
 
       {/* Wrappers */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-medium font-display text-neutral-800">Entrance Wrappers</h3>
+      <SpecimenSection title="Entrance Wrappers">
+        <div className="flex items-center justify-between gap-4">
+          <p className="text-xs text-neutral-500 max-w-2xl">
+            Fire once when scrolled into view (<code className="font-inconsolata">whileInView</code>,{" "}
+            <code className="font-inconsolata">once: true</code>) with a decelerating ease. FadeIn moves a
+            single element; the stagger pair reveals grids 0.1s apart.
+          </p>
           <button
             type="button"
             onClick={() => setRunId((n) => n + 1)}
@@ -54,11 +62,6 @@ export default function FoundationsMotion() {
             <RotateCcw className="size-3" /> Replay
           </button>
         </div>
-        <p className="text-xs text-neutral-500 max-w-2xl">
-          Fire once when scrolled into view (<code className="font-inconsolata">whileInView</code>,{" "}
-          <code className="font-inconsolata">once: true</code>) with a decelerating ease. FadeIn moves a
-          single element; the stagger pair reveals grids 0.1s apart.
-        </p>
         <div key={runId} className="space-y-4">
           <FadeIn>
             <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-5 shadow-raised">
@@ -110,11 +113,10 @@ export default function FoundationsMotion() {
   ))}
 </StaggerContainer>`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Durations */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Durations</h3>
+      <SpecimenSection title="Durations">
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -137,11 +139,10 @@ export default function FoundationsMotion() {
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Standard transition */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Interaction Feedback</h3>
+      <SpecimenSection title="Interaction Feedback">
         <p className="text-xs text-neutral-500">
           The workhorse for hover/press: <code className="font-inconsolata text-primary">transition-all duration-200</code>{" "}
           with <code className="font-inconsolata text-primary">active:scale-[0.98]</code> press feedback —
@@ -152,11 +153,10 @@ export default function FoundationsMotion() {
             <p className="text-sm text-neutral-800">Hover + press me</p>
           </div>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Reduced motion */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Reduced Motion</h3>
+      <SpecimenSection title="Reduced Motion">
         <p className="text-xs text-neutral-500 max-w-2xl">
           When the OS asks for less motion (<code className="font-inconsolata text-primary">prefers-reduced-motion: reduce</code>),
           the system honors it: the global guard in{" "}
@@ -166,11 +166,10 @@ export default function FoundationsMotion() {
           guard. Keep entrances opacity/transform-only so a skipped animation never hides content —
           the wrappers already end at the element's natural position.
         </p>
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Reach for FadeIn / Stagger wrappers for scroll entrances — never hand-rolled keyframes" },
@@ -181,7 +180,7 @@ export default function FoundationsMotion() {
             { pass: false, text: "Don't gate content behind an animation — everything must be readable with motion off" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }
