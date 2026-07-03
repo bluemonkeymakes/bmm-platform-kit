@@ -15,7 +15,7 @@ import { BlockNewsletter } from "./BlockNewsletter";
 import { BlockArticles } from "./BlockArticles";
 import { BlockGallery } from "./BlockGallery";
 
-const blockComponents: Record<string, React.ComponentType<{ block: PageBlock; context?: BlockContext }>> = {
+export const blockComponents: Record<string, React.ComponentType<{ block: PageBlock; context?: BlockContext }>> = {
   block_hero: BlockHero,
   block_hero_simple: BlockHeroSimple,
   block_cta: BlockCTA,

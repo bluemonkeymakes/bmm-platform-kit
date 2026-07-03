@@ -59,6 +59,8 @@ This runs `directus/apply-schema.ts`, which reads the content schema from `apps/
 
 > **Note:** Directus must be fully running first. If the seed fails, wait a few seconds and try again.
 
+> **Auto-apply:** the web dev server also runs this apply on every boot (see the `schema-auto-apply` plugin in `apps/web/vite.config.ts`), so day-to-day schema edits land in Directus just by restarting `npm run dev:web`. The manual `npm run seed` remains for first-time setup, CI, and production releases. If Directus isn't running, the dev server logs `[schema] apply skipped` and carries on.
+
 ### 4. Install dependencies and start the apps
 
 ```bash
@@ -229,6 +231,13 @@ The production compose is an **overlay** — it extends the dev compose with pro
 ### Deployment targets
 
 Designed for Docker-based PaaS (Coolify, Railway, etc.) or any environment that runs Docker Compose. For reverse proxy / SSL, put Caddy, Nginx, or Traefik in front.
+
+### Schema on deploy
+
+The content schema is applied by script, not by hand — wire it into your release flow:
+
+- **Post-deploy hook** — run `npm run seed` against the production CMS as a release step (Coolify: add it as a post-deployment command with `DIRECTUS_URL`, `DIRECTUS_ADMIN_EMAIL`, and `DIRECTUS_ADMIN_PASSWORD` set for prod). It's idempotent, so re-running on every deploy is safe.
+- **CI drift gate** — `npm run schema:check` (read-only) diffs a live Directus against `apps/web/app/content/schema.ts` and exits nonzero on any drift in either direction, including fields added ad hoc in the Directus UI. Run it in CI or before a release to catch schema drift early.
 
 ## Customization
 
