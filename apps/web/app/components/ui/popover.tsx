@@ -17,7 +17,7 @@ const PopoverContent = React.forwardRef<
       sideOffset={sideOffset}
       data-slot="popover-content"
       className={cn(
-        "z-50 w-72 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-neutral-800 shadow-overlay outline-none",
+        "z-dropdown w-72 rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-neutral-800 shadow-overlay outline-none",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
         className

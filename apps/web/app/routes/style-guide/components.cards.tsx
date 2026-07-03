@@ -111,7 +111,7 @@ export default function ComponentsCards() {
                 <p className="mt-1 text-xs text-neutral-500">content block types</p>
               </CardContent>
             </Card>
-            <Card className="sm:col-span-2 cursor-pointer hover:-translate-y-0.5 hover:shadow-overlay hover:border-primary/30">
+            <Card variant="interactive" className="sm:col-span-2">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">Building Custom Content Blocks</CardTitle>
@@ -132,7 +132,7 @@ export default function ComponentsCards() {
         <RuleList
           rules={[
             { pass: true, text: "Use the slots — Header/Title/Description/Content/Footer — not hand-rolled divs" },
-            { pass: true, text: "Hover lift (translate + shadow-overlay) only when the whole card navigates somewhere" },
+            { pass: true, text: "Use variant=\"interactive\" (hover lift + shadow-overlay) only when the whole card navigates somewhere — never hand-roll the hover recipe" },
             { pass: true, text: "Layout classes at the call site are fine — w-full, max-w-sm, col-span" },
             { pass: false, text: "Don't nest a Card inside another Card — flatten or use a plain bordered div" },
             { pass: false, text: "Don't put multiple primary CTAs in one CardFooter" },

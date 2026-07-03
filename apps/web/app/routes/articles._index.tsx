@@ -3,9 +3,9 @@ import { useLoaderData } from "react-router";
 import { getArticles } from "~/lib/directus.server";
 import { defaultArticles } from "~/data/defaults";
 import { Container, Section } from "~/components/ui/layout";
-import { Heading, Body } from "~/components/ui/typography";
 import { ArticleCard } from "~/components/cards/ArticleCard";
-import { FadeIn, StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
+import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
+import { PageHero } from "~/components/common/PageHero";
 
 export const meta: MetaFunction = () => [
   { title: "Articles | Starter Kit" },
@@ -22,14 +22,7 @@ export default function Articles() {
 
   return (
     <>
-      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
-        <Container size="narrow" className="text-center">
-          <FadeIn>
-            <Heading as="h1" size="2xl" variant="display">Articles</Heading>
-            <Body size="lg" variant="lead" className="mt-4">Insights, guides, and updates.</Body>
-          </FadeIn>
-        </Container>
-      </section>
+      <PageHero title="Articles" subtitle="Insights, guides, and updates." />
 
       <Section>
         <Container size="wide">

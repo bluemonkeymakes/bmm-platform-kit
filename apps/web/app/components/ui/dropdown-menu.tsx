@@ -17,7 +17,7 @@ const DropdownMenuContent = React.forwardRef<
       sideOffset={sideOffset}
       data-slot="dropdown-menu-content"
       className={cn(
-        "z-50 min-w-[12rem] overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-1 text-neutral-800 shadow-overlay",
+        "z-dropdown min-w-48 overflow-hidden rounded-lg border border-neutral-200 bg-neutral-50 p-1 text-neutral-800 shadow-overlay",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
         className
