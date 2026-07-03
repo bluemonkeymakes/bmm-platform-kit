@@ -3,9 +3,10 @@ import { useLoaderData } from "react-router";
 import { getArticle } from "~/lib/directus.server";
 import { defaultArticles } from "~/data/defaults";
 import { Container, Section } from "~/components/ui/layout";
-import { Heading, Prose, Body } from "~/components/ui/typography";
+import { Prose, Body } from "~/components/ui/typography";
 import { Badge } from "~/components/ui/badge";
 import { FadeIn } from "~/components/common/MotionWrapper";
+import { PageHero } from "~/components/common/PageHero";
 import dayjs from "dayjs";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -32,22 +33,17 @@ export default function ArticleDetail() {
 
   return (
     <>
-      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
-        <Container size="narrow" className="text-center">
-          <FadeIn>
-            <div className="flex items-center justify-center gap-3 mb-4">
-              {article.category && <Badge variant="secondary">{article.category}</Badge>}
-              <span className="text-sm text-neutral-500">
-                {dayjs(article.date_published).format("MMMM D, YYYY")}
-              </span>
-            </div>
-            <Heading as="h1" size="2xl" variant="display">{article.title}</Heading>
-            {article.author && (
-              <Body variant="muted" className="mt-4">By {article.author}</Body>
-            )}
-          </FadeIn>
-        </Container>
-      </section>
+      <PageHero
+        title={article.title}
+        subtitle={article.author ? `By ${article.author}` : undefined}
+      >
+        <div className="flex items-center justify-center gap-3 mb-4">
+          {article.category && <Badge variant="secondary">{article.category}</Badge>}
+          <Body as="span" size="sm" variant="muted">
+            {dayjs(article.date_published).format("MMMM D, YYYY")}
+          </Body>
+        </div>
+      </PageHero>
 
       <Section>
         <Container size="narrow">

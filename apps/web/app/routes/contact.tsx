@@ -6,8 +6,9 @@ import { Heading, Body } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
-import { Label } from "~/components/ui/label";
+import { FormField } from "~/components/ui/form-field";
 import { FadeIn } from "~/components/common/MotionWrapper";
+import { PageHero } from "~/components/common/PageHero";
 import { generateToken, validateCsrf, createTokenCookie } from "~/lib/csrf.server";
 import { verifyTurnstile } from "~/lib/turnstile.server";
 import { contactSchema } from "~/lib/contact-schema";
@@ -97,14 +98,7 @@ export default function Contact() {
 
   return (
     <>
-      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
-        <Container size="narrow" className="text-center">
-          <FadeIn>
-            <Heading as="h1" size="2xl" variant="display">Contact Us</Heading>
-            <Body size="lg" variant="lead" className="mt-4">We'd love to hear from you.</Body>
-          </FadeIn>
-        </Container>
-      </section>
+      <PageHero title="Contact Us" subtitle="We'd love to hear from you." />
 
       <Section>
         <Container size="narrow">
@@ -118,42 +112,45 @@ export default function Contact() {
               </div>
 
               <div className="grid gap-6 sm:grid-cols-2">
-                <div>
-                  <Label htmlFor="firstName">First Name</Label>
-                  <Input id="firstName" name="firstName" required className="mt-1" />
-                  {actionData?.errors?.firstName && (
-                    <p className="mt-1 text-sm text-destructive">{actionData.errors.firstName[0]}</p>
-                  )}
-                </div>
-                <div>
-                  <Label htmlFor="lastName">Last Name</Label>
-                  <Input id="lastName" name="lastName" required className="mt-1" />
-                  {actionData?.errors?.lastName && (
-                    <p className="mt-1 text-sm text-destructive">{actionData.errors.lastName[0]}</p>
-                  )}
-                </div>
+                <FormField
+                  label="First Name"
+                  htmlFor="firstName"
+                  required
+                  error={actionData?.errors?.firstName?.[0]}
+                >
+                  <Input id="firstName" name="firstName" required />
+                </FormField>
+                <FormField
+                  label="Last Name"
+                  htmlFor="lastName"
+                  required
+                  error={actionData?.errors?.lastName?.[0]}
+                >
+                  <Input id="lastName" name="lastName" required />
+                </FormField>
               </div>
 
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" name="email" type="email" required className="mt-1" />
-                {actionData?.errors?.email && (
-                  <p className="mt-1 text-sm text-destructive">{actionData.errors.email[0]}</p>
-                )}
-              </div>
+              <FormField
+                label="Email"
+                htmlFor="email"
+                required
+                error={actionData?.errors?.email?.[0]}
+              >
+                <Input id="email" name="email" type="email" required />
+              </FormField>
 
-              <div>
-                <Label htmlFor="company">Company (optional)</Label>
-                <Input id="company" name="company" className="mt-1" />
-              </div>
+              <FormField label="Company (optional)" htmlFor="company">
+                <Input id="company" name="company" />
+              </FormField>
 
-              <div>
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" name="message" rows={5} required className="mt-1" />
-                {actionData?.errors?.message && (
-                  <p className="mt-1 text-sm text-destructive">{actionData.errors.message[0]}</p>
-                )}
-              </div>
+              <FormField
+                label="Message"
+                htmlFor="message"
+                required
+                error={actionData?.errors?.message?.[0]}
+              >
+                <Textarea id="message" name="message" rows={5} required />
+              </FormField>
 
               {/* Turnstile widget — only rendered if site key is set */}
               {turnstileSiteKey && (

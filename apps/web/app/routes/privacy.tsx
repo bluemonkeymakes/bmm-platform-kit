@@ -3,8 +3,9 @@ import { useLoaderData } from "react-router";
 import { getPage } from "~/lib/directus.server";
 import { BlockRenderer } from "~/components/blocks/BlockRenderer";
 import { Container, Section } from "~/components/ui/layout";
-import { Heading, Prose } from "~/components/ui/typography";
+import { Prose } from "~/components/ui/typography";
 import { FadeIn } from "~/components/common/MotionWrapper";
+import { PageHero } from "~/components/common/PageHero";
 
 export const meta: MetaFunction = () => [
   { title: "Privacy Policy | Starter Kit" },
@@ -24,13 +25,7 @@ export default function Privacy() {
 
   return (
     <>
-      <section className="border-b bg-neutral-100/30 py-16 md:py-24">
-        <Container size="narrow" className="text-center">
-          <FadeIn>
-            <Heading as="h1" size="2xl" variant="display">Privacy Policy</Heading>
-          </FadeIn>
-        </Container>
-      </section>
+      <PageHero title="Privacy Policy" />
 
       <Section>
         <Container size="narrow">

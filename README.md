@@ -275,7 +275,6 @@ Plus `npm run schema:check` from the repo root when a live Directus is available
 
 ## Known Limitations
 
-- **BlockFAQ** renders statically (no expand/collapse accordion)
 - **BlockNewsletter** is a UI placeholder (no backend integration)
 - **BlockGallery** has no lightbox/modal
 - **No rate limiting** on API endpoints (add `@nestjs/throttler` for production)

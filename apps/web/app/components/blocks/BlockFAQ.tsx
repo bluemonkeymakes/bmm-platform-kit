@@ -1,14 +1,16 @@
-import { useState } from "react";
 import type { PageBlock, BlockFaqData } from "~/types/content";
 import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "~/components/ui/accordion";
 import { FadeIn } from "~/components/common/MotionWrapper";
-import { ChevronDown } from "lucide-react";
-import { cn } from "~/lib/utils";
 
 export function BlockFAQ({ block }: { block: PageBlock }) {
   const data = block.item as unknown as BlockFaqData;
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <Section>
@@ -21,29 +23,14 @@ export function BlockFAQ({ block }: { block: PageBlock }) {
         )}
 
         <FadeIn>
-          <div className="divide-y rounded-lg border">
+          <Accordion type="single" collapsible>
             {(data.items || []).map((item, i) => (
-              <div key={i}>
-                <button
-                  onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-4 text-left text-base font-medium hover:bg-neutral-100/50 transition-colors"
-                >
-                  {item.question}
-                  <ChevronDown
-                    className={cn(
-                      "h-4 w-4 shrink-0 text-neutral-500 transition-transform",
-                      openIndex === i && "rotate-180"
-                    )}
-                  />
-                </button>
-                {openIndex === i && (
-                  <div className="px-6 pb-4 text-sm text-neutral-500">
-                    {item.answer}
-                  </div>
-                )}
-              </div>
+              <AccordionItem key={i} value={`item-${i}`}>
+                <AccordionTrigger>{item.question}</AccordionTrigger>
+                <AccordionContent>{item.answer}</AccordionContent>
+              </AccordionItem>
             ))}
-          </div>
+          </Accordion>
         </FadeIn>
       </Container>
     </Section>
