@@ -6,6 +6,7 @@ import { Container, Section } from "~/components/ui/layout";
 import { ArticleCard } from "~/components/cards/ArticleCard";
 import { StaggerContainer, StaggerItem } from "~/components/common/MotionWrapper";
 import { PageHero } from "~/components/common/PageHero";
+import { Body } from "~/components/ui/typography";
 
 export const meta: MetaFunction = () => [
   { title: "Articles | Starter Kit" },
@@ -36,9 +37,9 @@ export default function Articles() {
             </StaggerContainer>
           ) : (
             <div className="text-center py-12">
-              <p className="text-neutral-500">
+              <Body variant="muted">
                 No articles yet. Add articles in Directus to see them here.
-              </p>
+              </Body>
             </div>
           )}
         </Container>

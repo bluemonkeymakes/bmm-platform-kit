@@ -177,11 +177,13 @@ uppercase mono with a marble `cta`; the kit's is sentence-case sans with a
 token-based `cta`). Porting UI *between* projects: these five are the files to
 diff first.
 
-**Known select-don't-restyle exception:** DS `Heading` bakes `text-neutral-800`
-and has no inverse variant, so headings on `tone="brand"` sections
-(BlockStats, BlockCTA) pass `className="text-primary-foreground"` at the call
-site. Candidate for an upstream `variant="inverse"` contribution — remove the
-overrides when that lands.
+**Former select-don't-restyle exception (resolved):** DS `Heading` used to bake
+`text-neutral-800` with no inverse option, so headings on `tone="brand"`
+sections (BlockStats, BlockCTA) passed `className="text-primary-foreground"`
+at the call site. The upstream contribution landed (DS commit `fd656ec`):
+`Heading`/`Body` now ship `variant="inverse"` (plus `Heading`
+`variant="watermark"` for ghost backdrop numerals), and the call-site
+overrides have been removed.
 
 **Avatar colors:** `app/brand/avatar-colors.ts` holds hex values by design —
 it's brand swap surface (boring-avatars needs literal colors). Swap for the

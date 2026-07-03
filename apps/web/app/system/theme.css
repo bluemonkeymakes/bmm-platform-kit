@@ -25,6 +25,11 @@
   --text-2xs: 0.625rem;
   --text-2xs--line-height: 1.4;
 
+  /* ─── Reading measure — the one named width cap for prose line length
+         (650px). Used by Body's measure prop; replaces max-w-[40.625rem].
+         Ported with the DS typography/avatar sync. ─── */
+  --container-measure: 40.625rem;
+
   /* ─── Elevation → three role-named shadows. Clear Tailwind's default shadow
          ramp so ONLY these three exist: a component picks by intent
          (shadow-raised / shadow-overlay / shadow-modal), never a size off a

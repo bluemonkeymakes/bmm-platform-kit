@@ -4,7 +4,6 @@ import { Container, Section } from "~/components/ui/layout";
 import { Heading, Body } from "~/components/ui/typography";
 import { Button } from "~/components/ui/button";
 import { FadeIn } from "~/components/common/MotionWrapper";
-import { cn } from "~/lib/utils";
 
 export function BlockCTA({ block }: { block: PageBlock }) {
   const data = block.item as unknown as BlockCtaData;
@@ -14,11 +13,11 @@ export function BlockCTA({ block }: { block: PageBlock }) {
     <Section tone={isAccent ? "brand" : "default"}>
       <Container size="narrow" className="text-center">
         <FadeIn>
-          <Heading as="h2" size="xl" variant="display" className={cn(isAccent && "text-primary-foreground")}>
+          <Heading as="h2" size="xl" variant={isAccent ? "inverse" : "display"}>
             {data.title}
           </Heading>
           {data.description && (
-            <Body size="lg" variant="lead" className={cn("mt-4", isAccent && "text-primary-foreground/80")}>
+            <Body size="lg" variant={isAccent ? "inverse" : "lead"} className="mt-4">
               {data.description}
             </Body>
           )}
