@@ -28,7 +28,7 @@ export function ArticleCard({ article }: ArticleCardProps) {
             {article.category && <Badge variant="secondary">{article.category}</Badge>}
             <Body size="sm" variant="muted">{dayjs(article.date_published).format("MMM D, YYYY")}</Body>
           </div>
-          <CardTitle className="text-lg">{article.title}</CardTitle>
+          <CardTitle size="lg">{article.title}</CardTitle>
         </CardHeader>
         <CardContent>
           <Body size="sm" variant="muted" className="line-clamp-2">{article.excerpt}</Body>

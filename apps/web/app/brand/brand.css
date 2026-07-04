@@ -218,9 +218,10 @@
 
   --destructive: 0 63% 31%;
   --destructive-foreground: 210 40% 98%;
-  /* Ramp stops sit at DS-equivalent lightness so ported components picking
-     dark:destructive-300/400 for readable text reds pass WCAG on dark
-     surfaces; only the base role keeps the kit's darker dark-mode button red. */
+  /* Ramp stops sit at DS-equivalent (inverted) lightness so ported components
+     need no dark: overrides — plain destructive-600/700 already lightens to a
+     readable text red on dark surfaces (700 = 72% L); only the base role keeps
+     the kit's darker dark-mode button red. */
   --destructive-50: 0 70% 15%;
   --destructive-100: 0 68% 21%;
   --destructive-200: 0 65% 30%;

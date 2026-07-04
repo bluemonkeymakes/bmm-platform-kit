@@ -1,4 +1,4 @@
-import * as React from "react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 /** Loading placeholder. Compose with width/height utilities (e.g. `h-4 w-32`).

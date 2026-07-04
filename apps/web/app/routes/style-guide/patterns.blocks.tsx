@@ -2,6 +2,8 @@ import type { MetaFunction } from "react-router";
 import { Preview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { BlockHeroSimple } from "~/components/blocks/BlockHeroSimple";
 import { BlockFeatures } from "~/components/blocks/BlockFeatures";
 import { BlockCTA } from "~/components/blocks/BlockCTA";
@@ -51,15 +53,18 @@ const ctaBlock = defaultHomeBlocks.find((b) => b.collection === "block_cta")!;
 export default function PatternsBlocks() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Content Blocks</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Every CMS page is a stack of blocks. Directus stores a{" "}
-          <code className="font-inconsolata text-primary">block_*</code> collection per type;{" "}
-          <code className="font-inconsolata text-primary">BlockRenderer</code> maps each collection name to
-          its React component and passes shared context (articles, team, testimonials). Editors compose
-          pages by stacking blocks — no code deploys.
-        </p>
+      <PageIntro
+        title="Content Blocks"
+        blurb={
+          <>
+            Every CMS page is a stack of blocks. Directus stores a{" "}
+            <code className="font-inconsolata text-primary">block_*</code> collection per type;{" "}
+            <code className="font-inconsolata text-primary">BlockRenderer</code> maps each collection name to
+            its React component and passes shared context (articles, team, testimonials). Editors compose
+            pages by stacking blocks — no code deploys.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { BlockRenderer } from "~/components/blocks/BlockRenderer";
@@ -67,11 +72,10 @@ export default function PatternsBlocks() {
 <BlockRenderer blocks={page.blocks} articles={articles} team={team} />`}
           />
         </div>
-      </div>
+      </PageIntro>
 
       {/* Registry table */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">The 15 Block Types</h3>
+      <SpecimenSection title="The 15 Block Types">
         <p className="text-xs text-neutral-500 max-w-2xl">
           This table is derived from the block definitions in{" "}
           <code className="font-inconsolata text-primary">app/content/schema.ts</code> — the same
@@ -100,11 +104,10 @@ export default function PatternsBlocks() {
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Live specimens */}
-      <section className="space-y-6">
-        <h3 className="text-base font-medium font-display text-neutral-800">Specimens</h3>
+      <SpecimenSection title="Specimens" className="space-y-6">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Three representative blocks rendered with the same seed data the real pages fall back to when
           Directus isn't connected (<code className="font-inconsolata text-primary">app/data/defaults.ts</code>).
@@ -133,11 +136,10 @@ export default function PatternsBlocks() {
         >
           <BlockCTA block={ctaBlock} />
         </Preview>
-      </section>
+      </SpecimenSection>
 
       {/* Adding a block */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Adding a Block Type</h3>
+      <SpecimenSection title="Adding a Block Type">
         <CodeBlock
           label="Four steps"
           code={`1. Define the block in app/content/schema.ts (key, label, purpose, fields) — types, validation, Directus schema, and this table all derive from it
@@ -154,7 +156,7 @@ export default function PatternsBlocks() {
             { pass: false, text: "Don't fetch data inside a block — context comes in through BlockRenderer" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

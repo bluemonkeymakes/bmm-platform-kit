@@ -15,6 +15,8 @@ import { Button } from "~/components/ui/button";
 import { DualPreview } from "~/components/ds/Preview";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Inputs" };
 
@@ -38,19 +40,20 @@ function SwitchDemo() {
 export default function ComponentsInputs() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Inputs & Form Primitives</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Form controls share one field treatment — <code className="font-inconsolata text-primary">border-neutral-200</code>{" "}
-          on <code className="font-inconsolata text-primary">bg-neutral-50</code>, ring on focus, destructive
-          border + ring when <code className="font-inconsolata text-primary">aria-invalid</code>. This is
-          exactly how the contact form signals validation errors.
-        </p>
-      </div>
+      <PageIntro
+        title="Inputs & Form Primitives"
+        blurb={
+          <>
+            Form controls share one field treatment — <code className="font-inconsolata text-primary">border-neutral-200</code>{" "}
+            on <code className="font-inconsolata text-primary">bg-neutral-50</code>, ring on focus, destructive
+            border + ring when <code className="font-inconsolata text-primary">aria-invalid</code>. This is
+            exactly how the contact form signals validation errors.
+          </>
+        }
+      />
 
       {/* Text input */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Text Input</h3>
+      <SpecimenSection title="Text Input">
         <DualPreview minHeight="5rem">
           <div className="w-full max-w-sm space-y-1.5">
             <Label htmlFor="sg-email">Work email</Label>
@@ -69,11 +72,10 @@ export default function ComponentsInputs() {
             { pass: false, text: "Don't set a fixed px width — let the container constrain it" },
           ]}
         />
-      </section>
+      </SpecimenSection>
 
       {/* States */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">States</h3>
+      <SpecimenSection title="States">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <DualPreview label="Default → focus (click in)" align="center" minHeight="4rem">
             <Input placeholder="Focus me" className="max-w-56" />
@@ -100,22 +102,20 @@ export default function ComponentsInputs() {
   <p id="email-error" className="text-sm text-destructive">{errors.email}</p>
 )}`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Textarea */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Textarea</h3>
+      <SpecimenSection title="Textarea">
         <DualPreview label="Same field treatment, vertical resize">
           <div className="w-full max-w-md space-y-1.5">
             <Label htmlFor="sg-msg">Message</Label>
             <Textarea id="sg-msg" placeholder="Tell us what you're building…" rows={3} />
           </div>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
       {/* Select */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Select</h3>
+      <SpecimenSection title="Select">
         <p className="text-xs text-neutral-500 max-w-2xl">
           A native <code className="font-inconsolata text-primary">select</code> on the shared field
           treatment, with a custom chevron. Children are plain{" "}
@@ -158,11 +158,10 @@ export default function ComponentsInputs() {
             { pass: false, text: "Don't rebuild the dropdown — the native picker is the accessible one" },
           ]}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Checkbox + Switch */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Checkbox & Switch</h3>
+      <SpecimenSection title="Checkbox & Switch">
         <p className="text-xs text-neutral-500 max-w-2xl">
           <code className="font-inconsolata text-primary">Checkbox</code> is a native input — pass any
           input props (<code className="font-inconsolata">defaultChecked</code>,{" "}
@@ -221,11 +220,10 @@ const [notify, setNotify] = useState(true);
           </Link>{" "}
           page covers that wiring. Single-choice option sets have their own page — see RadioGroup.
         </p>
-      </section>
+      </SpecimenSection>
 
       {/* Tooltip */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Tooltip</h3>
+      <SpecimenSection title="Tooltip">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Hover/focus hint on an inverted surface (<code className="font-inconsolata text-primary">bg-neutral-800</code>,{" "}
           <code className="font-inconsolata text-primary">shadow-overlay</code>). Icon-only buttons always
@@ -249,11 +247,10 @@ const [notify, setNotify] = useState(true);
         <CodeBlock code={`<Tooltip content="More information" side="top">
   <Button variant="ghost" size="icon" aria-label="More information"><Info /></Button>
 </Tooltip>`} />
-      </section>
+      </SpecimenSection>
 
       {/* Spinner + Separator */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Spinner & Separator</h3>
+      <SpecimenSection title="Spinner & Separator">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <DualPreview label="Spinner — sm / default / lg, currentColor" align="center" minHeight="5rem">
             <div className="flex items-center gap-6 text-neutral-800">
@@ -276,11 +273,10 @@ const [notify, setNotify] = useState(true);
             </div>
           </DualPreview>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Full form in context */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">In Context — Contact Form</h3>
+      <SpecimenSection title="In Context — Contact Form">
         <DualPreview minHeight="auto">
           <form className="w-full max-w-md space-y-4" onSubmit={(e) => e.preventDefault()}>
             <div className="grid grid-cols-2 gap-3">
@@ -300,11 +296,10 @@ const [notify, setNotify] = useState(true);
             <Button type="submit">Send message</Button>
           </form>
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Signal errors with aria-invalid + a described-by message — styling follows automatically" },
@@ -315,7 +310,7 @@ const [notify, setNotify] = useState(true);
             { pass: false, text: "Don't use Separator decoratively between every element — it marks real group boundaries" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

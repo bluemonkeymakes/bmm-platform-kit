@@ -8,6 +8,8 @@ import {
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { DualPreview } from "~/components/ds/Preview";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Accordion" };
 
@@ -34,14 +36,17 @@ const faqs = [
 export default function ComponentsAccordion() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Accordion</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Collapsible sections that show one piece of content at a time. The height animates via the
-          system <code className="font-inconsolata text-primary">accordion-down/up</code> keyframes; the
-          chevron rotates on open. Use <code className="font-inconsolata text-primary">type="single"</code>{" "}
-          for FAQs, <code className="font-inconsolata text-primary">"multiple"</code> when several can be open.
-        </p>
+      <PageIntro
+        title="Accordion"
+        blurb={
+          <>
+            Collapsible sections that show one piece of content at a time. The height animates via the
+            system <code className="font-inconsolata text-primary">accordion-down/up</code> keyframes; the
+            chevron rotates on open. Use <code className="font-inconsolata text-primary">type="single"</code>{" "}
+            for FAQs, <code className="font-inconsolata text-primary">"multiple"</code> when several can be open.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "~/components/ui/accordion";
@@ -54,10 +59,9 @@ export default function ComponentsAccordion() {
 </Accordion>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">FAQ</h3>
+      <SpecimenSection title="FAQ">
         <DualPreview minHeight="12rem">
           <Accordion type="single" collapsible defaultValue="item-0" className="w-full max-w-lg">
             {faqs.map((f, i) => (
@@ -75,7 +79,7 @@ export default function ComponentsAccordion() {
             { pass: false, text: "Don't hide essential or short content behind a click — just show it" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

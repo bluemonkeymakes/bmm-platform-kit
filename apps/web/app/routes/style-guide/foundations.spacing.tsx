@@ -1,6 +1,8 @@
 import type { MetaFunction } from "react-router";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Spacing" };
 
@@ -39,21 +41,22 @@ const sectionPadding = [
 export default function FoundationsSpacing() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Spacing</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          All spacing uses Tailwind's 0.25rem numeric grid. One-off layout spacing picks a numeric step
-          (<code className="font-inconsolata text-primary">gap-4</code>,{" "}
-          <code className="font-inconsolata text-primary">mt-8</code>); page structure comes from the{" "}
-          <code className="font-inconsolata text-primary">Container</code> and{" "}
-          <code className="font-inconsolata text-primary">Section</code> primitives so vertical rhythm stays
-          consistent across every route.
-        </p>
-      </div>
+      <PageIntro
+        title="Spacing"
+        blurb={
+          <>
+            All spacing uses Tailwind's 0.25rem numeric grid. One-off layout spacing picks a numeric step
+            (<code className="font-inconsolata text-primary">gap-4</code>,{" "}
+            <code className="font-inconsolata text-primary">mt-8</code>); page structure comes from the{" "}
+            <code className="font-inconsolata text-primary">Container</code> and{" "}
+            <code className="font-inconsolata text-primary">Section</code> primitives so vertical rhythm stays
+            consistent across every route.
+          </>
+        }
+      />
 
       {/* Base grid */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Base Grid Scale</h3>
+      <SpecimenSection title="Base Grid Scale">
         <div className="space-y-2">
           {spacingScale.map(({ name, rem, tailwind, px }) => (
             <div key={name} className="flex items-center gap-4">
@@ -72,11 +75,10 @@ export default function FoundationsSpacing() {
             </div>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Container */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Container</h3>
+      <SpecimenSection title="Container">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Centers content and owns the horizontal padding (
           <code className="font-inconsolata text-primary">px-6</code>). Five sizes; default is{" "}
@@ -119,11 +121,10 @@ export default function FoundationsSpacing() {
             <span className="text-2xs font-inconsolata text-neutral-500">reading</span>
           </div>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* Section */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Section</h3>
+      <SpecimenSection title="Section">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Owns vertical rhythm between page bands via a 4-step{" "}
           <code className="font-inconsolata text-primary">padding</code> scale (default{" "}
@@ -177,11 +178,10 @@ export default function FoundationsSpacing() {
 
 <Section tone="brand" padding="xl">…</Section>`}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Rules */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Pick numeric steps for one-off layout spacing — gap-4, mt-8, space-y-12" },
@@ -192,7 +192,7 @@ export default function FoundationsSpacing() {
             { pass: false, text: "Don't set fixed pixel widths on content — breakpoints + max-w handle it" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

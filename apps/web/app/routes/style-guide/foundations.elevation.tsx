@@ -1,6 +1,8 @@
 import type { MetaFunction } from "react-router";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Elevation" };
 
@@ -35,20 +37,21 @@ const levels = [
 export default function FoundationsElevation() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Elevation</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Three roles, not a seven-step ramp. Elevation is chosen by intent — is this surface{" "}
-          <em>on</em> the page, <em>floating above</em> it, or <em>commanding</em> it — never by picking a
-          size that looks about right. The default Tailwind shadow ramp (shadow-sm … shadow-2xl) is cleared
-          by <code className="font-inconsolata text-primary">app/system/theme.css</code>; values live in{" "}
-          <code className="font-inconsolata text-primary">app/brand/brand.css</code> so a rebrand re-skins
-          all three at once.
-        </p>
-      </div>
+      <PageIntro
+        title="Elevation"
+        blurb={
+          <>
+            Three roles, not a seven-step ramp. Elevation is chosen by intent — is this surface{" "}
+            <em>on</em> the page, <em>floating above</em> it, or <em>commanding</em> it — never by picking a
+            size that looks about right. The default Tailwind shadow ramp (shadow-sm … shadow-2xl) is cleared
+            by <code className="font-inconsolata text-primary">app/system/theme.css</code>; values live in{" "}
+            <code className="font-inconsolata text-primary">app/brand/brand.css</code> so a rebrand re-skins
+            all three at once.
+          </>
+        }
+      />
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">The Three Levels</h3>
+      <SpecimenSection title="The Three Levels">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
           {levels.map(({ name, cls, use, eg }) => (
             <div key={name} className="flex flex-col items-center gap-4">
@@ -61,10 +64,9 @@ export default function FoundationsElevation() {
             </div>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Choosing by Intent</h3>
+      <SpecimenSection title="Choosing by Intent">
         <div className="rounded-xl border border-neutral-200 overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -85,10 +87,9 @@ export default function FoundationsElevation() {
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Light vs Dark</h3>
+      <SpecimenSection title="Light vs Dark">
         <p className="text-xs text-neutral-500">
           The same <code className="font-inconsolata text-primary">shadow-overlay</code> card in the active
           theme. Dark surfaces get a deeper cast (defined in the brand layer) plus the border doing the
@@ -97,10 +98,9 @@ export default function FoundationsElevation() {
         <DualPreview align="center" minHeight="8rem">
           <div className="size-24 rounded-xl bg-neutral-50 border border-neutral-200 shadow-overlay" />
         </DualPreview>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Interactive Lift</h3>
+      <SpecimenSection title="Interactive Lift">
         <p className="text-xs text-neutral-500">
           Interactive surfaces rest at <code className="font-inconsolata text-primary">raised</code> and rise
           to <code className="font-inconsolata text-primary">overlay</code> on hover. Hover the cards below.
@@ -116,10 +116,9 @@ export default function FoundationsElevation() {
             </div>
           ))}
         </div>
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Pick by intent — on the page (raised), above it (overlay), commanding it (modal)" },
@@ -130,7 +129,7 @@ export default function FoundationsElevation() {
             { pass: false, text: "Don't stack elevations to fake depth — a surface has exactly one role" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { cn } from "~/lib/utils";
 
@@ -37,6 +36,7 @@ export function Pagination({ page, pageCount, onPageChange, className }: Paginat
       {pages.map((p, i) =>
         p === "ellipsis" ? (
           <span
+            // biome-ignore lint/suspicious/noArrayIndexKey: the window is recomputed wholesale each render; the two ellipses are only distinguishable by position
             key={`ellipsis-${i}`}
             className="inline-flex h-8 w-8 items-center justify-center text-neutral-400"
           >
@@ -52,12 +52,12 @@ export function Pagination({ page, pageCount, onPageChange, className }: Paginat
               base,
               p === page
                 ? "bg-primary text-primary-foreground"
-                : "text-neutral-600 hover:bg-neutral-100"
+                : "text-neutral-600 hover:bg-neutral-100",
             )}
           >
             {p}
           </button>
-        )
+        ),
       )}
       <button
         type="button"

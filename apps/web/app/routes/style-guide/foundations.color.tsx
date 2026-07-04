@@ -1,6 +1,8 @@
 import type { MetaFunction } from "react-router";
 import { ScaleRow, TokenSwatch } from "~/components/ds/TokenSwatch";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Color" };
 
@@ -91,26 +93,24 @@ const surfaceRoles = [
 export default function FoundationsColor() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-14">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Color System</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Three layers. <strong className="text-neutral-800 font-medium">Neutral</strong> is the grayscale
-          backbone every surface is built from. <strong className="text-neutral-800 font-medium">Brand</strong>{" "}
-          (primary + accent) is this kit's swap surface. <strong className="text-neutral-800 font-medium">Feedback</strong>{" "}
-          carries fixed semantic meaning. All values are HSL custom properties in{" "}
-          <code className="font-inconsolata text-primary">app/brand/brand.css</code>, consumed as Tailwind
-          utilities — click any swatch to copy its <code className="font-inconsolata text-primary">var()</code>.
-          Dark mode redefines every scale under <code className="font-inconsolata text-primary">.dark</code>,
-          with neutral inverted (50 darkest → 900 lightest).
-        </p>
-      </div>
+      <PageIntro
+        title="Color System"
+        blurb={
+          <>
+            Three layers. <strong className="text-neutral-800 font-medium">Neutral</strong> is the grayscale
+            backbone every surface is built from. <strong className="text-neutral-800 font-medium">Brand</strong>{" "}
+            (primary + accent) is this kit's swap surface. <strong className="text-neutral-800 font-medium">Feedback</strong>{" "}
+            carries fixed semantic meaning. All values are HSL custom properties in{" "}
+            <code className="font-inconsolata text-primary">app/brand/brand.css</code>, consumed as Tailwind
+            utilities — click any swatch to copy its <code className="font-inconsolata text-primary">var()</code>.
+            Dark mode redefines every scale under <code className="font-inconsolata text-primary">.dark</code>,
+            with neutral inverted (50 darkest → 900 lightest).
+          </>
+        }
+      />
 
       {/* ─────────── NEUTRAL ─────────── */}
-      <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-neutral-500" />
-          <h3 className="text-base font-medium font-display text-neutral-800">Neutral — the backbone</h3>
-        </div>
+      <SpecimenSection title="Neutral — the backbone" dot="bg-neutral-500">
         <p className="text-xs text-neutral-500 max-w-2xl">
           A cool slate gray. Backgrounds, text, borders, and disabled states all draw from this one scale.
           It inverts automatically in dark mode, so{" "}
@@ -141,14 +141,10 @@ export default function FoundationsColor() {
             </table>
           </div>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* ─────────── BRAND ─────────── */}
-      <section className="space-y-6">
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-primary" />
-          <h3 className="text-base font-medium font-display text-neutral-800">Brand — swap per project</h3>
-        </div>
+      <SpecimenSection title="Brand — swap per project" dot="bg-primary" className="space-y-6">
         <p className="text-xs text-neutral-500 max-w-2xl -mt-2">
           The only layer that changes between sites. A rebrand overrides primary and accent in{" "}
           <code className="font-inconsolata text-primary">app/brand/brand.css</code>; neutral and feedback
@@ -169,14 +165,10 @@ export default function FoundationsColor() {
           </p>
           <ScaleRow name="Accent scale" stops={accentStops} />
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* ─────────── FEEDBACK ─────────── */}
-      <section className="space-y-6">
-        <div className="flex items-center gap-2">
-          <span className="size-2 rounded-full bg-success-500" />
-          <h3 className="text-base font-medium font-display text-neutral-800">Feedback — fixed meaning</h3>
-        </div>
+      <SpecimenSection title="Feedback — fixed meaning" dot="bg-success-500" className="space-y-6">
         <p className="text-xs text-neutral-500 max-w-2xl -mt-2">
           Semantic states for alerts, toasts, badges, and form validation. Kept deliberately separate from
           brand — an info message uses <code className="font-inconsolata text-primary">--info</code>, never
@@ -189,11 +181,10 @@ export default function FoundationsColor() {
             <ScaleRow name={`--${token} scale`} stops={feedbackStops(token, name.split(" / ")[0])} />
           </div>
         ))}
-      </section>
+      </SpecimenSection>
 
       {/* ─────────── ROLE PAIRS ─────────── */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Base + Foreground Pairs</h3>
+      <SpecimenSection title="Base + Foreground Pairs">
         <p className="text-xs text-neutral-500 max-w-2xl">
           Each semantic role ships a base and a matching <code className="font-inconsolata">-foreground</code>{" "}
           for text on that fill. Use them together — never guess a text color for a colored surface.
@@ -224,11 +215,10 @@ export default function FoundationsColor() {
             </tbody>
           </table>
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* ─────────── RING ─────────── */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Focus Ring</h3>
+      <SpecimenSection title="Focus Ring">
         <p className="text-xs text-neutral-500 max-w-2xl">
           One brand-level token drives every focus indicator via{" "}
           <code className="font-inconsolata text-primary">focus-visible:ring-ring</code>. Navy in light mode,
@@ -237,11 +227,10 @@ export default function FoundationsColor() {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-md">
           <TokenSwatch variable="--ring" label="ring" />
         </div>
-      </section>
+      </SpecimenSection>
 
       {/* ─────────── RULES ─────────── */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Rules</h3>
+      <SpecimenSection title="Rules">
         <RuleList
           rules={[
             { pass: true, text: "Pick a stop from a named scale — bg-neutral-100, text-success-700, border-destructive" },
@@ -252,7 +241,7 @@ export default function FoundationsColor() {
             { pass: false, text: "No arbitrary color values — add a stop to the scale instead" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

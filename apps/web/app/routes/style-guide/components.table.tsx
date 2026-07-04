@@ -12,6 +12,8 @@ import {
 import { Badge } from "~/components/ui/badge";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Table" };
 
@@ -36,13 +38,10 @@ const usage = [
 export default function ComponentsTable() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Table</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Composable table primitives. The shell is bordered and scrolls on overflow; the header uses
-          the inconsolata label voice; rows get a neutral hover and a selected state. All surfaces read
-          from tokens.
-        </p>
+      <PageIntro
+        title="Table"
+        blurb="Composable table primitives. The shell is bordered and scrolls on overflow; the header uses the inconsolata label voice; rows get a neutral hover and a selected state. All surfaces read from tokens."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "~/components/ui/table";
@@ -55,10 +54,9 @@ export default function ComponentsTable() {
 </Table>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Deployments</h3>
+      <SpecimenSection title="Deployments">
         <Table>
           <TableHeader>
             <TableRow>
@@ -88,10 +86,9 @@ export default function ComponentsTable() {
             { pass: false, text: "Don't use for layout or for a handful of key/value pairs — use a definition list" },
           ]}
         />
-      </section>
+      </SpecimenSection>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Footer &amp; caption</h3>
+      <SpecimenSection title="Footer &amp; caption">
         <p className="text-xs text-neutral-500">
           <code className="font-inconsolata text-primary">TableFooter</code> carries summary rows on the
           header surface; <code className="font-inconsolata text-primary">TableCaption</code> renders a
@@ -122,7 +119,7 @@ export default function ComponentsTable() {
             </TableRow>
           </TableFooter>
         </Table>
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

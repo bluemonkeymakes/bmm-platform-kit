@@ -1,6 +1,14 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check } from "lucide-react";
+import {
+  createContext,
+  type ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 interface CopyToastValue {
   /**
@@ -42,6 +50,7 @@ export function CopyToastProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Auto-dismiss — re-armed whenever a new toast id appears.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: keyed to toast.id on purpose — same-content re-copies must restart the timer, other toast fields must not
   useEffect(() => {
     if (!toast) return;
     if (timer.current) window.clearTimeout(timer.current);

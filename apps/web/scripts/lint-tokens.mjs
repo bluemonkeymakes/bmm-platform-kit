@@ -10,16 +10,19 @@
  *      (non-ring/border/outline)       ring/border widths are allowed
  *   3. Arbitrary font-size text-[…] → type sizes must come from the scale
  *      (em/px exempt)                  (text-2xs … text-9xl); see design-system-principles §2
- *   4. Arbitrary z-index z-[…]      → use the named stack (z-dropdown … z-cursor)
+ *   4. Raw z-index z-[…] / z-50     → use the named stack (z-dropdown … z-cursor)
  *   5. !important                   → bypasses the system
+ *   6. Arbitrary rem sizes w-[…rem] → use a spacing step (min-h-20 = 5rem) or a
+ *                                      named token (max-w-measure); em/ch stay free
+ *   7. Arbitrary colors bg-[hsl(…)] → colors come from brand token utilities
  *
  * A line may opt out of a soft rail with a `token-lint-ignore` comment + reason.
  *
  * Brand CSS (app/brand/*) is intentionally exempt — it IS the swap surface.
  * Run: npm run lint:tokens   ·   See sops/design-system-contribution.md
  */
-import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, extname } from "node:path";
+import { readdirSync, readFileSync, statSync } from "node:fs";
+import { extname, join } from "node:path";
 
 const ROOTS = ["app/components", "app/routes"];
 const EXTS = new Set([".ts", ".tsx"]);
@@ -47,8 +50,7 @@ function lintFile(file) {
   const lines = readFileSync(file, "utf8").split("\n");
   lines.forEach((line, i) => {
     const trimmed = line.trim();
-    if (trimmed.startsWith("//") || trimmed.startsWith("*") || trimmed.startsWith("/*"))
-      return; // skip comments
+    if (trimmed.startsWith("//") || trimmed.startsWith("*") || trimmed.startsWith("/*")) return; // skip comments
     if (line.includes("token-lint-ignore")) return; // explicit per-line escape hatch (soft rails)
 
     // 1. hard-coded hex color
@@ -70,13 +72,33 @@ function lintFile(file) {
     }
 
     // 4. arbitrary z-index — z comes from the named stack (z-dropdown … z-cursor),
-    //    never a number. Token refs z-(--x) are fine.
-    for (const m of line.matchAll(/\bz-\[\d[^\]]*\]/g)) {
-      push(file, i, line, `arbitrary z-index ${m[0]} — use a named z step (z-toast, z-modal, …)`);
+    //    never a number: neither a bracket (z-[60]) nor Tailwind's numeric scale (z-50).
+    for (const m of line.matchAll(/\bz-\[\d[^\]]*\]|\bz-\d+\b/g)) {
+      push(file, i, line, `raw z-index ${m[0]} — use a named z step (z-dropdown … z-cursor)`);
     }
 
     // 5. !important
     if (line.includes("!important")) push(file, i, line, "!important bypasses the token system");
+
+    // 6. arbitrary rem sizes — v4's dynamic spacing covers any 0.25rem multiple
+    //    (min-h-20 = 5rem); anything else earns a named token (max-w-measure).
+    //    text-[…rem] is rule 3's territory; relative em/ch/vh stay allowed.
+    for (const m of line.matchAll(/([a-z-]*)\[[^\]]*?\d*\.?\d+rem[^\]]*\]/g)) {
+      const base = m[1].replace(/-$/, "");
+      if (base === "text") continue;
+      push(
+        file,
+        i,
+        line,
+        `arbitrary rem value ${m[0]} — use a spacing step (min-h-20) or add a named token (max-w-measure)`,
+      );
+    }
+
+    // 7. arbitrary color functions in utility brackets — colors come from brand
+    //    token utilities, never inline hsl()/rgb()/oklch()
+    for (const m of line.matchAll(/[a-z-]+-\[(?:hsl|rgb|oklch|hwb|lab|lch)\([^\]]*\]/g)) {
+      push(file, i, line, `arbitrary color ${m[0]} — use a brand token utility`);
+    }
   });
 }
 
@@ -91,7 +113,7 @@ if (violations.length) {
   console.error(violations.join("\n"));
   console.error(
     "\nComponents must consume brand tokens so changes in app/brand/ propagate." +
-      "\nSee docs sops/design-system-contribution.md.\n"
+      "\nSee docs sops/design-system-contribution.md.\n",
   );
   process.exit(1);
 }

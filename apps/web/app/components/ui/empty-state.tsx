@@ -1,5 +1,5 @@
-import * as React from "react";
 import type { LucideIcon } from "lucide-react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 export interface EmptyStateProps extends React.ComponentProps<"div"> {
@@ -22,7 +22,7 @@ export function EmptyState({
     <div
       className={cn(
         "flex flex-col items-center justify-center rounded-xl border border-dashed border-neutral-200 px-6 py-12 text-center",
-        className
+        className,
       )}
       {...props}
     >

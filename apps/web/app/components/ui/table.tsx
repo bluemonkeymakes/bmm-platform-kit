@@ -1,11 +1,11 @@
-import * as React from "react";
+import type * as React from "react";
 import { cn } from "~/lib/utils";
 
 /** Data table primitives. Token-pure: surfaces from the neutral scale, header
  *  in the inconsolata label voice. Wrap in `<Table>` for the bordered, scrollable shell. */
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
-    <div className="relative w-full overflow-x-auto rounded-xl border border-neutral-200">
+    <div className="relative w-full overflow-x-auto scrollbar-app rounded-xl border border-neutral-200">
       <table className={cn("w-full caption-bottom text-sm", className)} {...props} />
     </div>
   );
@@ -27,7 +27,10 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   return (
     <tfoot
-      className={cn("border-t border-neutral-200 bg-neutral-100/60 font-medium text-neutral-800", className)}
+      className={cn(
+        "border-t border-neutral-200 bg-neutral-100/60 font-medium text-neutral-800",
+        className,
+      )}
       {...props}
     />
   );
@@ -38,7 +41,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       className={cn(
         "transition-colors hover:bg-neutral-100/40 data-[state=selected]:bg-primary/5",
-        className
+        className,
       )}
       {...props}
     />
@@ -50,7 +53,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       className={cn(
         "h-10 whitespace-nowrap px-4 text-left align-middle font-inconsolata text-xs font-medium uppercase tracking-wider text-neutral-500",
-        className
+        className,
       )}
       {...props}
     />
@@ -65,13 +68,4 @@ function TableCaption({ className, ...props }: React.ComponentProps<"caption">) 
   return <caption className={cn("mt-3 text-xs text-neutral-500", className)} {...props} />;
 }
 
-export {
-  Table,
-  TableHeader,
-  TableBody,
-  TableFooter,
-  TableRow,
-  TableHead,
-  TableCell,
-  TableCaption,
-};
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow };

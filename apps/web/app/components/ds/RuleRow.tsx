@@ -18,12 +18,7 @@ export function RuleRow({ pass, children }: { pass: boolean; children: React.Rea
       ) : (
         <XCircle className="w-3.5 h-3.5 text-destructive-500 shrink-0 mt-0.5" />
       )}
-      <span
-        className={cn(
-          "text-xs",
-          pass ? "text-success-700 dark:text-success-300" : "text-destructive-700 dark:text-destructive-300"
-        )}
-      >
+      <span className={cn("text-xs", pass ? "text-success-700" : "text-destructive-700")}>
         {children}
       </span>
     </div>
@@ -38,15 +33,16 @@ function RuleColumn({ kind, rules }: { kind: "do" | "dont"; rules: readonly Rule
       <p
         className={cn(
           "flex items-center gap-1.5 text-xs font-inconsolata font-medium uppercase tracking-wider",
-          isDo ? "text-success-600 dark:text-success-400" : "text-destructive-600 dark:text-destructive-400"
+          // no dark: overrides — the inverted dark scale already lightens 600
+          isDo ? "text-success-600" : "text-destructive-600",
         )}
       >
         {isDo ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
         {isDo ? "Do" : "Don't"}
       </p>
       <div className="space-y-1.5">
-        {rules.map((r, i) => (
-          <RuleRow key={i} pass={r.pass}>
+        {rules.map((r) => (
+          <RuleRow key={r.text} pass={r.pass}>
             {r.text}
           </RuleRow>
         ))}

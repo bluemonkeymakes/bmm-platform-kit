@@ -3,6 +3,8 @@ import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
 import { DualPreview } from "~/components/ds/Preview";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { RuleList } from "~/components/ds/RuleRow";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 import { Info, CheckCircle2, AlertTriangle, XCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -53,17 +55,13 @@ const variants: {
 export default function ComponentsAlerts() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Alerts</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Inline callouts with four semantic variants. A two-column grid pins the icon to the top-left;
-          AlertTitle and AlertDescription flow in the second column. Tinted background + matching border.
-        </p>
-      </div>
+      <PageIntro
+        title="Alerts"
+        blurb="Inline callouts with four semantic variants. A two-column grid pins the icon to the top-left; AlertTitle and AlertDescription flow in the second column. Tinted background + matching border."
+      />
 
       {/* Variants */}
-      <section className="space-y-8">
-        <h3 className="text-base font-medium font-display text-neutral-800">Variants</h3>
+      <SpecimenSection title="Variants" className="space-y-8">
         {variants.map(({ variant, icon: Icon, title, body, when }) => (
           <div key={variant} className="space-y-3">
             <div>
@@ -79,11 +77,10 @@ export default function ComponentsAlerts() {
             </DualPreview>
           </div>
         ))}
-      </section>
+      </SpecimenSection>
 
       {/* Usage */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Usage</h3>
+      <SpecimenSection title="Usage">
         <CodeBlock
           code={`import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
@@ -102,11 +99,10 @@ import { AlertTriangle } from "lucide-react";
             { pass: false, text: "Don't use error styling for warnings — reserve red for action-required" },
           ]}
         />
-      </section>
+      </SpecimenSection>
 
       {/* Title-only */}
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Title-only</h3>
+      <SpecimenSection title="Title-only">
         <p className="text-xs text-neutral-500">
           Description is optional. A single-line alert reads as a compact status banner.
         </p>
@@ -116,7 +112,7 @@ import { AlertTriangle } from "lucide-react";
             <AlertTitle>All systems operational</AlertTitle>
           </Alert>
         </DualPreview>
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

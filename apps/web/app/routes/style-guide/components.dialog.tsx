@@ -13,6 +13,8 @@ import { Button } from "~/components/ui/button";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Dialog" };
 
@@ -24,13 +26,10 @@ export const meta: MetaFunction = () => [
 export default function ComponentsDialog() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Dialog</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Radix Dialog — a modal overlay for focused tasks and confirmations. Traps focus, dims the
-          page with a token-tinted scrim, and animates open/close. Surface, border, and shadow all
-          come from tokens.
-        </p>
+      <PageIntro
+        title="Dialog"
+        blurb="Radix Dialog — a modal overlay for focused tasks and confirmations. Traps focus, dims the page with a token-tinted scrim, and animates open/close. Surface, border, and shadow all come from tokens."
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
@@ -51,10 +50,9 @@ export default function ComponentsDialog() {
 </Dialog>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Confirmation</h3>
+      <SpecimenSection title="Confirmation">
         <DualPreview align="center" minHeight="6rem">
           <Dialog>
             <DialogTrigger asChild>
@@ -83,7 +81,7 @@ export default function ComponentsDialog() {
             { pass: false, text: "Don't nest dialogs or use for non-blocking feedback — use Toast for that" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

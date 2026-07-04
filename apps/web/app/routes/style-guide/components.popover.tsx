@@ -6,6 +6,8 @@ import { FormField } from "~/components/ui/form-field";
 import { DualPreview } from "~/components/ds/Preview";
 import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
+import { PageIntro } from "~/components/ds/PageIntro";
+import { SpecimenSection } from "~/components/ds/SpecimenSection";
 
 export const handle = { title: "Popover" };
 
@@ -17,17 +19,20 @@ export const meta: MetaFunction = () => [
 export default function ComponentsPopover() {
   return (
     <div className="px-4 sm:px-8 py-10 space-y-12">
-      <div>
-        <h2 className="text-2xl font-display font-medium text-neutral-800 mb-1">Popover</h2>
-        <p className="text-sm text-neutral-500 max-w-2xl">
-          Radix Popover — a non-modal panel anchored to a trigger. For secondary UI that shouldn't
-          take over the screen: quick edits, filters, info. Unlike Dialog it doesn't trap focus or
-          dim the page. <code className="font-inconsolata text-primary">PopoverContent</code> takes{" "}
-          <code className="font-inconsolata text-primary">align</code> and{" "}
-          <code className="font-inconsolata text-primary">sideOffset</code>; a{" "}
-          <code className="font-inconsolata text-primary">PopoverAnchor</code> is available when the
-          panel should anchor to something other than the trigger.
-        </p>
+      <PageIntro
+        title="Popover"
+        blurb={
+          <>
+            Radix Popover — a non-modal panel anchored to a trigger. For secondary UI that shouldn't
+            take over the screen: quick edits, filters, info. Unlike Dialog it doesn't trap focus or
+            dim the page. <code className="font-inconsolata text-primary">PopoverContent</code> takes{" "}
+            <code className="font-inconsolata text-primary">align</code> and{" "}
+            <code className="font-inconsolata text-primary">sideOffset</code>; a{" "}
+            <code className="font-inconsolata text-primary">PopoverAnchor</code> is available when the
+            panel should anchor to something other than the trigger.
+          </>
+        }
+      >
         <div className="mt-4">
           <CodeBlock
             code={`import { Popover, PopoverTrigger, PopoverContent } from "~/components/ui/popover";
@@ -38,10 +43,9 @@ export default function ComponentsPopover() {
 </Popover>`}
           />
         </div>
-      </div>
+      </PageIntro>
 
-      <section className="space-y-4">
-        <h3 className="text-base font-medium font-display text-neutral-800">Quick edit</h3>
+      <SpecimenSection title="Quick edit">
         <DualPreview align="center" minHeight="7rem">
           <Popover>
             <PopoverTrigger asChild>
@@ -66,7 +70,7 @@ export default function ComponentsPopover() {
             { pass: false, text: "Don't use for blocking decisions or long forms — that's a Dialog" },
           ]}
         />
-      </section>
+      </SpecimenSection>
     </div>
   );
 }

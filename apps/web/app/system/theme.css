@@ -26,8 +26,8 @@
   --text-2xs--line-height: 1.4;
 
   /* ─── Reading measure — the one named width cap for prose line length
-         (650px). Used by Body's measure prop; replaces max-w-[40.625rem].
-         Ported with the DS typography/avatar sync. ─── */
+         (650px). Used by Body's measure prop and Container size="reading";
+         replaces max-w-[40.625rem]. ─── */
   --container-measure: 40.625rem;
 
   /* ─── Elevation → three role-named shadows. Clear Tailwind's default shadow
@@ -160,6 +160,30 @@
   }
 }
 
+/* In-app scroll surfaces — a thin scrollbar drawn from the neutral scale (so it
+   follows dark mode) instead of the OS chrome. Pair with any overflow-*
+   container: sidebars, tables, code blocks, scrollable menus. Modern browsers
+   use scrollbar-width/color; the ::-webkit-* path covers Safari. Reach for
+   scrollbar-hide only when the scroll affordance is genuinely noise. */
+@utility scrollbar-app {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--neutral-300)) transparent;
+  &::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--neutral-300));
+    border-radius: var(--radius);
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--neutral-400));
+  }
+}
+
 @keyframes accordion-down {
   from {
     height: 0;
@@ -179,14 +203,35 @@
 
 /* ───────────────────────────────────────────────────────────────────────────
    Z-index — a short NAMED stack, not a numeric free-for-all (design-system-
-   principles §2). Components pick a role; nothing reaches for a bare z-[60].
+   principles §2). Components pick a role; nothing reaches for a bare z-[60]
+   or Tailwind's numeric z-50 (both fail lint:tokens).
+   z-raised is the local step: content lifted above a decorative layer
+   (marble/blob pseudo-elements) inside the same component.
    ─────────────────────────────────────────────────────────────────────────── */
-@utility z-dropdown { z-index: 30; }
-@utility z-sticky { z-index: 40; }
-@utility z-overlay { z-index: 50; }
-@utility z-modal { z-index: 60; }
-@utility z-toast { z-index: 70; }
-@utility z-cursor { z-index: 80; }
+@utility z-raised {
+  z-index: 10;
+}
+@utility z-dropdown {
+  z-index: 30;
+}
+@utility z-sticky {
+  z-index: 40;
+}
+@utility z-overlay {
+  z-index: 50;
+}
+@utility z-modal {
+  z-index: 60;
+}
+@utility z-toast {
+  z-index: 70;
+}
+@utility z-tooltip {
+  z-index: 75;
+}
+@utility z-cursor {
+  z-index: 80;
+}
 
 /* ───────────────────────────────────────────────────────────────────────────
    Reduced motion (WCAG 2.3.3) — when the OS asks for less motion, collapse
