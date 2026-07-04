@@ -1,6 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getPage, getArticles, getTestimonials } from "~/lib/directus.server";
+import { withFallback } from "~/content/mode.server";
 import { BlockRenderer } from "~/components/blocks/BlockRenderer";
 import {
   defaultHomeBlocks,
@@ -20,13 +21,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
     getTestimonials(),
   ]);
 
-  // Use CMS blocks if available, otherwise fall back to defaults
-  const blocks = page?.blocks?.length ? page.blocks : defaultHomeBlocks;
-
+  // CMS content when present, static defaults otherwise — per CONTENT_MODE
   return {
-    blocks,
-    articles: articles.length ? articles : defaultArticles,
-    testimonials: testimonials.length ? testimonials : defaultTestimonials,
+    blocks: withFallback("home blocks", page?.blocks, defaultHomeBlocks),
+    articles: withFallback("home articles", articles, defaultArticles),
+    testimonials: withFallback("home testimonials", testimonials, defaultTestimonials),
   };
 }
 

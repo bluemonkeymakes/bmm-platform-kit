@@ -8,6 +8,7 @@ import type {
 } from "~/types/content";
 import { collections } from "~/content/schema";
 import { normalizeAssets, validateBlocks } from "~/content/validate";
+import { contentMode } from "~/content/mode.server";
 
 // Directus schema for typed SDK
 interface Schema {
@@ -48,6 +49,7 @@ function normalizeArticle(article: Article): Article {
 
 // --- Pages ---
 export async function getPage(slug: string): Promise<Page | null> {
+  if (contentMode() === "static") return null;
   try {
     const pages = await directus.request(
       readItems("pages", {
@@ -65,6 +67,7 @@ export async function getPage(slug: string): Promise<Page | null> {
 
 // --- Articles ---
 export async function getArticles(limit?: number): Promise<Article[]> {
+  if (contentMode() === "static") return [];
   try {
     const articles = await directus.request(
       readItems("articles", {
@@ -82,6 +85,7 @@ export async function getArticles(limit?: number): Promise<Article[]> {
 }
 
 export async function getArticle(slug: string): Promise<Article | null> {
+  if (contentMode() === "static") return null;
   try {
     const articles = await directus.request(
       readItems("articles", {
@@ -98,6 +102,7 @@ export async function getArticle(slug: string): Promise<Article | null> {
 
 // --- Team ---
 export async function getTeam(): Promise<TeamMember[]> {
+  if (contentMode() === "static") return [];
   try {
     const team = await directus.request(
       readItems("team", {
@@ -115,6 +120,7 @@ export async function getTeam(): Promise<TeamMember[]> {
 
 // --- Testimonials ---
 export async function getTestimonials(): Promise<Testimonial[]> {
+  if (contentMode() === "static") return [];
   try {
     const testimonials = await directus.request(
       readItems("testimonials", {
@@ -132,6 +138,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 // --- Settings ---
 export async function getSettings(): Promise<SiteSettings | null> {
+  if (contentMode() === "static") return null;
   try {
     return await directus.request(readSingleton("settings"));
   } catch (error) {

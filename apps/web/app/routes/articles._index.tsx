@@ -1,6 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getArticles } from "~/lib/directus.server";
+import { withFallback } from "~/content/mode.server";
 import { defaultArticles } from "~/data/defaults";
 import { Container, Section } from "~/components/ui/layout";
 import { ArticleCard } from "~/components/cards/ArticleCard";
@@ -15,7 +16,7 @@ export const meta: MetaFunction = () => [
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const cmsArticles = await getArticles();
-  return { articles: cmsArticles.length ? cmsArticles : defaultArticles };
+  return { articles: withFallback("articles", cmsArticles, defaultArticles) };
 }
 
 export default function Articles() {
