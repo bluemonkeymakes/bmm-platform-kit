@@ -1,7 +1,9 @@
 import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getArticle } from "~/lib/directus.server";
+import { withFallback } from "~/content/mode.server";
 import { defaultArticles } from "~/data/defaults";
+import type { Article } from "~/types/content";
 import { Container, Section } from "~/components/ui/layout";
 import { Prose, Body } from "~/components/ui/typography";
 import { Badge } from "~/components/ui/badge";
@@ -18,14 +20,17 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  const article = await getArticle(params.slug!);
-  if (article) return { article };
+  // auto: CMS article, else the matching default (miss → 404).
+  // cms: CMS article or 404 — defaults never mask a missing article.
+  // static: the matching default only (miss → 404).
+  const article = withFallback<Article | null>(
+    `article ${params.slug}`,
+    await getArticle(params.slug!),
+    defaultArticles.find((a) => a.slug === params.slug) ?? null
+  );
+  if (!article) throw new Response("Not Found", { status: 404 });
 
-  // Fall back to default articles when CMS not connected
-  const fallback = defaultArticles.find((a) => a.slug === params.slug);
-  if (fallback) return { article: fallback };
-
-  throw new Response("Not Found", { status: 404 });
+  return { article };
 }
 
 export default function ArticleDetail() {

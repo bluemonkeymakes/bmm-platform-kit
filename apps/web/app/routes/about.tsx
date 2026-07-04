@@ -1,6 +1,7 @@
 import type { MetaFunction, LoaderFunctionArgs } from "react-router";
 import { useLoaderData } from "react-router";
 import { getPage, getTeam } from "~/lib/directus.server";
+import { withFallback } from "~/content/mode.server";
 import { BlockRenderer } from "~/components/blocks/BlockRenderer";
 import { defaultAboutBlocks, defaultTeamMembers } from "~/data/defaults";
 
@@ -12,11 +13,9 @@ export const meta: MetaFunction = () => [
 export async function loader({ request }: LoaderFunctionArgs) {
   const [page, team] = await Promise.all([getPage("about"), getTeam()]);
 
-  const blocks = page?.blocks?.length ? page.blocks : defaultAboutBlocks;
-
   return {
-    blocks,
-    team: team.length ? team : defaultTeamMembers,
+    blocks: withFallback("about blocks", page?.blocks, defaultAboutBlocks),
+    team: withFallback("about team", team, defaultTeamMembers),
   };
 }
 

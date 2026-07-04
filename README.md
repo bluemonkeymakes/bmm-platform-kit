@@ -151,10 +151,11 @@ Pages in Directus are composed of ordered blocks. The frontend's `BlockRenderer`
 
 ### Fallback Content
 
-Every route tries Directus first, then falls back to built-in defaults (`app/data/defaults.ts`). This means:
-- You can develop the frontend without Directus running
-- The site has content out of the box for demos
-- CMS content overrides defaults as soon as it exists
+Content sourcing is controlled by the `CONTENT_MODE` env var (default `auto`):
+
+- **`auto`** (default) — every route tries Directus first, then falls back to built-in defaults (`app/data/defaults.ts`). You can develop the frontend without Directus running, the site has content out of the box for demos, and CMS content overrides defaults as soon as it exists. Each fallback decision is logged (`[content] fallback served for <label>`) so masked CMS failures stay visible.
+- **`cms`** — CMS only, defaults are never served. Empty CMS content renders honestly empty (articles list shows its empty state; a missing article 404s instead of falling back to a default). Recommended for launched sites — set `CONTENT_MODE=cms` in Coolify so a broken or empty CMS can't silently serve placeholder content.
+- **`static`** — defaults only; Directus is never contacted (fetches are skipped entirely, so no timeouts when the stack is down). Useful for offline development and demos.
 
 ## Frontend Features
 

@@ -75,3 +75,5 @@ here source the root `.env` first.
   type changes are a manual migration.
 - Local port remaps for parallel stacks (e.g. Twenty 3003→3004) live in
   `docker-compose.override.yml` (gitignored).
+- Fallback content masks CMS failures — set `CONTENT_MODE=cms` to unmask;
+  `auto` (default) now logs `[content] fallback served for …` lines.
