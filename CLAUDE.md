@@ -10,6 +10,7 @@ Workspace-level conventions in `~/Dev-local/bluemonkeymakes/.claude/` apply here
 ```bash
 npm run dev            # docker compose up: Postgres ×2, Redis, Directus :8055, Twenty :3003
 npm run seed           # idempotent Directus schema apply (node directus/apply-schema.ts)
+npm run seed:content   # seed demo content from app defaults (node directus/seed-content.ts; re-runnable)
 npm run schema:check   # read-only drift gate: live Directus vs app/content/schema.ts
 npm run dev:web        # RR7 dev server :5173 (auto-applies schema on boot + on schema.ts save)
 npm run dev:api        # NestJS BFF :4001

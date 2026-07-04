@@ -61,6 +61,14 @@ This runs `directus/apply-schema.ts`, which reads the content schema from `apps/
 
 > **Auto-apply:** the web dev server also runs this apply on every boot (see the `schema-auto-apply` plugin in `apps/web/vite.config.ts`), so day-to-day schema edits land in Directus just by restarting `npm run dev:web`. The manual `npm run seed` remains for first-time setup, CI, and production releases. If Directus isn't running, the dev server logs `[schema] apply skipped` and carries on.
 
+Optionally, seed demo content:
+
+```bash
+npm run seed:content
+```
+
+This populates the CMS with the built-in demo content from `apps/web/app/data/defaults.ts` (articles, team, testimonials, and the home + about pages; external demo images are imported into Directus as files). The site then renders identically with fallback on or off — useful for exercising the real CMS path from day one. Safe to re-run: collection items are skipped when they already exist, and the home/about pages are declaratively replaced from the defaults.
+
 ### 4. Install dependencies and start the apps
 
 ```bash
