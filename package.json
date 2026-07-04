@@ -12,6 +12,7 @@
     "stop": "docker compose down",
     "logs": "docker compose logs -f",
     "seed": "node directus/apply-schema.ts",
+    "seed:content": "node directus/seed-content.ts",
     "schema:check": "node directus/check-schema.ts"
   },
   "workspaces": [
