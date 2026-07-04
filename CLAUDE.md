@@ -66,9 +66,10 @@ here source the root `.env` first.
 
 ## Gotchas
 
-- **Directus response cache** (Redis, ~5 min TTL) delays content visibility in
-  dev — `POST /utils/cache/clear` (admin) after scripted content/schema writes.
-  Its schema cache also serves stale `/fields` after raw-API field mutations.
+- **Directus response cache** (Redis): `CACHE_AUTO_PURGE` is enabled in the
+  compose, so content edits (admin UI or API) propagate to the app
+  immediately. The schema cache is separate — raw-API field mutations can
+  still serve stale `/fields`; `POST /utils/cache/clear` (admin) if needed.
 - `schema:check` fails on UI-added fields by design — define them in schema.ts
   or remove them; the Directus admin UI is not the source of truth here.
 - apply-schema never alters/drops existing columns (warn-only) — renames and
