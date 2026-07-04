@@ -4,6 +4,14 @@ import { RuleList } from "~/components/ds/RuleRow";
 import { CodeBlock } from "~/components/ds/CodeBlock";
 import { PageIntro } from "~/components/ds/PageIntro";
 import { SpecimenSection } from "~/components/ds/SpecimenSection";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
 import { BlockHeroSimple } from "~/components/blocks/BlockHeroSimple";
 import { BlockFeatures } from "~/components/blocks/BlockFeatures";
 import { BlockCTA } from "~/components/blocks/BlockCTA";
@@ -82,28 +90,26 @@ export default function PatternsBlocks() {
           source of truth that drives runtime validation and the Directus schema. Add a block
           there and it appears here automatically.
         </p>
-        <div className="rounded-xl border border-neutral-200 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-neutral-100/60 border-b border-neutral-200">
-                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">Block key</th>
-                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider hidden md:table-cell">Label</th>
-                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider hidden sm:table-cell">Component</th>
-                <th className="text-left px-4 py-2.5 text-xs font-medium text-neutral-500 font-inconsolata uppercase tracking-wider">Purpose</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-neutral-200">
-              {blockTypes.map(({ key, label, component, purpose }) => (
-                <tr key={key} className="hover:bg-neutral-100/30 transition-colors">
-                  <td className="px-4 py-2.5 text-xs font-inconsolata text-primary whitespace-nowrap">{key}</td>
-                  <td className="px-4 py-2.5 text-xs text-neutral-500 whitespace-nowrap hidden md:table-cell">{label}</td>
-                  <td className="px-4 py-2.5 text-xs font-inconsolata text-neutral-500 hidden sm:table-cell">{component}</td>
-                  <td className="px-4 py-2.5 text-xs text-neutral-500">{purpose}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Block key</TableHead>
+              <TableHead className="hidden md:table-cell">Label</TableHead>
+              <TableHead className="hidden sm:table-cell">Component</TableHead>
+              <TableHead>Purpose</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {blockTypes.map(({ key, label, component, purpose }) => (
+              <TableRow key={key}>
+                <TableCell className="text-xs font-inconsolata text-primary whitespace-nowrap">{key}</TableCell>
+                <TableCell className="text-xs text-neutral-500 whitespace-nowrap hidden md:table-cell">{label}</TableCell>
+                <TableCell className="text-xs font-inconsolata text-neutral-500 hidden sm:table-cell">{component}</TableCell>
+                <TableCell className="text-xs text-neutral-500">{purpose}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </SpecimenSection>
 
       {/* Live specimens */}
