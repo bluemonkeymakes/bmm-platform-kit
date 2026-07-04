@@ -73,6 +73,10 @@ services:
       DB_PASSWORD: ${DIRECTUS_DB_PASSWORD:-directus}
       CACHE_ENABLED: "true"
       CACHE_STORE: redis
+      # Purge the response cache on content mutations — without this, edits
+      # (admin UI or API alike) serve stale for the cache TTL and editors
+      # think their changes didn't apply.
+      CACHE_AUTO_PURGE: "true"
       REDIS: redis://redis:6379
       ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-admin@example.com}
       ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:-admin}
