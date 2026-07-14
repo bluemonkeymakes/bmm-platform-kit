@@ -15,14 +15,19 @@ services:
       NODE_ENV: production
       PORT: 3000
       DIRECTUS_URL: http://directus:8055
-      DIRECTUS_PUBLIC_URL: ${DIRECTUS_PUBLIC_URL}
-      PLAUSIBLE_DOMAIN: ${PLAUSIBLE_DOMAIN}
-      PLAUSIBLE_API_HOST: ${PLAUSIBLE_API_HOST}
-      SENTRY_DSN: ${SENTRY_DSN}
-      VITE_SENTRY_DSN: ${VITE_SENTRY_DSN}
-      CSRF_SECRET: ${CSRF_SECRET}
-      TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY}
-      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY}
+      DIRECTUS_PUBLIC_URL: ${DIRECTUS_PUBLIC_URL:?DIRECTUS_PUBLIC_URL is required — the browser loads CMS images from it}
+      SITE_NAME: ${SITE_NAME:-Starter Kit}
+      SITE_URL: ${SITE_URL:?SITE_URL is required in production}
+      # `cms` = never serve fallback content in production. See README → Content modes.
+      CONTENT_MODE: ${CONTENT_MODE:-cms}
+      PLAUSIBLE_DOMAIN: ${PLAUSIBLE_DOMAIN:-}
+      PLAUSIBLE_API_HOST: ${PLAUSIBLE_API_HOST:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      VITE_SENTRY_DSN: ${VITE_SENTRY_DSN:-}
+      CSRF_SECRET: ${CSRF_SECRET:?CSRF_SECRET is required — generate with `openssl rand -hex 32`}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?INTERNAL_API_KEY is required — the web server authenticates to the API with it}
+      TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
       API_URL: http://api:4001
 
   api:
@@ -30,24 +35,29 @@ services:
       context: ./apps/api
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "4001:4001"
+    # NOT published to the host. The API is an internal service — only `web`
+    # calls it, over the compose network at http://api:4001. Publishing it would
+    # put the CRM endpoints (which return lead PII) on the public internet behind
+    # nothing but a static API key. Use `expose` so sibling containers can reach
+    # it while the host cannot.
+    expose:
+      - "4001"
     depends_on:
       - directus
     environment:
       NODE_ENV: production
       API_PORT: 4001
       DIRECTUS_URL: http://directus:8055
-      DIRECTUS_TOKEN: ${DIRECTUS_TOKEN}
+      DIRECTUS_TOKEN: ${DIRECTUS_TOKEN:-}
       TWENTY_API_URL: http://twenty-server:3000
-      TWENTY_API_KEY: ${TWENTY_API_KEY}
-      CORS_ORIGIN: ${SITE_URL}
-      INTERNAL_API_KEY: ${INTERNAL_API_KEY}
-      RESEND_API_KEY: ${RESEND_API_KEY}
-      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL}
-      ADMIN_NOTIFICATION_EMAIL: ${ADMIN_NOTIFICATION_EMAIL}
-      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL}
-      SENTRY_DSN: ${SENTRY_DSN}
+      TWENTY_API_KEY: ${TWENTY_API_KEY:-}
+      CORS_ORIGIN: ${SITE_URL:?SITE_URL is required in production — it is the CORS allowlist}
+      INTERNAL_API_KEY: ${INTERNAL_API_KEY:?INTERNAL_API_KEY is required — generate with `openssl rand -hex 32`}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+      ADMIN_NOTIFICATION_EMAIL: ${ADMIN_NOTIFICATION_EMAIL:-}
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:4001/health"]
       interval: 10s
@@ -55,5 +65,28 @@ services:
       retries: 3
 
   directus:
+    # Re-bind the admin UI to loopback instead of 0.0.0.0.
+    #
+    # `!reset` is load-bearing: Compose MERGES `ports` lists by APPENDING, so
+    # without it the base file's "8055:8055" (all interfaces) would survive
+    # alongside the loopback entry and the CMS admin panel would still be on the
+    # public internet. `!reset` clears the inherited list first.
+    #
+    # Loopback lets a host-level reverse proxy (Caddy/Nginx/Traefik) reach
+    # Directus while nothing else can. If your proxy runs as a container on this
+    # compose network (Coolify does), it reaches http://directus:8055 directly and
+    # you can drop the `ports` block entirely — no host port needed.
+    ports: !reset []
+    expose:
+      - "8055"
     environment:
-      CORS_ORIGIN: ${SITE_URL}
+      CORS_ORIGIN: ${SITE_URL:?SITE_URL is required in production — it is the CORS allowlist}
+
+  twenty-server:
+    # Same reasoning as directus above — the CRM must not be world-reachable.
+    ports: !reset []
+    expose:
+      - "3000"
+    environment:
+      # Never prefill the CRM login form outside local dev.
+      SIGN_IN_PREFILLED: "false"

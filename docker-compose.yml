@@ -1,3 +1,9 @@
+# Every secret below uses the `${VAR:?message}` form: compose REFUSES TO START if
+# the variable is missing or empty, rather than silently substituting a default.
+# A working default for a password or a signing key is a backdoor — it ships to
+# production the moment someone deploys with an incomplete .env. Non-secret values
+# (usernames, database names, local URLs) keep ordinary `:-` defaults.
+# Run `cp .env.example .env` and fill in the generated values before `npm run dev`.
 services:
   # ============================================
   # DATABASES
@@ -9,7 +15,7 @@ services:
       - directus_db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${DIRECTUS_DB_USER:-directus}
-      POSTGRES_PASSWORD: ${DIRECTUS_DB_PASSWORD:-directus}
+      POSTGRES_PASSWORD: ${DIRECTUS_DB_PASSWORD:?DIRECTUS_DB_PASSWORD is required — see .env.example}
       POSTGRES_DB: ${DIRECTUS_DB_NAME:-directus}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DIRECTUS_DB_USER:-directus}"]
@@ -24,7 +30,7 @@ services:
       - twenty_db:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${TWENTY_DB_USER:-twenty}
-      POSTGRES_PASSWORD: ${TWENTY_DB_PASSWORD:-twenty}
+      POSTGRES_PASSWORD: ${TWENTY_DB_PASSWORD:?TWENTY_DB_PASSWORD is required — see .env.example}
       POSTGRES_DB: ${TWENTY_DB_NAME:-twenty}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${TWENTY_DB_USER:-twenty}"]
@@ -64,13 +70,15 @@ services:
       - directus_extensions:/directus/extensions
     environment:
       PUBLIC_URL: ${DIRECTUS_PUBLIC_URL:-http://localhost:8055}
-      SECRET: ${DIRECTUS_SECRET:-change-me}
+      # SECRET signs Directus session tokens. A known value here lets anyone
+      # forge an admin session offline, so it is required, not defaulted.
+      SECRET: ${DIRECTUS_SECRET:?DIRECTUS_SECRET is required — generate with `openssl rand -hex 32`}
       DB_CLIENT: pg
       DB_HOST: db-directus
       DB_PORT: 5432
       DB_DATABASE: ${DIRECTUS_DB_NAME:-directus}
       DB_USER: ${DIRECTUS_DB_USER:-directus}
-      DB_PASSWORD: ${DIRECTUS_DB_PASSWORD:-directus}
+      DB_PASSWORD: ${DIRECTUS_DB_PASSWORD:?DIRECTUS_DB_PASSWORD is required — see .env.example}
       CACHE_ENABLED: "true"
       CACHE_STORE: redis
       # Purge the response cache on content mutations — without this, edits
@@ -78,9 +86,10 @@ services:
       # think their changes didn't apply.
       CACHE_AUTO_PURGE: "true"
       REDIS: redis://redis:6379
-      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-admin@example.com}
-      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:-admin}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:?DIRECTUS_ADMIN_EMAIL is required — see .env.example}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:?DIRECTUS_ADMIN_PASSWORD is required — see .env.example}
       CORS_ENABLED: "true"
+      # Dev only — the production overlay narrows this to ${SITE_URL}.
       CORS_ORIGIN: "*"
 
   # ============================================
@@ -97,11 +106,12 @@ services:
       redis:
         condition: service_healthy
     environment:
-      PG_DATABASE_URL: postgresql://${TWENTY_DB_USER:-twenty}:${TWENTY_DB_PASSWORD:-twenty}@db-twenty:5432/${TWENTY_DB_NAME:-twenty}
+      PG_DATABASE_URL: postgresql://${TWENTY_DB_USER:-twenty}:${TWENTY_DB_PASSWORD:?TWENTY_DB_PASSWORD is required — see .env.example}@db-twenty:5432/${TWENTY_DB_NAME:-twenty}
       REDIS_URL: redis://redis:6379
-      APP_SECRET: ${TWENTY_APP_SECRET:-change-me}
+      APP_SECRET: ${TWENTY_APP_SECRET:?TWENTY_APP_SECRET is required — generate with `openssl rand -hex 32`}
       SERVER_URL: ${TWENTY_SERVER_URL:-http://localhost:3003}
       FRONT_BASE_URL: ${TWENTY_FRONT_URL:-http://localhost:3003}
+      # Dev only — prefills the login form. The production overlay sets this false.
       SIGN_IN_PREFILLED: "true"
       IS_BILLING_ENABLED: "false"
     healthcheck:
@@ -121,9 +131,9 @@ services:
       twenty-server:
         condition: service_healthy
     environment:
-      PG_DATABASE_URL: postgresql://${TWENTY_DB_USER:-twenty}:${TWENTY_DB_PASSWORD:-twenty}@db-twenty:5432/${TWENTY_DB_NAME:-twenty}
+      PG_DATABASE_URL: postgresql://${TWENTY_DB_USER:-twenty}:${TWENTY_DB_PASSWORD:?TWENTY_DB_PASSWORD is required — see .env.example}@db-twenty:5432/${TWENTY_DB_NAME:-twenty}
       REDIS_URL: redis://redis:6379
-      APP_SECRET: ${TWENTY_APP_SECRET:-change-me}
+      APP_SECRET: ${TWENTY_APP_SECRET:?TWENTY_APP_SECRET is required — generate with `openssl rand -hex 32`}
       SERVER_URL: ${TWENTY_SERVER_URL:-http://localhost:3003}
       DISABLE_DB_MIGRATIONS: "true"
 
