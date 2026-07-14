@@ -35,6 +35,8 @@ export interface FieldDef<S extends z.ZodType = z.ZodType> {
   directus: DirectusFieldMeta;
   /** file-uuid field — loader rewrites to an absolute /assets URL */
   asset?: boolean;
+  /** raw-HTML field — loader sanitizes it before any component can render it */
+  richText?: boolean;
 }
 
 /** Field constructors — the closed set of field kinds the kit supports. */
@@ -60,11 +62,20 @@ export const f = {
       directus: { type: "text", interface: "input-multiline" },
     }) satisfies FieldDef,
 
-  /** Rich text (HTML from the Directus WYSIWYG). */
+  /**
+   * Rich text (HTML from the Directus WYSIWYG).
+   *
+   * The value is raw HTML and ends up in `dangerouslySetInnerHTML` via <Prose>,
+   * so it is `richText: true` — the loader boundary sanitizes it (see
+   * content/validate.ts). A CMS editor is a lower trust level than a developer:
+   * without this, anyone who can save an article could store XSS on every page
+   * that renders it.
+   */
   richText: () =>
     ({
       schema: z.string().optional(),
       directus: { type: "text", interface: "input-rich-text-html" },
+      richText: true,
     }) satisfies FieldDef,
 
   /** Image file — UUID in Directus, absolute URL by the time components see it. */
