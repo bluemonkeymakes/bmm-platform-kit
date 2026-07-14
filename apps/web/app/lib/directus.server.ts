@@ -1,4 +1,5 @@
 import { createDirectus, rest, readItems, readSingleton } from "@directus/sdk";
+import sanitizeHtmlLib from "sanitize-html";
 import type {
   Page,
   Article,
@@ -7,7 +8,7 @@ import type {
   Testimonial,
 } from "~/types/content";
 import { collections } from "~/content/schema";
-import { normalizeAssets, validateBlocks } from "~/content/validate";
+import { normalizeFields, validateBlocks, type FieldNormalizers } from "~/content/validate";
 import { contentMode } from "~/content/mode.server";
 
 // Directus schema for typed SDK
@@ -29,22 +30,64 @@ export function getAssetUrl(assetId: string | null | undefined): string | null {
   return `${DIRECTUS_PUBLIC_URL}/assets/${assetId}`;
 }
 
+/**
+ * Allowlist for CMS rich text. Anything not named here is stripped, so a new
+ * Directus WYSIWYG button that emits an unexpected tag degrades to plain text
+ * rather than punching a hole in the policy.
+ *
+ * Deliberately absent: <script>, <style>, <iframe>, <object>, every on* handler
+ * attribute, and `javascript:` URLs (sanitize-html drops all of these by
+ * default, and the schemes below pin which protocols may appear in href/src).
+ */
+const SANITIZE_OPTIONS: sanitizeHtmlLib.IOptions = {
+  allowedTags: [
+    "h1", "h2", "h3", "h4", "h5", "h6",
+    "p", "br", "hr", "blockquote", "pre", "code",
+    "strong", "b", "em", "i", "u", "s", "sub", "sup",
+    "ul", "ol", "li",
+    "a", "img", "figure", "figcaption",
+    "table", "thead", "tbody", "tfoot", "tr", "th", "td",
+    "span", "div",
+  ],
+  allowedAttributes: {
+    a: ["href", "title", "target", "rel"],
+    img: ["src", "alt", "title", "width", "height", "loading"],
+    th: ["colspan", "rowspan", "scope"],
+    td: ["colspan", "rowspan"],
+    "*": ["class"],
+  },
+  allowedSchemes: ["http", "https", "mailto", "tel"],
+  // Any link that opens a new tab gets noopener — otherwise the opened page can
+  // navigate this one via window.opener.
+  transformTags: {
+    a: sanitizeHtmlLib.simpleTransform("a", { rel: "noopener noreferrer" }, true),
+  },
+};
+
+function sanitizeHtml(html: string): string {
+  return sanitizeHtmlLib(html, SANITIZE_OPTIONS);
+}
+
+const normalizers: FieldNormalizers = { toAssetUrl: getAssetUrl, sanitizeHtml };
+
 // --- Loader-boundary hygiene -------------------------------------------------
-// Everything below the fetch layer sees validated blocks and absolute image
-// URLs. Blocks are checked against ~/content/schema (invalid ones are dropped
-// with a warning); asset-flagged fields (photo, author_photo, featured_image,
-// meta_image, block images) are rewritten from bare file UUIDs to /assets URLs.
+// Everything below the fetch layer sees validated blocks, absolute image URLs
+// and sanitized HTML. Blocks are checked against ~/content/schema (invalid ones
+// are dropped with a warning); asset-flagged fields (photo, author_photo,
+// featured_image, meta_image, block images) are rewritten from bare file UUIDs
+// to /assets URLs; richText-flagged fields are sanitized before any component
+// can hand them to dangerouslySetInnerHTML.
 
 function normalizePage(page: Page): Page {
-  const normalized = normalizeAssets(collections.pages, page, getAssetUrl);
+  const normalized = normalizeFields(collections.pages, page, normalizers);
   if (normalized.blocks) {
-    normalized.blocks = validateBlocks(normalized.blocks, getAssetUrl);
+    normalized.blocks = validateBlocks(normalized.blocks, normalizers);
   }
   return normalized;
 }
 
 function normalizeArticle(article: Article): Article {
-  return normalizeAssets(collections.articles, article, getAssetUrl);
+  return normalizeFields(collections.articles, article, normalizers);
 }
 
 // --- Pages ---
@@ -111,7 +154,7 @@ export async function getTeam(): Promise<TeamMember[]> {
         fields: ["*"],
       })
     );
-    return team.map((member) => normalizeAssets(collections.team, member, getAssetUrl));
+    return team.map((member) => normalizeFields(collections.team, member, normalizers));
   } catch (error) {
     console.error("Error fetching team:", error);
     return [];
@@ -129,7 +172,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
         fields: ["*"],
       })
     );
-    return testimonials.map((t) => normalizeAssets(collections.testimonials, t, getAssetUrl));
+    return testimonials.map((t) => normalizeFields(collections.testimonials, t, normalizers));
   } catch (error) {
     console.error("Error fetching testimonials:", error);
     return [];

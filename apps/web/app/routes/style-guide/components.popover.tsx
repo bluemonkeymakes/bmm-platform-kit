@@ -54,7 +54,7 @@ export default function ComponentsPopover() {
             <PopoverContent align="start">
               <div className="space-y-3">
                 <FormField label="Display name" htmlFor="pop-name">
-                  <Input id="pop-name" defaultValue="Blue Monkey" />
+                  <Input id="pop-name" defaultValue="Ada Lovelace" />
                 </FormField>
                 <Button size="sm" className="w-full">
                   Save

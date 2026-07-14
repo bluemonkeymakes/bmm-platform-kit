@@ -1,13 +1,12 @@
-# Starter Kit (bmm-platform-kit)
+# Starter Kit
 
 Full-stack starter for content-driven sites: React Router 7 (SSR) + NestJS BFF +
 Directus 11 CMS + Twenty CRM, wired with Docker Compose. Forked per project.
-Workspace-level conventions in `~/Dev-local/bluemonkeymakes/.claude/` apply here
-(design-system rules + the `design-system-reviewer` agent).
 
 ## Commands (all real — don't invent others)
 
 ```bash
+npm run setup          # create .env from .env.example + generate required secrets (idempotent)
 npm run dev            # docker compose up: Postgres ×2, Redis, Directus :8055, Twenty :3003
 npm run seed           # idempotent Directus schema apply (node directus/apply-schema.ts)
 npm run seed:content   # seed demo content from app defaults (node directus/seed-content.ts; re-runnable)
@@ -17,14 +16,14 @@ npm run dev:api        # NestJS BFF :4001
 # in apps/web:
 npm run typecheck      # react-router typegen && tsc
 npm run lint:tokens    # design-system token purity (no hex/px/arbitrary values)
-npm test               # vitest — content pipeline suite
+npm test               # vitest — content pipeline + sanitization suite
 npm run build          # production build
 ```
 
-Env: root `.env` (copy from `.env.example`). Host-run dev servers need the
-`localhost` URL variants (docker-internal hostnames are for the production
-compose overlay only). NestJS reads `.env` from its own cwd — the dev scripts
-here source the root `.env` first.
+Env: root `.env` (run `npm run setup`, or copy `.env.example` by hand). Host-run
+dev servers need the `localhost` URL variants (docker-internal hostnames are for
+the production compose overlay only). NestJS reads `.env` from its own cwd — the
+dev scripts here source the root `.env` first.
 
 ## Architecture (what matters)
 
@@ -33,37 +32,59 @@ here source the root `.env` first.
   directly (SSR-only).
 - **Content pipeline (single source of truth)** — every content type is
   declared ONCE in `apps/web/app/content/schema.ts` using the DSL in
-  `fields.ts` (Zod validator + Directus field metadata + asset flag per
-  field). Derived from it: TS types (`z.infer`, re-exported via
+  `fields.ts` (Zod validator + Directus field metadata + asset/richText flags
+  per field). Derived from it: TS types (`z.infer`, re-exported via
   `~/types/content`), the Directus schema (`directus/apply-schema.ts`,
   additive/warn-only, includes the pages↔blocks M2A), runtime validation
   (`app/content/validate.ts` — invalid blocks DROP with a `[content]` warn;
-  nulls stripped recursively; asset UUIDs → absolute URLs), typed fallbacks
-  (`app/data/defaults.ts` must `satisfies` the schema), and the style-guide
-  block registry. **Never hand-edit a derived artifact — edit schema.ts.**
-  Decision record: docs ADR-009 (Directus over Payload, with spike evidence).
-- **Design system** — bmm-design-system architecture: `app/brand/` is the
-  swap surface (color ramps, fonts, effects); `app/system/theme.css` is the
-  contract, kept byte-identical with the reference repo
-  (`~/Dev-local/bluemonkeymakes/design-system`) — re-copy from there, never
-  edit locally. Full 35-component ui set; divergences catalogued in
-  `apps/web/DESIGN-SYSTEM-NOTES.md` (5 brand-adapted components, mapping
-  tables, porting checklist).
+  nulls stripped recursively; asset UUIDs → absolute URLs; richText fields
+  sanitized), typed fallbacks (`app/data/defaults.ts` must `satisfies` the
+  schema), and the style-guide block registry.
+  **Never hand-edit a derived artifact — edit schema.ts.**
+- **Design system** — `app/brand/` is the swap surface (color ramps, fonts,
+  effects); `app/system/theme.css` is the contract and travels unchanged.
+  Re-brand by editing `app/brand/` only. Full 35-component ui set; divergences
+  and porting notes in `apps/web/DESIGN-SYSTEM-NOTES.md`.
 - **Fallback content** — every route renders defaults when Directus is
   empty/down. This MASKS CMS failures: a "working" page proves nothing about
   the CMS path. Check the dev-server log for `[content]`/fetch warnings.
+
+## Security invariants (do not regress these)
+
+The kit is public and gets forked, so an insecure default becomes someone
+else's vulnerability. These are deliberate; don't "simplify" them away:
+
+- **No default secrets.** Every secret in `docker-compose.yml` uses
+  `${VAR:?msg}` so compose fails loudly instead of substituting a value.
+  Never reintroduce a `:-default` for a password, signing key, or API key.
+- **Fail closed.** `CSRF_SECRET` missing → the web server throws on boot.
+  Turnstile unconfigured → passes in dev, REJECTS in production.
+  `INTERNAL_API_KEY` missing → the guard 401s everything.
+- **Constant-time compares** for the API key (`apps/api/src/guards/api-key.guard.ts`)
+  and the CSRF token (`apps/web/app/lib/csrf.server.ts`). Never `!==`.
+- **richText is sanitized** at the loader boundary, not in the component. Any
+  new HTML-bearing field must use `f.richText()` — that flag is what triggers
+  sanitization in `validate.ts`. The sanitizer is *injected* so it never lands
+  in the client bundle.
+- **CSP** is nonce-based in production (`app/entry.server.tsx`). Any new inline
+  `<script>` must carry `useNonce()`. Dev is deliberately looser because Vite
+  injects its own inline scripts.
+- **Production publishes only the web app.** `ports: !reset []` in the overlay
+  is load-bearing — compose APPENDS port lists, so without it the base file's
+  bindings survive and Directus/Twenty land on the public internet.
 
 ## Conventions
 
 - Blocks workflow: schema.ts → `npm run seed` (or just save; dev watcher
   applies) → component in `components/blocks/` + register in BlockRenderer +
   the name map on /style-guide/patterns/blocks → typed default in defaults.ts.
-- Design system hard rules (enforced by `lint:tokens` + workspace rule): no
-  arbitrary values, select-don't-restyle, variants by intent, named z ladder,
-  three elevation roles. New/changed ui components get a style-guide entry in
-  the same change.
+- Design system hard rules (enforced by `lint:tokens`): no arbitrary values,
+  select-don't-restyle, variants by intent, named z ladder, three elevation
+  roles. New/changed ui components get a style-guide entry in the same change.
 - Branch per change → PR; merge stacked PRs with merge commits, not squash.
 - Commit style: short imperative lowercase subject (matches history).
+- Public-facing prose (README, SECURITY.md, site copy): no em-dashes as clause
+  separators, semicolons sparingly. Code comments are exempt.
 
 ## Gotchas
 
@@ -78,4 +99,4 @@ here source the root `.env` first.
 - Local port remaps for parallel stacks (e.g. Twenty 3003→3004) live in
   `docker-compose.override.yml` (gitignored).
 - Fallback content masks CMS failures — set `CONTENT_MODE=cms` to unmask;
-  `auto` (default) now logs `[content] fallback served for …` lines.
+  `auto` (default) logs `[content] fallback served for …` lines.

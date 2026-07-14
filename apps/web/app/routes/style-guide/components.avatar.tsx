@@ -13,7 +13,7 @@ export const meta: MetaFunction = () => [
   { name: "robots", content: "noindex" },
 ];
 
-const names = ["Lucas Vance", "Maria Chen", "Priya Patel", "Sam Okafor", "Noa Levi"];
+const names = ["Ada Lovelace", "Maria Chen", "Priya Patel", "Sam Okafor", "Noa Levi"];
 
 export default function ComponentsAvatar() {
   return (
@@ -37,9 +37,9 @@ export default function ComponentsAvatar() {
           <CodeBlock
             code={`import { Avatar } from "~/components/ui/avatar";
 
-<Avatar name="Lucas Vance" />               {/* default → boring-avatars */}
-<Avatar src="/lucas.jpg" alt="Lucas" />     {/* otherwise defined → image */}
-<Avatar name="Lucas Vance" fallback="LV" /> {/* opt out → initials */}`}
+<Avatar name="Ada Lovelace" />              {/* default → boring-avatars */}
+<Avatar src="/ada.jpg" alt="Ada" />         {/* otherwise defined → image */}
+<Avatar name="Ada Lovelace" fallback="AL" /> {/* opt out → initials */}`}
           />
         </div>
       </PageIntro>

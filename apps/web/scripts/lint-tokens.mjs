@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Token-purity lint — automated enforcement of the Design System Contribution SOP
+ * Token-purity lint — automated enforcement of the design-system token rules
  * at the code layer. Components and routes must consume BRAND TOKENS, never
  * hard-coded values, so that a change in app/brand/ propagates to every element.
  *
  * Flags:
  *   1. Hard-coded hex colors        → won't follow the brand palette
- *   2. Arbitrary px values          → breaks rem-only (ADR-006); hairline
+ *   2. Arbitrary px values          → breaks rem-only scaling; hairline
  *      (non-ring/border/outline)       ring/border widths are allowed
  *   3. Arbitrary font-size text-[…] → type sizes must come from the scale
  *      (em/px exempt)                  (text-2xs … text-9xl); see design-system-principles §2
@@ -61,7 +61,7 @@ function lintFile(file) {
     for (const m of line.matchAll(/([a-z-]*)\[[^\]]*?\d*\.?\d+px[^\]]*\]/g)) {
       const base = m[1].replace(/-$/, ""); // utility immediately before the bracket
       if (HAIRLINE.test(base)) continue;
-      push(file, i, line, `arbitrary px value ${m[0]} — use rem or a token (ADR-006)`);
+      push(file, i, line, `arbitrary px value ${m[0]} — use rem or a token`);
     }
 
     // 3. arbitrary font-size — type sizes come from the scale (text-2xs … text-9xl),

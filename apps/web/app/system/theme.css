@@ -46,7 +46,7 @@
   /* ─── Focus ring ─── */
   --color-ring: hsl(var(--ring));
 
-  /* ─── Neutral backbone (surfaces use these directly — ADR-007 two-tier) ─── */
+  /* ─── Neutral backbone (surfaces use these directly — two-tier model) ─── */
   --color-neutral-50: hsl(var(--neutral-50));
   --color-neutral-100: hsl(var(--neutral-100));
   --color-neutral-200: hsl(var(--neutral-200));

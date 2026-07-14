@@ -18,6 +18,7 @@ import { Header } from "~/components/layout/Header";
 import { Footer } from "~/components/layout/Footer";
 import { ErrorPage } from "~/components/common/ErrorPage";
 import { usePlausible } from "~/lib/plausible";
+import { useNonce } from "~/lib/nonce";
 
 export const links: LinksFunction = () => [
   { rel: "icon", type: "image/png", href: "/favicon.png" },
@@ -32,6 +33,10 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // Per-request CSP nonce. Every inline script we emit must carry it, or the
+  // browser will refuse to run it in production. See lib/nonce.ts.
+  const nonce = useNonce();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -39,7 +44,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        {/* Applies the stored theme before first paint, so dark mode doesn't flash. */}
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `(function(){var t=localStorage.getItem('theme')||'system';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);if(d)document.documentElement.classList.add('dark')})()`,
           }}
@@ -53,8 +60,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
           Skip to content
         </a>
         {children}
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );

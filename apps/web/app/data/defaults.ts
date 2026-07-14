@@ -132,7 +132,7 @@ export const defaultHomeBlocks: PageBlock[] = [
         {
           question: "How do I connect Directus?",
           answer:
-            "Run `docker compose up` to start all services, then run `bash directus/seed.sh` to create the collections. Open http://localhost:8055 to manage content.",
+            "Run `docker compose up` to start all services, then run `npm run seed` to create the collections. Open http://localhost:8055 to manage content.",
         },
         {
           question: "Can I deploy this to Coolify?",
@@ -236,7 +236,7 @@ export const defaultArticles: Article[] = [
     excerpt:
       "A walkthrough of the project structure, how to connect Directus, and deploy your first build.",
     content:
-      "<h2>Welcome</h2><p>This article walks you through the initial setup of the starter kit. You'll learn how to start the development environment, connect to Directus, seed your database, and deploy to production.</p><h2>Prerequisites</h2><ul><li>Node.js 20+</li><li>Docker &amp; Docker Compose</li><li>A code editor</li></ul><h2>Quick Start</h2><p>Clone the repo, copy <code>.env.example</code> to <code>.env</code>, and run <code>docker compose up</code>. That's it — you'll have Directus, Twenty CRM, PostgreSQL, and Redis running locally.</p><h2>Next Steps</h2><p>Run <code>bash directus/seed.sh</code> to create the CMS collections, then open <code>http://localhost:8055</code> to start managing content.</p>",
+      "<h2>Welcome</h2><p>This article walks you through the initial setup of the starter kit. You'll learn how to start the development environment, connect to Directus, seed your database, and deploy to production.</p><h2>Prerequisites</h2><ul><li>Node.js 20+</li><li>Docker &amp; Docker Compose</li><li>A code editor</li></ul><h2>Quick Start</h2><p>Clone the repo, copy <code>.env.example</code> to <code>.env</code>, and run <code>docker compose up</code>. That's it — you'll have Directus, Twenty CRM, PostgreSQL, and Redis running locally.</p><h2>Next Steps</h2><p>Run <code>npm run seed</code> to create the CMS collections, then open <code>http://localhost:8055</code> to start managing content.</p>",
     category: "Tutorial",
     tags: ["setup", "docker", "directus"],
     author: "Starter Kit Team",
