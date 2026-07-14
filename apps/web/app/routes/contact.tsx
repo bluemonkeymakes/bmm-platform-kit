@@ -7,11 +7,13 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { FormField } from "~/components/ui/form-field";
+import { Alert, AlertTitle, AlertDescription } from "~/components/ui/alert";
 import { FadeIn } from "~/components/common/MotionWrapper";
 import { PageHero } from "~/components/common/PageHero";
 import { generateToken, validateCsrf, createTokenCookie } from "~/lib/csrf.server";
 import { verifyTurnstile } from "~/lib/turnstile.server";
-import { contactSchema } from "~/lib/contact-schema";
+import { contactSchema, type ContactFormData } from "~/lib/contact-schema";
+import { rateLimit, getClientIp } from "~/lib/rate-limit.server";
 
 export const meta: MetaFunction = () => [
   { title: "Contact | Starter Kit" },
@@ -34,10 +36,38 @@ export async function loader({ request }: LoaderFunctionArgs) {
   );
 }
 
-export async function action({ request }: ActionFunctionArgs) {
+/** Submissions allowed per IP per hour. Generous for a human, useless to a script. */
+const RATE_LIMIT = { limit: 5, windowMs: 60 * 60 * 1000 };
+
+/**
+ * Field errors keyed by input name, plus `_form` for failures that belong to the
+ * submission as a whole (the API is down, the API key is wrong) rather than to
+ * any one field.
+ */
+type ContactErrors = Partial<
+  Record<keyof ContactFormData | "_form", string[]>
+>;
+
+type ContactActionData =
+  | { success: true }
+  | { success: false; errors: ContactErrors };
+
+const GENERIC_FAILURE: ContactActionData = {
+  success: false,
+  errors: { _form: ["Something went wrong. Please try again later."] },
+};
+
+export async function action({
+  request,
+}: ActionFunctionArgs): Promise<ContactActionData> {
+  // 0. Rate limit FIRST — before parsing a body or calling Cloudflare, so a
+  //    flood costs us as little work as possible.
+  const { allowed } = rateLimit(`contact:${getClientIp(request)}`, RATE_LIMIT);
+  if (!allowed) return { success: true }; // Silent rejection — see note below.
+
   const formData = await request.formData();
 
-  // 1. Turnstile (if configured)
+  // 1. Turnstile (rejects when unconfigured in production)
   const turnstileToken = formData.get("cf-turnstile-response") as string | null;
   const turnstileValid = await verifyTurnstile(turnstileToken);
   if (!turnstileValid) return { success: true }; // Silent rejection
@@ -49,6 +79,10 @@ export async function action({ request }: ActionFunctionArgs) {
   // 3. Honeypot
   const honeypot = formData.get("website_url");
   if (honeypot) return { success: true }; // Silent rejection
+
+  // Each rejection above returns the same "success" the happy path does. That is
+  // deliberate: telling a bot WHICH check it tripped just tells it what to fix.
+  // Real users can't hit these — the fields are hidden or set by the page itself.
 
   // 4. Validate
   const raw = Object.fromEntries(formData);
@@ -62,16 +96,27 @@ export async function action({ request }: ActionFunctionArgs) {
   const apiKey = process.env.INTERNAL_API_KEY || "";
 
   try {
-    await fetch(`${apiUrl}/api/contact`, {
+    const response = await fetch(`${apiUrl}/api/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "X-API-Key": apiKey,
       },
       body: JSON.stringify(result.data),
+      signal: AbortSignal.timeout(10_000),
     });
+
+    // Don't tell the visitor "thank you" when the submission actually failed —
+    // a bad INTERNAL_API_KEY would otherwise drop every lead in silence.
+    if (!response.ok) {
+      console.error(
+        `[contact] API rejected submission: ${response.status} ${response.statusText}`,
+      );
+      return GENERIC_FAILURE;
+    }
   } catch (error) {
     console.error("Contact form submission failed:", error);
+    return GENERIC_FAILURE;
   }
 
   return { success: true };
@@ -105,6 +150,13 @@ export default function Contact() {
           <FadeIn>
             <Form method="post" className="space-y-6">
               <input type="hidden" name="_csrf" value={csrfToken} />
+
+              {actionData?.errors?._form?.[0] && (
+                <Alert variant="error">
+                  <AlertTitle>Couldn't send your message</AlertTitle>
+                  <AlertDescription>{actionData.errors._form[0]}</AlertDescription>
+                </Alert>
+              )}
 
               {/* Honeypot — hidden from real users */}
               <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
