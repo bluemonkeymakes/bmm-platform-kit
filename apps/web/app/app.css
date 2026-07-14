@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    Starter Kit — stylesheet entry (Tailwind v4, CSS-first).
-   Follows the bmm-design-system architecture (ADR-008):
+   Design-system architecture:
      • app/brand/*   — the SWAP SURFACE. Re-brand a fork by editing these only.
      • app/system/*  — the contract that TRAVELS unchanged across every project.
    Primitive divergences from the design system are catalogued in

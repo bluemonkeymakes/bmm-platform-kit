@@ -34,7 +34,7 @@ function AccountMenuDemo() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
-        <DropdownMenuLabel>Signed in as Lucas</DropdownMenuLabel>
+        <DropdownMenuLabel>Signed in as Ada</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <User /> Profile

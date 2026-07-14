@@ -1,18 +1,26 @@
-# Design-system migration notes — primitive diffs & handling rules
+# Design-system notes — token model, primitive diffs & porting rules
 
-The web app follows the **bmm-design-system** architecture
-(`~/Dev-local/bluemonkeymakes/design-system`): a two-layer CSS token model where
-`app/system/theme.css` is the **contract that travels unchanged** across every
-project and `app/brand/` is the **swap surface** holding this project's values.
-Canonical standards: `standards/design-system-principles.md`, ADR-007 (direct
-palette over semantic tokens), ADR-008 (design-system starter) in the BMM docs
-site.
+The web app uses a two-layer CSS token model:
 
-This doc catalogues where this project's **primitives differ** from the design
-system, why, and the rule for handling each diff when porting components in
-either direction. It is the companion to the browsable `/style-guide` routes.
+- **`app/system/theme.css` is the contract.** It defines the roles, scales, and
+  z-ladder, and it is meant to travel unchanged between projects. Treat it as
+  vendored: don't edit it here.
+- **`app/brand/` is the swap surface.** It holds this project's actual values
+  (color ramps, fonts, effects). Re-branding means editing this directory and
+  nothing else.
 
-## Architecture (identical to the DS — no diff)
+The model is deliberately **two-tier, with no surface-alias tokens**: components
+consume palette stops directly (`bg-neutral-50`) rather than going through
+semantic aliases (`bg-background`). That keeps one indirection out of the system
+and makes the token lint (`npm run lint:tokens`) able to prove purity mechanically.
+
+This doc catalogues where these primitives **differ from the upstream reference
+design system** they were ported from, why, and the rule for handling each diff
+when porting a component in either direction. It's the companion to the browsable
+`/style-guide` routes. If you're just consuming the kit, you mostly need the
+[porting checklist](#porting-checklist-either-direction) at the end.
+
+## Architecture (identical to the reference — no diff)
 
 ```
 app/app.css            entry — chains the imports below
@@ -22,19 +30,20 @@ app/app.css            entry — chains the imports below
 └── brand/effects.css  signature decorative surfaces                  (SWAP)
 ```
 
-`system/theme.css` is byte-identical to the DS copy. **Never edit it here** —
-upstream changes to the contract should be re-copied from the DS, and additions
-you need should be contributed upstream first (Design System Contribution SOP).
+`system/theme.css` is the shared contract. **Never edit it here.** If you need a
+new role, scale stop, or ladder step, add it to the contract deliberately and
+re-copy, rather than patching this project's copy in place — otherwise the next
+sync silently reverts you.
 
-**Last re-sync: DS commit `de3a7ff`.** That sync brought: two new z-ladder
-steps (`z-raised` 10 — content lifted above a decorative layer inside the same
-component; `z-tooltip` 75), the `scrollbar-app` thin-scrollbar utility for
-in-app scroll surfaces, `--container-measure` wired into `Container
-size="reading"` (`max-w-measure` replaces `max-w-[40.625rem]`), the shared
-`PageIntro` + `SpecimenSection` showcase primitives in `components/ds/` (every
-`/style-guide` route heads with them), a `CardTitle` size axis, and a stricter
-`lint:tokens` that now also flags Tailwind's **numeric `z-50`** (the whole
-numeric z scale is banned — named ladder steps only).
+The contract currently provides, beyond the obvious roles and scales: two
+z-ladder steps worth knowing (`z-raised` 10, for content lifted above a
+decorative layer *inside* the same component, and `z-tooltip` 75), the
+`scrollbar-app` thin-scrollbar utility, `--container-measure` wired into
+`Container size="reading"` (so `max-w-measure` replaces any arbitrary
+`max-w-[40.625rem]`), the shared `PageIntro` + `SpecimenSection` showcase
+primitives in `components/ds/`, and a `CardTitle` size axis. `lint:tokens` flags
+Tailwind's **numeric `z-50`** as well: the whole numeric z scale is banned, named
+ladder steps only.
 
 ## Token migration map (what happened to the old shadcn aliases)
 
@@ -136,13 +145,13 @@ everywhere). Destructive keeps the kit's original red: base `0 84% 60%` light /
 `0 63% 31%` dark (the DS runs `0 70% 50%` / `0 60% 55%`).
 **Handling:** none for info/success/warning. For destructive, only the dark
 *base role* diverges (darker buttons; white on 31% red ≈ 8:1). The dark
-**ramp stops** deliberately sit at DS-equivalent (inverted) lightness —
+**ramp stops** deliberately sit at reference-equivalent (inverted) lightness:
 anchoring the ramp to the darker base made text reds unreadable (~2:1) until
-repositioned. Since the `de3a7ff` sync, verbatim-ported components carry **no
-`dark:` feedback overrides at all** (e.g. RuleRow renders DON'T text as plain
+repositioned. Verbatim-ported components therefore carry **no `dark:` feedback
+overrides at all** (e.g. RuleRow renders DON'T text as plain
 `text-destructive-700`, which the inverted dark ramp lightens to 72% L).
 Lesson for future ramps: a brand may move the base role, but scale stops must
-keep the DS's perceptual positioning or verbatim-ported components break.
+keep the reference's perceptual positioning or verbatim-ported components break.
 
 ### 6. Focus ring
 
@@ -191,13 +200,14 @@ uppercase mono with a marble `cta`; the kit's is sentence-case sans with a
 token-based `cta`). Porting UI *between* projects: these five are the files to
 diff first.
 
-**Former select-don't-restyle exception (resolved):** DS `Heading` used to bake
+**Former select-don't-restyle exception (resolved):** `Heading` used to bake
 `text-neutral-800` with no inverse option, so headings on `tone="brand"`
 sections (BlockStats, BlockCTA) passed `className="text-primary-foreground"`
-at the call site. The upstream contribution landed (DS commit `fd656ec`):
-`Heading`/`Body` now ship `variant="inverse"` (plus `Heading`
-`variant="watermark"` for ghost backdrop numerals), and the call-site
-overrides have been removed.
+at the call site. That is fixed at the source: `Heading`/`Body` now ship
+`variant="inverse"` (plus `Heading` `variant="watermark"` for ghost backdrop
+numerals), and the call-site overrides have been removed. Kept here as the
+worked example of the rule: when a component can't express your intent, add a
+variant to the component rather than restyling it from the outside.
 
 **Avatar colors:** `app/brand/avatar-colors.ts` holds hex values by design —
 it's brand swap surface (boring-avatars needs literal colors). Swap for the
@@ -205,17 +215,19 @@ kit's palette when the brand firms up.
 
 ### 11. Motion library
 
-The DS imports `framer-motion`; this kit uses the successor package `motion`
-(`import { motion } from "motion/react"`). **Handling:** rewrite the import
-line when porting; the API is otherwise compatible. Both projects honor
+The reference imports `framer-motion`; this kit uses the successor package
+`motion` (`import { motion } from "motion/react"`). **Handling:** rewrite the
+import line when porting. The API is otherwise compatible, and both honor
 reduced motion (contract media query + `MotionConfig`).
 
-### 12. Workspace-rule exception no longer applies
+### 12. No shadcn alias tokens
 
-`~/Dev-local/bluemonkeymakes/.claude/rules/design-system.md` lists the shadcn
-neutral aliases (`--background`, `--card`, …) as "the one accepted exception"
-to ADR-007. **This project no longer uses that exception** — it consumes
-palette stops directly everywhere. Don't reintroduce alias tokens here.
+Stock shadcn ships neutral alias tokens (`--background`, `--card`, …). This kit
+does **not** use them: it consumes palette stops directly everywhere, per the
+two-tier model at the top of this doc. Don't reintroduce alias tokens when
+porting a component in from stock shadcn — map them to the palette instead
+(`bg-background` → `bg-neutral-50`). `lint:tokens` will not catch this for you,
+because an alias is a legal CSS variable. It's a review rule.
 
 ## Porting checklist (either direction)
 

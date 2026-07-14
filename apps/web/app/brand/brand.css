@@ -1,11 +1,11 @@
 /* ───────────────────────────────────────────────────────────────────────────
    BRAND · Tokens — SWAP SURFACE (starter-kit brand)
    This file holds the starter kit's brand *values*, expressed through the
-   bmm-design-system contract (see app/system/theme.css, which travels
+   design-system contract (see app/system/theme.css, which travels
    unchanged). To re-brand, edit the values here and in fonts.css only.
 
    Values are "H S% L%" triplets, wrapped with hsl() in app/system/theme.css.
-   Two-tier model (ADR-007): no surface-alias tokens. Surfaces come straight
+   Two-tier model: no surface-alias tokens. Surfaces come straight
    from the neutral scale.
 
    Scale seeds — these ramps were derived from the kit's previous shadcn
@@ -24,7 +24,7 @@
   --radius: 0.5rem;
 
   /* ─── Elevation — three roles, not a ramp (raised < overlay < modal).
-         Adopted verbatim from bmm-design-system; the kit previously used
+         Adopted from the reference design system; the kit previously used
          Tailwind's default shadow ramp, which the system layer clears. ─── */
   --elevation-raised: 0 1px 2px 0 rgb(0 0 0 / 0.06);
   --elevation-overlay: 0 8px 16px -4px rgb(0 0 0 / 0.10), 0 2px 4px -2px rgb(0 0 0 / 0.06);
@@ -72,7 +72,7 @@
   --accent-900: 216 70% 16%;
 
   /* ─── Feedback / dialog — semantic states, stable across every project.
-         info/success/warning adopted verbatim from bmm-design-system (the kit
+         info/success/warning adopted from the reference design system (the kit
          had no scales for them); destructive keeps the kit's red. ─── */
   --info: 205 90% 40%;
   --info-foreground: 0 0% 100%;

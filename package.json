@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "description": "Full-stack starter: React Router 7 + NestJS + Directus CMS + Twenty CRM",
+  "license": "MIT",
   "scripts": {
+    "setup": "node scripts/setup-env.mjs",
     "dev": "docker compose up",
     "dev:web": "cd apps/web && npm run dev",
     "dev:api": "cd apps/api && npm run start:dev",
