@@ -4,8 +4,14 @@ import { createCookie } from "react-router";
 const CSRF_SECRET = process.env.CSRF_SECRET;
 const MIN_SUBMIT_TIME_MS = 3000;
 
+// Fail closed. With an empty `secrets` array React Router neither signs nor
+// verifies the cookie — it becomes base64 JSON that anyone able to set a cookie
+// on this domain can forge, which defeats the double-submit check below. A
+// warning here would just scroll past in the boot log, so refuse to start.
 if (!CSRF_SECRET) {
-  console.warn("[CSRF] CSRF_SECRET not set — cookie signing will use empty secret");
+  throw new Error(
+    "CSRF_SECRET is required. Generate one with `openssl rand -hex 32` and set it in .env.",
+  );
 }
 
 const csrfCookie = createCookie("_csrf", {
@@ -14,7 +20,7 @@ const csrfCookie = createCookie("_csrf", {
   secure: process.env.NODE_ENV === "production",
   path: "/contact",
   maxAge: 60 * 60,
-  secrets: CSRF_SECRET ? [CSRF_SECRET] : [],
+  secrets: [CSRF_SECRET],
 });
 
 interface CsrfPayload {
@@ -33,13 +39,23 @@ export async function validateCsrf(
   const cookieHeader = request.headers.get("Cookie");
   const payload: CsrfPayload | null = await csrfCookie.parse(cookieHeader);
 
-  if (!payload?.token || !payload?.issuedAt || !formToken) return false;
-  if (payload.token !== formToken) return false;
+  if (!payload?.token || !payload?.issuedAt || typeof formToken !== "string") {
+    return false;
+  }
+  if (!timingSafeCompare(payload.token, formToken)) return false;
 
   const elapsed = Date.now() - payload.issuedAt;
   if (elapsed < MIN_SUBMIT_TIME_MS) return false;
 
   return true;
+}
+
+/** Constant-time string compare — `!==` short-circuits and leaks the token. */
+function timingSafeCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a, "utf8");
+  const bufB = Buffer.from(b, "utf8");
+  if (bufA.length !== bufB.length) return false;
+  return crypto.timingSafeEqual(bufA, bufB);
 }
 
 export async function createTokenCookie(token: string): Promise<string> {
