@@ -1,0 +1,12 @@
+# Git hooks. Installed by `npm install` (lefthook postinstall); manual: npx lefthook install
+#
+# Commit-message gate — Conventional Commits format + a 72-char subject cap.
+# Config in commitlint.config.mjs. Catches the message, not the diff, so a wide
+# scaffold or migration commit passes untouched.
+#
+# NOTE: no pre-commit gate yet. This starter forks into full-stack apps; add
+# format/lint/typecheck jobs here per project (see bmm-design-system for the shape).
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: npx commitlint --edit {1}

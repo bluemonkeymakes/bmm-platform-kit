@@ -22,5 +22,10 @@
   ],
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "lefthook": "^2.1.10"
   }
 }
