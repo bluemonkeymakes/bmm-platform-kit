@@ -22,5 +22,11 @@
   ],
   "dependencies": {
     "@radix-ui/react-tooltip": "^1.2.8"
+  },
+  "overrides": {
+    "@nestjs/common": "11.x",
+    "@nestjs/core": "11.x",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
