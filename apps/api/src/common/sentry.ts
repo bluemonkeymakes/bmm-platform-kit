@@ -5,7 +5,9 @@
 let Sentry: { init: Function; captureException: Function } | null = null;
 
 try {
-  // Dynamic require — @sentry/node is an optional dependency
+  // Loaded defensively: @sentry/node is a declared dependency, but the require
+  // is wrapped so a missing/broken install degrades to "no error tracking"
+  // rather than crashing boot.
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const sentry = require('@sentry/node');
   const dsn = process.env.SENTRY_DSN;
