@@ -35,6 +35,9 @@ import { RequestLoggerMiddleware } from './middleware/request-logger.middleware'
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+    // `{*splat}` is Express 5's named-wildcard syntax for "every path". The bare
+    // `'*'` still works but path-to-regexp 8 (via Express 5 under NestJS 11) logs
+    // a deprecation warning and auto-converts it on every boot.
+    consumer.apply(RequestLoggerMiddleware).forRoutes('{*splat}');
   }
 }

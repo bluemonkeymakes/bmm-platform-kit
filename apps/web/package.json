@@ -37,7 +37,6 @@
     "@sentry/node": "^8.0.0",
     "@sentry/react": "^8.0.0",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.2",
     "boring-avatars": "^2.0.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -56,14 +55,14 @@
   },
   "devDependencies": {
     "@react-router/dev": "^7.18.1",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@types/sanitize-html": "^2.16.1",
-    "@vitejs/plugin-react": "^4.3.4",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.7.2",
-    "vite": "^5.4.11",
+    "vite": "^8.1.5",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.9"
   }
