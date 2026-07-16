@@ -31,7 +31,7 @@ npm run dev:web   # http://localhost:5173
 | Layer | Tech |
 |-------|------|
 | **Frontend** | React Router 7 (SSR), Tailwind CSS 4 (CSS-first `@theme`), shadcn-derived components on Radix + CVA, Motion, Plausible Analytics |
-| **API** | NestJS 10 (BFF pattern), Winston logging, Sentry error tracking, API key auth, rate limiting |
+| **API** | NestJS 11 (BFF pattern), Winston logging, Sentry error tracking, API key auth, rate limiting |
 | **CMS** | Directus 11, block-based page builder with 15 block types |
 | **CRM** | Twenty (open-source CRM) for lead and contact management |
 | **Email** | Resend for transactional email |
@@ -41,7 +41,7 @@ npm run dev:web   # http://localhost:5173
 
 ## Prerequisites
 
-- **Node.js 20+** (a `.nvmrc` is included, so `nvm use` picks the right version)
+- **Node.js 22+** (a `.nvmrc` is included, so `nvm use` picks the right version). Vite 8 requires Node 20.19+ or 22.12+.
 - **Docker** and **Docker Compose** v2.24 or newer
 - **npm** (the repo uses npm workspaces)
 
