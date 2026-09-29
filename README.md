@@ -183,7 +183,7 @@ starter-kit/
 │       └── app/
 │           ├── brand/          Design-token swap surface (colors, fonts, effects)
 │           ├── system/         Design-system contract (theme.css)
-│           ├── routes/         10 site routes + the style-guide section
+│           ├── routes/         10 site routes + /design-system (one page per item)
 │           ├── components/
 │           │   ├── blocks/     15 CMS block components + BlockRenderer
 │           │   ├── layout/     Header, Footer, ThemeProvider
@@ -211,7 +211,7 @@ Everything else is derived from that one file:
 - **The Directus schema** via `directus/apply-schema.ts` (additive, warn-only)
 - **Runtime validation** in `app/content/validate.ts`, which drops invalid blocks with a `[content]` warning, strips nulls, rewrites asset UUIDs to absolute URLs, and sanitizes rich-text HTML
 - **Typed fallback content** in `app/data/defaults.ts`, which the compiler forces to match the schema
-- **The style-guide block registry**
+- **The block registry** on `/design-system/blocks`
 
 Never hand-edit a derived artifact. Edit `schema.ts` and re-run `npm run seed`.
 
@@ -321,10 +321,11 @@ Plus `npm run schema:check` from the repo root, when a live Directus is availabl
 
 ### Add a block type
 
-1. Define it in `apps/web/app/content/schema.ts` with `defineBlock` and the `f.*` field DSL. This one definition drives the TS type, runtime validation, the Directus schema, and the style-guide registry.
+1. Define it in `apps/web/app/content/schema.ts` with `defineBlock` and the `f.*` field DSL. This one definition drives the TS type, runtime validation, the Directus schema, and the block registry.
 2. Run `npm run seed` to apply it to Directus.
 3. Create the component in `apps/web/app/components/blocks/` and register it in `BlockRenderer.tsx`.
 4. Add fallback content in `apps/web/app/data/defaults.ts`. The compiler enforces that it matches the schema.
+5. Add its page, `apps/web/app/routes/design-system.blocks.<name>.tsx`, register the route and add it to `app/lib/design-system-nav.ts`. The coverage test fails until you do.
 
 Use `f.richText()` for any HTML field. That flag is what causes the loader to sanitize it.
 

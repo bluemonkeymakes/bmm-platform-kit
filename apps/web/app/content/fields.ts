@@ -10,7 +10,7 @@
  *
  * Derived from here: TS types (z.infer), runtime validation at the loader
  * boundary, the Directus collections/fields/M2A junction, typed fallback
- * defaults, and the style-guide block registry. Do not hand-edit those —
+ * defaults, and the /design-system block registry. Do not hand-edit those —
  * edit this.
  */
 import { z } from "zod";
@@ -145,9 +145,9 @@ type ShapeOf<F extends FieldMap> = {
 export interface BlockDef<F extends FieldMap = FieldMap> {
   /** Directus collection key, e.g. "block_hero". */
   key: string;
-  /** Human name shown in the style-guide registry. */
+  /** Human name shown in the /design-system block registry. */
   label: string;
-  /** One-line purpose shown in the style-guide registry. */
+  /** One-line purpose shown in the /design-system block registry. */
   purpose: string;
   fields: F;
   /** Zod object over all fields — z.infer gives the block's data type. */

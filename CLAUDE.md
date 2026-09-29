@@ -39,7 +39,7 @@ dev scripts here source the root `.env` first.
   (`app/content/validate.ts` — invalid blocks DROP with a `[content]` warn;
   nulls stripped recursively; asset UUIDs → absolute URLs; richText fields
   sanitized), typed fallbacks (`app/data/defaults.ts` must `satisfies` the
-  schema), and the style-guide block registry.
+  schema), and the block registry on /design-system/blocks.
   **Never hand-edit a derived artifact — edit schema.ts.**
 - **Design system** — `app/brand/` is the swap surface (color ramps, fonts,
   effects); `app/system/theme.css` is the contract and travels unchanged.
@@ -76,11 +76,17 @@ else's vulnerability. These are deliberate; don't "simplify" them away:
 ## Conventions
 
 - Blocks workflow: schema.ts → `npm run seed` (or just save; dev watcher
-  applies) → component in `components/blocks/` + register in BlockRenderer +
-  the name map on /style-guide/patterns/blocks → typed default in defaults.ts.
+  applies) → component in `components/blocks/` + register in BlockRenderer →
+  typed default in defaults.ts (or a sample in `components/ds/block-samples.ts`)
+  → its page `routes/design-system.blocks.<name>.tsx`, route and nav entry.
 - Design system hard rules (enforced by `lint:tokens`): no arbitrary values,
   select-don't-restyle, variants by intent, named z ladder, three elevation
-  roles. New/changed ui components get a style-guide entry in the same change.
+  roles. The design system lives at `/design-system` (ADR-021): one page per
+  foundation, primitive, component and block, in `routes/design-system.<layer>.<name>.tsx`,
+  registered in `routes.ts` and listed in `lib/design-system-nav.ts`. Every
+  page sets `robots: noindex` in its own meta and stays out of the sitemap and
+  the site nav. `design-system-coverage.test.ts` and `design-system-route.test.ts`
+  fail the commit when a page is missing.
 - Branch per change → PR; merge stacked PRs with merge commits, not squash.
 - Commit style: short imperative lowercase subject (matches history).
 - Public-facing prose (README, SECURITY.md, site copy): no em-dashes as clause
