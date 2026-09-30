@@ -71,7 +71,7 @@ export function Header() {
         <div className="border-t md:hidden">
           <nav>
             <Container size="wide" className="space-y-1 py-4">
-              {[...navItems, { label: "Design System", href: "/style-guide" }].map((item) => (
+              {navItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}

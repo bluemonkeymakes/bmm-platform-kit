@@ -17,7 +17,7 @@ and makes the token lint (`npm run lint:tokens`) able to prove purity mechanical
 This doc catalogues where these primitives **differ from the upstream reference
 design system** they were ported from, why, and the rule for handling each diff
 when porting a component in either direction. It's the companion to the browsable
-`/style-guide` routes. If you're just consuming the kit, you mostly need the
+`/design-system` routes. If you're just consuming the kit, you mostly need the
 [porting checklist](#porting-checklist-either-direction) at the end.
 
 ## Architecture (identical to the reference — no diff)
